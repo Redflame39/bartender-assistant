@@ -15,20 +15,20 @@ public class CocktailDaoImpl extends CocktailDao {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private static final String FIND_ALL =
+    private static final String SQL_FIND_ALL =
             "select name, cocktail_id, user_id, instructions from cocktails;";
-    private static final String FIND_BY_ID =
+    private static final String SQL_FIND_BY_ID =
             "select name, user_id, instructions from cocktails where cocktail_id = ?;";
-    private static final String FIND_BY_USER_ID =
+    private static final String SQL_FIND_BY_USER_ID =
             "select name, cocktail_id, instructions from cocktails where user_id = ?;";
-    private static final String CREATE =
+    private static final String SQL_CREATE =
             "insert into cocktails (name, cocktail_id, user_id, instructions) values (?, ?, ?, ?);";
-    private static final String REMOVE_OBJECT =
+    private static final String SQL_REMOVE_OBJECT =
             "delete from cocktails where name = ?, cocktail_id = ?, user_id = ?, instructions = ?;";
-    private static final String REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
-    private static final String UPDATE_ID =
+    private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
+    private static final String SQL_UPDATE_ID =
             "update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? where cocktail_id = ?";
-    private static final String UPDATE_OBJECT = """
+    private static final String SQL_UPDATE_OBJECT = """
             update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? 
             where name = ?, cocktail_id = ?, user_id = ?, instructions = ?""";
 
@@ -36,7 +36,7 @@ public class CocktailDaoImpl extends CocktailDao {
     public List<Cocktail> findAll() throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(FIND_ALL)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString(1);
@@ -54,7 +54,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public Optional<Cocktail> findById(Integer id) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -73,7 +73,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public Optional<Cocktail> findByUserID(int userId) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_USER_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USER_ID)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -92,7 +92,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public boolean create(Cocktail cocktail) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(CREATE)) {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setString(1, cocktail.getName());
             statement.setInt(2, cocktail.getId());
             statement.setInt(3, cocktail.getUserId());
@@ -106,7 +106,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public boolean remove(Cocktail cocktail) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(REMOVE_OBJECT)) {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_OBJECT)) {
             statement.setString(1, cocktail.getName());
             statement.setInt(2, cocktail.getId());
             statement.setInt(3, cocktail.getUserId());
@@ -121,7 +121,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public boolean remove(Integer id) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(REMOVE_ID)) {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
             statement.executeUpdate();
             return true;
@@ -133,7 +133,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public Cocktail update(Integer id, Cocktail replacement) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ID)) {
             Cocktail old = findById(id)
                     .orElseThrow(() -> new DaoException("Object with id " + id + " not found and cannot be removed"));
             statement.setString(1, replacement.getName());
@@ -151,7 +151,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public Cocktail update(Cocktail toReplace, Cocktail replacement) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(UPDATE_OBJECT)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_OBJECT)) {
             Cocktail old = findById(toReplace.getId())
                     .orElseThrow(() -> new DaoException("Object with id " + toReplace.getId() +
                             " not found and cannot be removed"));

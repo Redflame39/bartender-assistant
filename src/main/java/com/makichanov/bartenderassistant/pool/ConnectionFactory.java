@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
+    //TODO инициализация в статическом блоке, при ошибке пбросать ExceptionInInitializerError
+
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/bartender_assistant";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "aSyNhn@*";

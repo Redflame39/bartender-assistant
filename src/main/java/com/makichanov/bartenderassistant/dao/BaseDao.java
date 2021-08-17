@@ -16,17 +16,17 @@ public abstract class BaseDao<K, T extends Entity> {
 
     public abstract List<T> findAll() throws DaoException;
 
-    public abstract Optional<Cocktail> findById(K id) throws DaoException;
+    public abstract Optional<T> findById(K id) throws DaoException;
 
     public abstract boolean create(T t) throws DaoException;
 
-    public abstract boolean remove(T t) throws DaoException;
+    public abstract boolean remove(T t) throws DaoException; // TODO: 17.08.2021 probably delete this method
 
     public abstract boolean remove(K id) throws DaoException;
 
     public abstract T update(K id, T replacement) throws DaoException;
 
-    public abstract T update(T toReplace, T replacement) throws DaoException;
+    public abstract T update(T toReplace, T replacement) throws DaoException; // TODO: 17.08.2021 probably delete this method
 
     public void close(Statement statement) throws DaoException {
         try {
