@@ -17,20 +17,17 @@ import java.util.Optional;
 public class UserDaoImpl extends UserDao {
 
     private static final Logger LOG = LogManager.getLogger();
-
     private static final String SQL_FIND_ALL =
             "select user_id, username, role.role_name, email from users join role on users.role_id = role.role_id;";
-
     private static final String SQL_FIND_BY_ID =
             "select username, role.role_name, email from users where user_id = ?;";
-
+    private static final String SQL_FIND_BY_USERNAME =
+            "select user_id, role.role_name, email from users where username = ?;";
     private static final String SQL_CREATE =
             "insert into users (user_id, username, password, role_id, email) values (?, ?, ?, ?, ?)";
-
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
-
     private static final String SQL_UPDATE_ID =
-            "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?";
+            "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?;";
 
 
 
@@ -74,7 +71,26 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public boolean create(User user) throws DaoException {
+    public Optional<User> findByUsername(String username) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME)) {
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                String roleName = resultSet.getString(2);
+                String email = resultSet.getString(3);
+                User user = new User(username, userId, Role.valueOf(roleName), email);
+                return Optional.of(user);
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            throw new DaoException("Exception occurred while executing SQL_FIND_BY_USERNAME", e);
+        }
+    }
+
+    @Override
+    public boolean create(User user) {
         throw new UnsupportedOperationException(
                 "This method does not supported in UserDao. Use method create(User, String) instead");
     }
@@ -131,11 +147,6 @@ public class UserDaoImpl extends UserDao {
 
     @Override
     public User update(User toReplace, User replacement) throws DaoException {
-        return null;
-    }
-
-    @Override
-    public List<User> findByUsername(String pattern) {
         return null;
     }
 }
