@@ -89,7 +89,7 @@ public class IngredientDaoImpl extends IngredientDao {
     }
 
     @Override
-    public Optional<Ingredient> findByName(String ingredientName) {
+    public Optional<Ingredient> findByName(String ingredientName) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME) ) {
             statement.setString(1, ingredientName);
             ResultSet resultSet = statement.executeQuery();

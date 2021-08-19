@@ -14,11 +14,12 @@ public class EntityTransaction implements AutoCloseable {
     @SafeVarargs
     public final void initTransaction(BaseDao<?, ? extends Entity> dao, BaseDao<?, ? extends Entity>... daos)
             throws DaoException {
-        if(dao == null || Arrays.stream(daos).noneMatch(d -> d != null)) {
+        if(dao == null && Arrays.stream(daos).noneMatch(d -> d != null)) {
             throw new DaoException("One or more passed parameters DAO is null, check arguments");
         }
         if (connection == null) {
-            connection = CustomConnectionPool.getInstance().getConnection(); // FIXME: 12.08.2021 check behavior with multithreading
+            CustomConnectionPool instance = CustomConnectionPool.getInstance();
+            connection = instance.getConnection(); // FIXME: 12.08.2021 check behavior with multithreading
         }
         try {
             connection.setAutoCommit(false);

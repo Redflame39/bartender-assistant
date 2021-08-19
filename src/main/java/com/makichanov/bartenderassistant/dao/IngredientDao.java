@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public abstract class IngredientDao extends BaseDao<Integer, Ingredient> {
 
-    public abstract Optional<Ingredient> findByName(String ingredientName);
+    public abstract Optional<Ingredient> findByName(String ingredientName) throws DaoException;
 
     public abstract List<Ingredient> findByCocktailId(int cocktailId) throws DaoException;
 

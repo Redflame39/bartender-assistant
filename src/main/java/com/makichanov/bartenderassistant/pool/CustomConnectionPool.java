@@ -45,7 +45,7 @@ public class CustomConnectionPool {
     }
 
     public static CustomConnectionPool getInstance() {
-        if (isInstanceCreated.get()) {
+        if (!isInstanceCreated.get()) {
             instanceLock.lock();
             try {
                 if (instance == null) {
