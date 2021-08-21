@@ -1,9 +1,7 @@
 package com.makichanov.bartenderassistant.dao.impl;
 
 import com.makichanov.bartenderassistant.dao.IngredientDao;
-import com.makichanov.bartenderassistant.entity.Cocktail;
 import com.makichanov.bartenderassistant.entity.Ingredient;
-import com.makichanov.bartenderassistant.entity.User;
 import com.makichanov.bartenderassistant.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
