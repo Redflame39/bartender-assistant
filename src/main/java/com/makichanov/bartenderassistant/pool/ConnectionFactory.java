@@ -22,7 +22,8 @@ public class ConnectionFactory {
     private static final String PASSWORD;
 
     static {
-        File databasePropertiesFile = new File(PATH_TO_DATABASE_PROPERTIES);
+        File databasePropertiesFile =
+                new File(ConnectionFactory.class.getResource(PATH_TO_DATABASE_PROPERTIES).getFile());
         Properties databaseProperties = new Properties();
         try {
             databaseProperties.load(new FileReader(databasePropertiesFile));
@@ -30,6 +31,7 @@ public class ConnectionFactory {
             LOG.fatal("Failed to load database properties", e);
             throw new ExceptionInInitializerError("Failed to load database properties");
         }
+        // FIXME: 24.08.2021 replace literals with constants
         DATABASE_URL = databaseProperties.getProperty("databaseUrl");
         USERNAME = databaseProperties.getProperty("username");
         PASSWORD = databaseProperties.getProperty("password");

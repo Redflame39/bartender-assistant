@@ -46,7 +46,8 @@ public class UserDaoImpl extends UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing SQL_FIND_ALL", e);
+            LOG.error("UserDao: Failed to execute SQL_FIND_ALL", e);
+            throw new DaoException("UserDao: Failed to execute SQL_FIND_ALL", e);
         }
         return users;
     }
@@ -66,7 +67,8 @@ public class UserDaoImpl extends UserDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing SQL_FIND_BY_ID", e);
+            LOG.error("UserDao: Failed to execute SQL_FIND_BY_ID", e);
+            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_ID", e);
         }
     }
 
@@ -85,7 +87,8 @@ public class UserDaoImpl extends UserDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing SQL_FIND_BY_USERNAME", e);
+            LOG.error("UserDao: Failed to execute SQL_FIND_BY_USERNAME", e);
+            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_USERNAME", e);
         }
     }
 
@@ -106,7 +109,8 @@ public class UserDaoImpl extends UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing CREATE", e);
+            LOG.error("UserDao: Failed to execute SQL_CREATE", e);
+            throw new DaoException("UserDao: Failed to execute SQL_CREATE", e);
         }
     }
 
@@ -122,8 +126,8 @@ public class UserDaoImpl extends UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("Failed to delete user with id " + id);
-            throw new DaoException("Exception occurred while executing SQL_REMOVE by ID", e);
+            LOG.error("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            throw new DaoException("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
         }
     }
 
@@ -140,8 +144,8 @@ public class UserDaoImpl extends UserDao {
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {
-            LOG.error("Failed to update user with id " + id);
-            throw new DaoException("Exception occurred while executing SQL_UPDATE by ID", e);
+            LOG.error("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            throw new DaoException("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
         }
     }
 

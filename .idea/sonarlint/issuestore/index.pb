@@ -1,10 +1,6 @@
 
 {
 Ksrc/main/java/com/makichanov/bartenderassistant/exception/DaoException.java,1\7\174f52835d5afa2d157ca4d5f95359a6952d2909
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
-t
-Dsrc/main/java/com/makichanov/bartenderassistant/entity/Cocktail.java,1\f\1f674dcf3b8c01609557b85699833ad7e46b7de8
 d
 4.idea/libraries/Maven__at_favre_lib_bcrypt_0_9_0.xml,a\2\a243f007466aeadd11f1eb443c1420ba658acf45
 c
@@ -35,9 +31,43 @@ z
 J.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_7_2.xml,0\6\063bb6c96cfa01b8f9e8a8ac4ee0eb3579e3fdb9
 y
 I.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_7_2.xml,3\f\3f17adf7ebdbffb0b6fc5a07e2263613fa381805
-}
-Msrc/main/java/com/makichanov/bartenderassistant/servlet/CocktailsServlet.java,4\5\4513d568c0397bdd89b92c08b8f94965c5824a35
-|
-Lsrc/main/java/com/makichanov/bartenderassistant/exception/PoolException.java,5\b\5b8da12531fbadf92c30c143388849d38c1094da
 ~
 Nsrc/main/java/com/makichanov/bartenderassistant/pool/CustomConnectionPool.java,6\1\61f81130a1c3b202564f3fcba2775bd7c4ff819d
+z
+Jsrc/main/java/com/makichanov/bartenderassistant/dao/EntityTransaction.java,7\9\79d7d0b50779eb405af8fbf11440bba6bdbc07bd
+p
+@src/main/java/com/makichanov/bartenderassistant/dao/UserDao.java,9\f\9fda356c9b5a6c13d39e6e0033e7983246e27cbf
+d
+4.idea/artifacts/bartender_assistant_war_exploded.xml,7\f\7f4272a4a92b1f645f908fed7a0ebea890832530
+v
+F.idea/libraries/Maven__com_sun_activation_jakarta_activation_2_0_0.xml,d\a\dabeac51d63b0f8f049d25712159adc1a1d331a5
+j
+:.idea/libraries/Maven__jakarta_el_jakarta_el_api_4_0_0.xml,b\d\bd151d9650e232ad81e0fcd21719881b7c5050f4
+†
+V.idea/libraries/Maven__jakarta_servlet_jsp_jstl_jakarta_servlet_jsp_jstl_api_2_0_0.xml,5\3\534121eda857744756a1ba2b83ccf337daaedd70
+v
+F.idea/libraries/Maven__jakarta_xml_bind_jakarta_xml_bind_api_3_0_0.xml,3\7\37e8bcf92f90cc28d7a01ed876dcf15d7becdf4c
+{
+K.idea/libraries/Maven__org_glassfish_web_jakarta_servlet_jsp_jstl_2_0_0.xml,6\4\645615f7c43fd786d71156891e769041ecb5b4f8
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+r
+Bsrc/main/java/com/makichanov/bartenderassistant/entity/Review.java,1\b\1bc06431a8dc886b76953e7c505dc09602ab7537
+r
+Bsrc/main/java/com/makichanov/bartenderassistant/dao/ReviewDao.java,8\4\8488bcb46cde850a7b72e511478d6fdf424ae6cf
+o
+?src/main/java/com/makichanov/bartenderassistant/_main/Main.java,c\2\c257bd4ea65277c81ebc342d6f66f0f89ef3980b
+p
+@src/main/java/com/makichanov/bartenderassistant/dao/BaseDao.java,9\3\931c8b2418d52937f747246d03ba5dfdfae8165a
+O
+src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
+t
+Dsrc/main/java/com/makichanov/bartenderassistant/dao/CocktailDao.java,9\4\94c9c6df4e637ad58028c8f8cc862c916b03c536
+{
+Ksrc/main/java/com/makichanov/bartenderassistant/dao/impl/ReviewDaoImpl.java,d\b\dbd3dbc46765db8885cdca3199f391b54b558109
+|
+Lsrc/main/java/com/makichanov/bartenderassistant/exception/PoolException.java,5\b\5b8da12531fbadf92c30c143388849d38c1094da
+t
+Dsrc/main/java/com/makichanov/bartenderassistant/entity/Cocktail.java,1\f\1f674dcf3b8c01609557b85699833ad7e46b7de8
+O
+src/main/webapp/js/bootstrap.js,d\4\d4e6b9e1c4f8590713363191b14777838a5253be

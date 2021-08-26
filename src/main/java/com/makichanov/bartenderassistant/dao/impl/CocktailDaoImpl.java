@@ -47,7 +47,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 cocktails.add(cocktail);
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing FIND_ALL", e);
+            LOG.error("CocktailDao: Failed to execute SQL_FIND_ALL", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_ALL", e);
         }
         return cocktails;
     }
@@ -67,7 +68,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing FIND_BY_ID", e);
+            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_ID", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_ID", e);
         }
     }
 
@@ -86,7 +88,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing FIND_BY_USER_ID", e);
+            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
         }
     }
 
@@ -100,10 +103,12 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing CREATE", e);
+            LOG.error("CocktailDao: Failed to execute SQL_CREATE", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_CREATE", e);
         }
     }
 
+    // TODO: 23.08.2021 probably delete me
     @Override
     public boolean remove(Cocktail cocktail) throws DaoException {
         try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_OBJECT)) {
@@ -114,7 +119,6 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("Failed to delete object " + cocktail);
             throw new DaoException("Exception occurred while executing REMOVE by OBJECT", e);
         }
     }
@@ -126,8 +130,8 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("Failed to delete cocktail with id " + id);
-            throw new DaoException("Exception occurred while executing REMOVE by ID", e);
+            LOG.error("CocktailDao: Failed to execute SQL_REMOVE_ID", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_REMOVE_ID", e);
         }
     }
 
@@ -144,11 +148,12 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {
-            LOG.error("Failed to update cocktail with id " + id);
-            throw new DaoException("Exception occurred while executing UPDATE by ID", e);
+            LOG.error("CocktailDao: Failed to execute SQL_UPDATE_ID", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_UPDATE_ID", e);
         }
     }
 
+    // TODO: 23.08.2021 probably delete me
     @Override
     public Cocktail update(Cocktail toReplace, Cocktail replacement) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_OBJECT)) {
