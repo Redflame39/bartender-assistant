@@ -1,7 +1,0 @@
-
-S
-java:S1612"=Replace this lambda with method reference 'Objects::nonNull'.(©¶ûú
-_
-java:S1134"DTake the required action to fix the issue indicated by this comment.(å´ÎÉúÿÿÿÿ
-W
-java:S2259"AA "NullPointerException" could be thrown; "dao" is nullable here.( ©ª

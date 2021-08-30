@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<header></header>
+<jsp:include page="/jsp/header.jsp"/>
 <div class="list-group">
 <c:forEach var="cocktail" items="${cocktails}">
     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -24,6 +24,5 @@
     </a>
 </c:forEach>
 </div>
-<script src="${pageContext.request.contextPath}/js/headloader.js"></script>
 </body>
 </html>
