@@ -1,0 +1,22 @@
+package com.makichanov.bassistant.controller.command.impl;
+
+import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.util.manager.JspManager;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+import static com.makichanov.bassistant.util.manager.PagePath.*;
+
+public class NewCocktailFormCommand implements ActionCommand {
+
+    @Override
+    public String execute(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
+        if (Boolean.TRUE.equals(authenticated)) {
+            return JspManager.getPage(CREATE_COCKTAIL);
+        } else {
+            return JspManager.getPage(ERROR);
+        }
+    }
+}

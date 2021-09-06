@@ -13,7 +13,7 @@
 <jsp:include page="/jsp/header.jsp"/>
 <div class="list-group">
 <c:forEach var="cocktail" items="${cocktails}">
-    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a href="controller?command=show_cocktail&id=${cocktail.id}" class="list-group-item list-group-item-action flex-column align-items-start">
 
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">${cocktail.name}</h5>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="controller?command=home">Bartender Assistant</a>
@@ -23,7 +24,14 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <a class="nav-item nav-link" href="controller?command=login">Log in</a>
+            <c:choose>
+                <c:when test="${authenticated}">
+                    <a class="nav-item nav-link" href="controller?command=logout">Log out</a>
+                </c:when>
+                <c:otherwise>
+                    <a class="nav-item nav-link" href="controller?command=login">Log in</a>
+                </c:otherwise>
+            </c:choose>
         </div>
     </nav>
 </header>

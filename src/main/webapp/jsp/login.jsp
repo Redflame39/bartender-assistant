@@ -30,7 +30,7 @@
     </div>
     <div class="d-flex align-items-center m-1">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="#">Create account</a>
+        <a href="controller?command=sign_up">Create account</a>
     </div>
 </form>
 </body>
