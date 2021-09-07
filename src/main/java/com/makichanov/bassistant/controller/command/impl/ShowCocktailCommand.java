@@ -10,6 +10,8 @@ import com.makichanov.bassistant.util.manager.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
+import static com.makichanov.bassistant.controller.command.RequestParameter.*;
+import static com.makichanov.bassistant.controller.command.RequestAttribute.*;
 import static com.makichanov.bassistant.util.manager.PagePath.*;
 
 public class ShowCocktailCommand implements ActionCommand {
@@ -21,7 +23,7 @@ public class ShowCocktailCommand implements ActionCommand {
         } catch (DaoException e) {
             return JspManager.getPage(ERROR);
         }
-        int cocktailId = Integer.parseInt(request.getParameter("id"));
+        int cocktailId = Integer.parseInt(request.getParameter(ID));
         Optional<Cocktail> toShow;
         try {
             toShow = dao.findById(cocktailId);
@@ -29,10 +31,10 @@ public class ShowCocktailCommand implements ActionCommand {
             return JspManager.getPage(ERROR);
         }
         if (toShow.isPresent()) {
-            request.setAttribute("cocktail", toShow.get());
+            request.setAttribute(COCKTAIL, toShow.get());
         } else {
             return JspManager.getPage(ERROR);
         }
-        return JspManager.getPage(ERROR);
+        return JspManager.getPage(SHOW_COCKTAIL);
     }
 }

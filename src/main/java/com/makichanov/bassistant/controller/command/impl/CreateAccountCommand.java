@@ -12,16 +12,18 @@ import com.makichanov.bassistant.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
+import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 import static com.makichanov.bassistant.util.manager.PagePath.*;
 
 public class CreateAccountCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String rePassword = request.getParameter("rePassword");
+        String username = request.getParameter(USERNAME);
+        String email = request.getParameter(EMAIL);
+        String password = request.getParameter(PASSWORD);
+        String rePassword = request.getParameter(RE_PASSWORD);
         if (!password.equals(rePassword)) {
             return JspManager.getPage(ERROR);
         }
@@ -37,10 +39,10 @@ public class CreateAccountCommand implements ActionCommand {
         }
         if (created) {
             try {
-                User createdUser = userDao.findByUsername(username);
+                User createdUser = userDao.findByUsername(username); // FIXME: 06.09.2021 replace dao with service
                 HttpSession session = request.getSession();
-                session.setAttribute("user", createdUser);
-                session.setAttribute("authenticated", true);
+                session.setAttribute(USER, createdUser);
+                session.setAttribute(AUTHENTICATED, true);
             } catch (DaoException e) {
                 return JspManager.getPage(ERROR);
             }

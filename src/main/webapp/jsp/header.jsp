@@ -26,7 +26,11 @@
             </form>
             <c:choose>
                 <c:when test="${authenticated}">
-                    <a class="nav-item nav-link" href="controller?command=logout">Log out</a>
+                    <div class="nav-item nav-link d-flex align-items-center">
+                        <a class="nav-item nav-link" href="controller?command=logout">Log out</a>
+                        |
+                        <a class="nav-item nav-link" href="#">${user.username}</a>
+                    </div>
                 </c:when>
                 <c:otherwise>
                     <a class="nav-item nav-link" href="controller?command=login">Log in</a>

@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.RequestAttribute;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.CocktailService;
@@ -28,7 +29,7 @@ public class CocktailsCommand implements ActionCommand {
             LOG.error("Failed to get cocktails list from database to load cocktails page", e);
             // TODO: 26.08.2021 forward to error page
         }
-        request.setAttribute("cocktails", cocktails);
+        request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
         return JspManager.getPage(COCKTAILS);
     }
 }

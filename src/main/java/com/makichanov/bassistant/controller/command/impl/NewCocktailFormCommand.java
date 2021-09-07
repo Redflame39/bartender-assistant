@@ -5,6 +5,7 @@ import com.makichanov.bassistant.util.manager.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
 import static com.makichanov.bassistant.util.manager.PagePath.*;
 
 public class NewCocktailFormCommand implements ActionCommand {
@@ -12,7 +13,7 @@ public class NewCocktailFormCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Boolean authenticated = (Boolean) session.getAttribute("authenticated");
+        Boolean authenticated = (Boolean) session.getAttribute(AUTHENTICATED);
         if (Boolean.TRUE.equals(authenticated)) {
             return JspManager.getPage(CREATE_COCKTAIL);
         } else {
