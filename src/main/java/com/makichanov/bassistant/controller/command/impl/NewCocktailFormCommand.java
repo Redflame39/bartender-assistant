@@ -17,7 +17,7 @@ public class NewCocktailFormCommand implements ActionCommand {
         if (Boolean.TRUE.equals(authenticated)) {
             return JspManager.getPage(CREATE_COCKTAIL);
         } else {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(LOGIN);
         }
     }
 }

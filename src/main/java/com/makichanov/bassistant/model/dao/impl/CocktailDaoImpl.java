@@ -22,7 +22,7 @@ public class CocktailDaoImpl extends CocktailDao {
     private static final String SQL_FIND_BY_USER_ID =
             "select name, cocktail_id, instructions from cocktails where user_id = ?;";
     private static final String SQL_CREATE =
-            "insert into cocktails (name, cocktail_id, user_id, instructions) values (?, ?, ?, ?);";
+            "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
     private static final String SQL_REMOVE_OBJECT =
             "delete from cocktails where name = ?, cocktail_id = ?, user_id = ?, instructions = ?;";
     private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
@@ -94,12 +94,11 @@ public class CocktailDaoImpl extends CocktailDao {
     }
 
     @Override
-    public boolean create(Cocktail cocktail) throws DaoException {
+    public boolean create(String cocktailName, int userId, String instructions) throws DaoException {
         try(PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
-            statement.setString(1, cocktail.getName());
-            statement.setInt(2, cocktail.getId());
-            statement.setInt(3, cocktail.getUserId());
-            statement.setString(4, cocktail.getInstructions());
+            statement.setString(1, cocktailName);
+            statement.setInt(2, userId);
+            statement.setString(3, instructions);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

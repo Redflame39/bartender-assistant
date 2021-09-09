@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+// TODO: 08.09.2021 delete this class
 public class SessionRequestContent {
 
     private static final Logger LOG = LogManager.getLogger();

@@ -3,10 +3,12 @@ package com.makichanov.bassistant.controller;
 import java.io.*;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
-import com.makichanov.bassistant.controller.command.ActionFactory;
+import com.makichanov.bassistant.controller.command.CommandProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+
+import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
@@ -23,12 +25,10 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        ActionFactory client = new ActionFactory();
-//        SessionRequestContent requestContent = new SessionRequestContent();
-//        requestContent.extractValues(request);
-        ActionCommand command = client.defineCommand(request);
+        String commandName = request.getParameter(COMMAND);
+        CommandProvider commandProvider = CommandProvider.getInstance();
+        ActionCommand command = commandProvider.getCommand(commandName);
         String page = command.execute(request);
-//        requestContent.saveAttributes(request);
         if (page != null) {
             getServletContext().getRequestDispatcher(page).forward(request, response);
         } else {

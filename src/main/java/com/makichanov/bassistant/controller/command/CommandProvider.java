@@ -14,13 +14,14 @@ public class CommandProvider {
         commands.put(_TEST, new _TestCommand());
         commands.put(DEFAULT, new EmptyCommand());
         commands.put(COCKTAILS, new CocktailsCommand());
-        commands.put(CREATE_COCKTAIL, new NewCocktailFormCommand());
+        commands.put(CREATE_COCKTAIL_PAGE, new NewCocktailFormCommand());
         commands.put(LOGIN, new LoginPageCommand());
         commands.put(AUTHENTICATE, new AuthenticateUserCommand());
         commands.put(SIGN_UP, new RegistrationPageCommand());
         commands.put(CREATE_ACCOUNT, new CreateAccountCommand());
         commands.put(SHOW_COCKTAIL, new ShowCocktailCommand());
         commands.put(LOGOUT, new LogoutCommand());
+        commands.put(CREATE_COCKTAIL, new CreateCocktailCommand());
     }
 
     public static CommandProvider getInstance() {

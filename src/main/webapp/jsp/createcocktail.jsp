@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,13 +11,13 @@
     <input type="hidden" name="command" value="create_cocktail">
     <div class="form-group">
         <label for="cocktailNameFormInput">Cocktail name</label>
-        <input type="text" class="form-text" id="cocktailNameFormInput" placeholder="Write cocktail name here">
+        <input type="text" name="cocktail_name" class="form-text" id="cocktailNameFormInput" placeholder="Write cocktail name here">
     </div>
     <div class="form-group">
-        <label for="cocktailDescriptionFormTextArea">Write cocktail description here</label>
-        <textarea class="form-control" id="cocktailDescriptionFormTextArea" rows="3"></textarea>
+        <label for="cocktailInstructionsFormTextArea">Cocktail instructions</label>
+        <textarea class="form-control" name="cocktail_instr" id="cocktailInstructionsFormTextArea" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary" value="create_cocktail">Create</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
 </body>
 </html>

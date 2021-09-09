@@ -9,7 +9,9 @@ public interface UserService {
 
     Optional<User> createUser(String username, String email, String password) throws ServiceException;
 
-    boolean authenticateByEmail(String email, String password) throws ServiceException;
+    Optional<User> authenticateByEmail(String email, String password) throws ServiceException;
+
+    Optional<User> authenticateByUsername(String username, String password) throws ServiceException;
 
     Optional<User> findByEmail(String email) throws ServiceException;
 

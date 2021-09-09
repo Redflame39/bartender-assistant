@@ -74,7 +74,7 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public User findByUsername(String username) throws DaoException {
+    public Optional<User> findByUsername(String username) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME)) {
             statement.setString(1, username);
             ResultSet resultSet = statement.executeQuery();
@@ -83,9 +83,9 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
                 User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email);
-                return user;
+                return Optional.of(user);
             } else {
-                return null;
+                return Optional.empty();
             }
         } catch (SQLException e) {
             LOG.error("UserDao: Failed to execute SQL_FIND_BY_USERNAME", e);

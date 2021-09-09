@@ -22,16 +22,15 @@ public class AuthenticateUserCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request) { // TODO: 08.09.2021 authentication with username or email
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
         UserService service = new UserServiceImpl();
         try {
-            boolean valid = service.authenticateByEmail(email, password);
-            if (valid) {
+            Optional<User> result = service.authenticateByEmail(email, password);
+            if (result.isPresent()) {
                 HttpSession session = request.getSession();
-                Optional<User> authenticatedUser = service.findByEmail(email); // FIXME: 06.09.2021 check result, maybe empty
-                session.setAttribute(USER, authenticatedUser.get());
+                session.setAttribute(USER, result.get());
                 session.setAttribute(AUTHENTICATED, true);
                 return JspManager.getPage(HOME);
             } else {

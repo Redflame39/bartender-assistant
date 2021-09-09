@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+// TODO: 08.09.2021 delete actionfactory class
 public class ActionFactory {
 
     private static final Logger LOG = LogManager.getLogger();

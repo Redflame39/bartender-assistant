@@ -21,7 +21,7 @@ public class CocktailsCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        CocktailService cocktailService = new CocktailServiceImpl();
+        CocktailService cocktailService = CocktailServiceImpl.getInstance();
         List<Cocktail> cocktails = null;
         try {
             cocktails = cocktailService.findAll();

@@ -5,12 +5,13 @@ public enum CommandEnum {
     _TEST,
     DEFAULT,
     COCKTAILS,
-    CREATE_COCKTAIL,
+    CREATE_COCKTAIL_PAGE,
     LOGIN,
     AUTHENTICATE,
     SIGN_UP,
     CREATE_ACCOUNT,
     SHOW_COCKTAIL,
-    LOGOUT
+    LOGOUT,
+    CREATE_COCKTAIL
 
 }

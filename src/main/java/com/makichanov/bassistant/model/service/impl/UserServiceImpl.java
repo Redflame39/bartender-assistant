@@ -20,15 +20,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> createUser(String username, String email, String password) throws ServiceException {
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             UserDao userDao = new UserDaoImpl();
             transaction.initTransaction(userDao);
             String passwordHash = PasswordEncryptor.encrypt(password);
             boolean created = userDao.create(username, email, Role.CLIENT, passwordHash);
             transaction.commit();
             if (created) {
-                User createdUser = userDao.findByUsername(username);
-                return Optional.of(createdUser);
+                return userDao.findByUsername(username);
             } else {
                 return Optional.empty();
             }
@@ -39,8 +38,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean authenticateByEmail(String email, String password) throws ServiceException {
-        try(EntityTransaction transaction = new EntityTransaction()) {
+    public Optional<User> authenticateByEmail(String email, String password) throws ServiceException {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             UserDao userDao = new UserDaoImpl();
             transaction.initTransaction(userDao);
             Optional<User> queryResult = userDao.findByEmail(email);
@@ -48,9 +47,11 @@ public class UserServiceImpl implements UserService {
                 User toAuthenticate = queryResult.get();
                 String passwordFromDb = userDao.getPassword(toAuthenticate.getUserId());
                 String passwordHash = PasswordEncryptor.encrypt(password);
-                return passwordFromDb.equals(passwordHash);
+                return (passwordFromDb.equals(passwordHash))
+                        ? queryResult
+                        : Optional.empty();
             } else {
-                return false;
+                return Optional.empty();
             }
         } catch (DaoException e) {
             LOG.error("Failed to authenticate user with email " + email, e);
@@ -59,8 +60,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> authenticateByUsername(String username, String password) throws ServiceException {
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            UserDao userDao = new UserDaoImpl();
+            transaction.initTransaction(userDao);
+            Optional<User> queryResult = userDao.findByUsername(username);
+            if (queryResult.isPresent()) {
+                User toAuthenticate = queryResult.get();
+                String passwordFromDb = userDao.getPassword(toAuthenticate.getUserId());
+                String passwordHash = PasswordEncryptor.encrypt(password);
+                return (passwordFromDb.equals(passwordHash))
+                        ? queryResult
+                        : Optional.empty();
+            } else {
+                return Optional.empty();
+            }
+        } catch (DaoException e) {
+            LOG.error("Failed to authenticate user with email " + username, e);
+            throw new ServiceException("Failed to authenticate user with email " + username, e);
+        }
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) throws ServiceException {
-        return Optional.empty();
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            UserDao dao = new UserDaoImpl();
+            transaction.initTransaction(dao);
+            return dao.findByEmail(email);
+        } catch (DaoException e) {
+            LOG.error("Failed to find user by email: " + email, e);
+            throw new ServiceException("Failed to find user by email: " + email, e);
+        }
     }
 
 

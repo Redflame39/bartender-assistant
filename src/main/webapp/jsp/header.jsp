@@ -16,7 +16,8 @@
                     <a class="nav-link" href="#">Bartenders</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-success my-2 my-sm-0" href="controller?command=create_cocktail">Create
+                    <a class="nav-link btn btn-outline-success my-2 my-sm-0"
+                       href="controller?command=create_cocktail_page">Create
                         your cocktail</a>
                 </li>
             </ul>
@@ -24,18 +25,23 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <c:choose>
-                <c:when test="${authenticated}">
-                    <div class="nav-item nav-link d-flex align-items-center">
-                        <a class="nav-item nav-link" href="controller?command=logout">Log out</a>
-                        |
-                        <a class="nav-item nav-link" href="#">${user.username}</a>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <a class="nav-item nav-link" href="controller?command=login">Log in</a>
-                </c:otherwise>
-            </c:choose>
+            <ul class="navbar-nav d-flex align-items-center">
+                <c:choose>
+                    <c:when test="${authenticated}">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="#">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="controller?command=logout">Log out</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="controller?command=login">Log in</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
         </div>
     </nav>
 </header>

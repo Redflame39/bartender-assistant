@@ -27,8 +27,6 @@ O
 src/main/webapp/js/bootstrap.js,d\4\d4e6b9e1c4f8590713363191b14777838a5253be
 M
 src/main/webapp/jsp/error.jsp,a\5\a5b1b31c35f9d7a08a577cab33ebb579eee49b5a
-P
- src/main/webapp/js/headloader.js,6\1\61b6e7e9cde73e7de9fb6f467a9856f8104bd3bc
 L
 src/main/webapp/js/jquery.js,9\d\9d9ec3138cdcc74d93f3ff40273320821bdf4d6e
 _
@@ -49,12 +47,8 @@ g
 7src/main/java/com/makichanov/bassistant/_main/Main.java,e\0\e044529c5d8163aba7cc13dab1d2308942ea1745
 O
 src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
-V
-&src/main/webapp/jsp/createcocktail.jsp,4\8\487298db0b3610092699b4115a550205de1a2356
 t
 Dsrc/main/java/com/makichanov/bassistant/exception/PoolException.java,a\0\a0a9bda0f9b07081caf83d69e739641e1603fb13
-Å
-Qsrc/main/java/com/makichanov/bassistant/controller/command/impl/_TestCommand.java,e\e\ee97885c6cd0cbde411a10760313e002dc3941a2
 }
 Msrc/main/java/com/makichanov/bassistant/controller/command/ActionCommand.java,9\d\9da99f27993d1f185d4907a0826a790e6e133b84
 }
@@ -63,16 +57,8 @@ n
 >src/main/java/com/makichanov/bassistant/model/dao/BaseDao.java,0\5\0555548860b0aef0cd995361931af9a957c2d8fb
 r
 Bsrc/main/java/com/makichanov/bassistant/model/entity/Cocktail.java,2\a\2af4cd1c9a1f5f8981905235e39643abfe31f42e
-Q
-!src/main/webapp/jsp/cocktails.jsp,2\e\2e7425d261d9f5524e0be7a9be4462dcc88474f6
-z
-Jsrc/main/java/com/makichanov/bassistant/model/service/CocktailService.java,7\d\7d499c205dbbc04331a6f3844638cdf85962cfaa
-É
-Ssrc/main/java/com/makichanov/bassistant/model/service/impl/CocktailServiceImpl.java,a\e\ae67b7a4c13c5f37a8081ce347fd311edc23bb47
 y
 Isrc/main/java/com/makichanov/bassistant/model/pool/ConnectionFactory.java,9\a\9a7725b46d37ca9ae9458fd4562569defe366feb
-|
-Lsrc/main/java/com/makichanov/bassistant/model/pool/CustomConnectionPool.java,0\b\0b7b415bea11a76c438075c29aa96cd6fade736e
 p
 @src/main/java/com/makichanov/bassistant/model/entity/Entity.java,9\2\92113d9b70e5e7adaaacf5af0e341d44a41036da
 x
@@ -85,8 +71,6 @@ Dsrc/main/java/com/makichanov/bassistant/model/dao/IngredientDao.java,4\f\4f1b0
 Msrc/main/java/com/makichanov/bassistant/model/dao/impl/IngredientDaoImpl.java,a\3\a393ad9ae847a09931aac8b4e2a0e1d59ae86b7e
 t
 Dsrc/main/java/com/makichanov/bassistant/util/manager/JspManager.java,1\7\17f8acc4dac6b7ca0170972277f1974f5c100433
-M
-src/main/webapp/jsp/login.jsp,a\f\af55eee015fec33e99bf54ec2d8713a26133aad7
 r
 Bsrc/main/java/com/makichanov/bassistant/util/manager/PagePath.java,8\3\83bd73425f7f5f407c07313cf162cf6c04669d86
 |
@@ -105,25 +89,35 @@ n
 >src/main/java/com/makichanov/bassistant/model/entity/Role.java,9\3\93690157240f7c181acad1b6c9fc16577144e174
 Ñ
 Tsrc/main/java/com/makichanov/bassistant/controller/listener/SessionListenerImpl.java,7\2\72396d5aa7c3ffb43b02170b87bcdb55dab50e70
-Ö
-Usrc/main/java/com/makichanov/bassistant/controller/command/SessionRequestContent.java,1\d\1d698236c9b184e2b40f610125caa1fbf99c35b9
-N
-src/main/webapp/jsp/signup.jsp,f\f\ffdd2b577311075ecc56660ec1414ab4a6094205
 n
 >src/main/java/com/makichanov/bassistant/model/entity/User.java,7\8\78ca6941c40105e39e67a8a647e9de06ba0bc899
-n
->src/main/java/com/makichanov/bassistant/model/dao/UserDao.java,b\c\bc298305e6dc0b962a5aa4efdf312b943eeb27b7
-w
-Gsrc/main/java/com/makichanov/bassistant/model/dao/impl/UserDaoImpl.java,c\a\ca9ba49d2b101f080d7fc5ccf39813dde73b3862
-v
-Fsrc/main/java/com/makichanov/bassistant/model/service/UserService.java,3\2\32dee4a9d2a79c13f4eae75590a8b22a196f68a4
-
-Osrc/main/java/com/makichanov/bassistant/model/service/impl/UserServiceImpl.java,9\1\918ee385d6181851ee26fd9956ddcb212fe49c53
-r
-Bsrc/main/java/com/makichanov/bassistant/controller/Controller.java,8\1\81eca8ad03f51a3284ad0e91cf8c59f9486a9d96
 I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 x
 Hsrc/main/java/com/makichanov/bassistant/controller/filter/JspFilter.java,2\f\2ff932015287ce31c76f08cbabb090a703b24807
 L
 src/main/webapp/jsp/home.jsp,9\7\970aaf073459aa35d948040665b1364905e60f8a
+P
+ src/main/webapp/jsp/cocktail.jsp,1\f\1f3156013a7ae5b62160707daa32cd08c403c015
+Ä
+Psrc/main/java/com/makichanov/bassistant/controller/command/SessionAttribute.java,2\1\2111ea88aca3c6c22f6231288196529d30347f86
+N
+src/main/webapp/jsp/signup.jsp,f\f\ffdd2b577311075ecc56660ec1414ab4a6094205
+M
+src/main/webapp/jsp/login.jsp,a\f\af55eee015fec33e99bf54ec2d8713a26133aad7
+Ä
+Psrc/main/java/com/makichanov/bassistant/controller/command/RequestAttribute.java,9\9\993c80933701005cd94b1e945b3d0938a079d7a0
+|
+Lsrc/main/java/com/makichanov/bassistant/model/pool/CustomConnectionPool.java,0\b\0b7b415bea11a76c438075c29aa96cd6fade736e
+Å
+Qsrc/main/java/com/makichanov/bassistant/controller/command/impl/_TestCommand.java,e\e\ee97885c6cd0cbde411a10760313e002dc3941a2
+Å
+Qsrc/main/java/com/makichanov/bassistant/controller/command/impl/EmptyCommand.java,3\3\3321d12bc39a22bcedb5c6d1a9a6c5cae670a809
+Ö
+Usrc/main/java/com/makichanov/bassistant/controller/command/impl/LoginPageCommand.java,0\7\0742e8843692025c09a76c77995a9a847dce7b8f
+Ç
+Rsrc/main/java/com/makichanov/bassistant/controller/command/impl/LogoutCommand.java,a\5\a5c487c46accb6a98345f65d260a67a07f7bc5be
+å
+\src/main/java/com/makichanov/bassistant/controller/command/impl/RegistrationPageCommand.java,2\9\297b0bd530835c659cf8af25ab1f0013ddb78343
+Q
+!src/main/webapp/jsp/cocktails.jsp,2\e\2e7425d261d9f5524e0be7a9be4462dcc88474f6

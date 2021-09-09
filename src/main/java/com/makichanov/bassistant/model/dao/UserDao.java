@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public abstract class UserDao extends BaseDao<Integer, User> {
 
-    public abstract User findByUsername(String username) throws DaoException;
+    public abstract Optional<User> findByUsername(String username) throws DaoException;
 
     public abstract Optional<User> findByEmail(String email) throws DaoException;
 
