@@ -60,6 +60,18 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
+    public Optional<Cocktail> findByName(String name) throws ServiceException {
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            CocktailDao cocktailDao = new CocktailDaoImpl();
+            transaction.initTransaction(cocktailDao);
+            return cocktailDao.findByName(name);
+        } catch (DaoException e) {
+            LOG.error("Failed to find cocktail by name: " + name, e);
+            throw new ServiceException("Failed to find cocktail by name: " + name, e);
+        }
+    }
+
+    @Override
     public boolean create(String cocktailName, int userId, String instructions) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {

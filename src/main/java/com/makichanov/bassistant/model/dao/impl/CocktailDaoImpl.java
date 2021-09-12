@@ -21,6 +21,8 @@ public class CocktailDaoImpl extends CocktailDao {
             "select name, user_id, instructions from cocktails where cocktail_id = ?;";
     private static final String SQL_FIND_BY_USER_ID =
             "select name, cocktail_id, instructions from cocktails where user_id = ?;";
+    private static final String SQL_FIND_BY_NAME =
+            "select user_id, cocktail_id, instructions from cocktails where name = ?;";
     private static final String SQL_CREATE =
             "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
     private static final String SQL_REMOVE_OBJECT =
@@ -90,6 +92,26 @@ public class CocktailDaoImpl extends CocktailDao {
         } catch (SQLException e) {
             LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
             throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
+        }
+    }
+
+    @Override
+    public Optional<Cocktail> findByName(String name) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME)) {
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                int cocktailId = resultSet.getInt(2);
+                String instructions = resultSet.getString(3);
+                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions);
+                return Optional.of(cocktail);
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
+            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
         }
     }
 
