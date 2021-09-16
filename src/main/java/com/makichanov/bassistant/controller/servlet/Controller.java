@@ -1,4 +1,4 @@
-package com.makichanov.bassistant.controller;
+package com.makichanov.bassistant.controller.servlet;
 
 import java.io.*;
 

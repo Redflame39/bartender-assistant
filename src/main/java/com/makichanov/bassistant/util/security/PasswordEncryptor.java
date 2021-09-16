@@ -1,17 +1,10 @@
 package com.makichanov.bassistant.util.security;
 
-import com.makichanov.bassistant.util.manager.ApplicationProperty;
-import com.makichanov.bassistant.util.manager.PropertyManager;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordEncryptor {
 
-    private static final String SALT;
-
-    static {
-        PropertyManager manager = new PropertyManager();
-        SALT = manager.getProperty(ApplicationProperty.SALT);
-    }
+    private static final String SALT = "$2a$10$miuR/4ZazuYx/2x0Ad6Cbu";
 
     private PasswordEncryptor() {}
 

@@ -5,12 +5,14 @@ public class Cocktail extends Entity {
     private int id;
     private int userId;
     private String instructions;
+    private String imageSource;
 
-    public Cocktail(String name, int id, int userId, String instructions) {
+    public Cocktail(String name, int id, int userId, String instructions, String imageSource) {
         this.name = name;
         this.id = id;
         this.userId = userId;
         this.instructions = instructions;
+        this.imageSource = imageSource;
     }
 
     public String getName() {
@@ -43,6 +45,14 @@ public class Cocktail extends Entity {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public String getImageSource() {
+        return imageSource;
+    }
+
+    public void setImageSource(String imageSource) {
+        this.imageSource = imageSource;
     }
 
     @Override

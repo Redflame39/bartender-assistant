@@ -1,12 +1,12 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
-import com.makichanov.bassistant.util.manager.JspManager;
+import com.makichanov.bassistant.controller.manager.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
-import static com.makichanov.bassistant.util.manager.PagePath.*;
+import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class NewCocktailFormCommand implements ActionCommand {
 

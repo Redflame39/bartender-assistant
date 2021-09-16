@@ -6,14 +6,14 @@ import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
-import com.makichanov.bassistant.util.manager.JspManager;
+import com.makichanov.bassistant.controller.manager.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-import static com.makichanov.bassistant.util.manager.PagePath.*;
+import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class CocktailsCommand implements ActionCommand {
 

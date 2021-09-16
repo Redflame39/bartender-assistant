@@ -7,7 +7,7 @@ import com.makichanov.bassistant.model.dao.impl.UserDaoImpl;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.exception.DaoException;
-import com.makichanov.bassistant.util.manager.JspManager;
+import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.util.manager.PagePath.*;
+import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class CreateAccountCommand implements ActionCommand {
 

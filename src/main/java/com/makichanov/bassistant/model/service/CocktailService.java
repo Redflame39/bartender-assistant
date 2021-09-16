@@ -18,5 +18,7 @@ public interface CocktailService {
 
     Cocktail update(int toReplaceId, Cocktail replacement);
 
+    Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException;
+
     Cocktail delete(int toDeleteId);
 }

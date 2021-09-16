@@ -16,13 +16,13 @@ public class CocktailDaoImpl extends CocktailDao {
     private static final Logger LOG = LogManager.getLogger();
 
     private static final String SQL_FIND_ALL =
-            "select name, cocktail_id, user_id, instructions from cocktails;";
+            "select name, cocktail_id, user_id, instructions, cocktail_image from cocktails;";
     private static final String SQL_FIND_BY_ID =
-            "select name, user_id, instructions from cocktails where cocktail_id = ?;";
+            "select name, user_id, instructions, cocktail_image from cocktails where cocktail_id = ?;";
     private static final String SQL_FIND_BY_USER_ID =
-            "select name, cocktail_id, instructions from cocktails where user_id = ?;";
+            "select name, cocktail_id, instructions, cocktail_image from cocktails where user_id = ?;";
     private static final String SQL_FIND_BY_NAME =
-            "select user_id, cocktail_id, instructions from cocktails where name = ?;";
+            "select user_id, cocktail_id, instructions, cocktail_image from cocktails where name = ?;";
     private static final String SQL_CREATE =
             "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
     private static final String SQL_REMOVE_OBJECT =
@@ -33,6 +33,7 @@ public class CocktailDaoImpl extends CocktailDao {
     private static final String SQL_UPDATE_OBJECT = """
             update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? 
             where name = ?, cocktail_id = ?, user_id = ?, instructions = ?""";
+    private static final String SQL_UPDATE_IMAGE = "update cocktails set cocktail_image = ? where cocktail_id = ?";
 
     @Override
     public List<Cocktail> findAll() throws DaoException {
@@ -45,7 +46,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 int id = resultSet.getInt(2);
                 int userId = resultSet.getInt(3);
                 String instructions = resultSet.getString(4);
-                Cocktail cocktail = new Cocktail(name, id, userId, instructions);
+                String imageSource = resultSet.getString(5);
+                Cocktail cocktail = new Cocktail(name, id, userId, instructions, imageSource);
                 cocktails.add(cocktail);
             }
         } catch (SQLException e) {
@@ -64,7 +66,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 String name = resultSet.getString(1);
                 int userId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
-                Cocktail cocktail = new Cocktail(name, id, userId, instructions);
+                String imageSource = resultSet.getString(4);
+                Cocktail cocktail = new Cocktail(name, id, userId, instructions, imageSource);
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();
@@ -84,7 +87,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 String name = resultSet.getString(1);
                 int cocktailId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
-                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions);
+                String imageSource = resultSet.getString(4);
+                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions, imageSource);
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();
@@ -104,7 +108,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 int userId = resultSet.getInt(1);
                 int cocktailId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
-                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions);
+                String imageSource = resultSet.getString(4);
+                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions, imageSource);
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();
@@ -192,8 +197,20 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {
-            LOG.error("Failed to update cocktail " + toReplace);
+            LOG.error("Failed to update cocktail " + toReplace, e);
             throw new DaoException("Exception occurred while executing UPDATE by OBJECT", e);
         }
     }
+
+    public void updateImage(int toUpdateId, String imageSrc) throws DaoException {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
+            statement.setString(1, imageSrc);
+            statement.setInt(2, toUpdateId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("Failed to update cocktail image, id: " + toUpdateId, e);
+            throw new DaoException("Failed to update cocktail image, id: " + toUpdateId, e);
+        }
+    }
+
 }

@@ -6,21 +6,13 @@ import com.makichanov.bassistant.model.dao.impl.CocktailDaoImpl;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.exception.ServiceException;
-import com.makichanov.bassistant.model.pool.CustomConnectionPool;
 import com.makichanov.bassistant.model.service.CocktailService;
-import com.makichanov.bassistant.util.manager.JspManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static com.makichanov.bassistant.controller.command.RequestAttribute.COCKTAIL;
-import static com.makichanov.bassistant.controller.command.RequestParameter.ID;
-import static com.makichanov.bassistant.util.manager.PagePath.ERROR;
-import static com.makichanov.bassistant.util.manager.PagePath.SHOW_COCKTAIL;
 
 public class CocktailServiceImpl implements CocktailService {
 
@@ -89,6 +81,33 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public Cocktail update(int toReplaceId, Cocktail replacement) {
         return null;
+    }
+
+    @Override
+    public Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException {
+        CocktailDao cocktailDao = new CocktailDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        Cocktail cocktail = null;
+        try {
+            transaction.initTransaction(cocktailDao);
+            cocktailDao.updateImage(toUpdateId, imageSrc);
+            transaction.commit();
+            Optional<Cocktail> updated = cocktailDao.findById(toUpdateId);
+            cocktail = updated.orElseThrow(() -> new ServiceException()); // TODO: 9/13/2021 message
+        } catch (DaoException e) {
+            try {
+                transaction.rollback();
+            } catch (DaoException ex) {
+                throw new ServiceException(); // TODO: 9/13/2021 message
+            }
+        } finally {
+            try {
+                transaction.close();
+            } catch (DaoException e) {
+                throw new ServiceException(); // TODO: 9/13/2021 message
+            }
+        }
+        return cocktail;
     }
 
     @Override

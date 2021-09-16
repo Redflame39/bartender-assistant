@@ -1,4 +1,4 @@
-package com.makichanov.bassistant.util.manager;
+package com.makichanov.bassistant.controller.manager;
 
 public final class PagePath {
     public static final String INDEX = "path.page.index";
