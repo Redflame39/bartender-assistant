@@ -10,4 +10,5 @@ public final class PagePath {
     public static final String SIGNUP = "path.page.signup";
     public static final String SHOW_COCKTAIL = "path.page.showcocktail";
     public static final String COCKTAIL_IMAGE = "path.page.cocktailimage";
+    public static final String PROFILE = "path.page.profile";
 }

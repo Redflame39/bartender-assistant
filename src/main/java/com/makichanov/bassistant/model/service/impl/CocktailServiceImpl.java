@@ -30,7 +30,7 @@ public class CocktailServiceImpl implements CocktailService {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         List<Cocktail> cocktails;
         try(EntityTransaction transaction = new EntityTransaction()) {
-            transaction.initTransaction(cocktailDao);
+            transaction.initAction(cocktailDao);
             cocktails = new ArrayList<>(cocktailDao.findAll());
         } catch (DaoException e) {
             LOG.error("Failed to execute transaction to get cocktails list", e);
@@ -43,7 +43,7 @@ public class CocktailServiceImpl implements CocktailService {
     public Optional<Cocktail> findById(int id) throws ServiceException {
         try(EntityTransaction transaction = new EntityTransaction()) {
             CocktailDao cocktailDao = new CocktailDaoImpl();
-            transaction.initTransaction(cocktailDao);
+            transaction.initAction(cocktailDao);
             return cocktailDao.findById(id);
         } catch (DaoException e) {
             LOG.error("Failed to find cocktail by id: " + id, e);
@@ -55,7 +55,7 @@ public class CocktailServiceImpl implements CocktailService {
     public Optional<Cocktail> findByName(String name) throws ServiceException {
         try(EntityTransaction transaction = new EntityTransaction()) {
             CocktailDao cocktailDao = new CocktailDaoImpl();
-            transaction.initTransaction(cocktailDao);
+            transaction.initAction(cocktailDao);
             return cocktailDao.findByName(name);
         } catch (DaoException e) {
             LOG.error("Failed to find cocktail by name: " + name, e);
@@ -67,12 +67,9 @@ public class CocktailServiceImpl implements CocktailService {
     public boolean create(String cocktailName, int userId, String instructions) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {
-            transaction.initTransaction(cocktailDao);
-            boolean result = cocktailDao.create(cocktailName, userId, instructions);
-            transaction.commit();
-            return result;
+            transaction.initAction(cocktailDao);
+            return cocktailDao.create(cocktailName, userId, instructions);
         } catch (DaoException e) {
-            // TODO: 08.09.2021 rollback
             LOG.error("Failed to execute transaction to create cocktail", e);
             throw new ServiceException("Failed to execute transaction to create cocktail", e);
         }

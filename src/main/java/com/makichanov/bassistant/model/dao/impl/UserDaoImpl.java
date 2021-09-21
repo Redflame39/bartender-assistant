@@ -18,19 +18,20 @@ public class UserDaoImpl extends UserDao {
 
     private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_FIND_ALL =
-            "select user_id, username, role.role_name, email from users join role on users.role_id = role.role_id;";
+            "select user_id, username, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id;";
     private static final String SQL_FIND_BY_ID =
-            "select username, role.role_name, email from users join role on users.role_id = role.role_id where user_id = ?;";
+            "select username, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id where user_id = ?;";
     private static final String SQL_FIND_BY_USERNAME =
-            "select user_id, role.role_name, email from users join role on users.role_id = role.role_id where username = ?;";
+            "select user_id, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id where username = ?;";
     private static final String SQL_FIND_BY_EMAIL =
-            "select user_id, username, role.role_name from users join role on users.role_id = role.role_id where email = ?;";
+            "select user_id, username, role.role_name, profile_picture from users join role on users.role_id = role.role_id where email = ?;";
     private static final String SQL_CREATE =
             "insert into users (username, password, role_id, email) values (?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
     private static final String SQL_UPDATE_ID =
             "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?;";
     private static final String SQL_GET_PASSWORD = "select password from users where user_id = ?;";
+    private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
 
     @Override
     public List<User> findAll() throws DaoException {
@@ -43,7 +44,8 @@ public class UserDaoImpl extends UserDao {
                 String  username = resultSet.getString(2);
                 String roleName = resultSet.getString(3);
                 String email = resultSet.getString(4);
-                User user = new User(username, userId, Role.valueOf(roleName), email);
+                String avatarSource = resultSet.getString(5);
+                User user = new User(username, userId, Role.valueOf(roleName), email, avatarSource);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -62,7 +64,8 @@ public class UserDaoImpl extends UserDao {
                 String username = resultSet.getString(1);
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
-                User user = new User(username, id, Role.valueOf(roleName), email);
+                String avatarSource = resultSet.getString(4);
+                User user = new User(username, id, Role.valueOf(roleName), email, avatarSource);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -82,7 +85,8 @@ public class UserDaoImpl extends UserDao {
                 int userId = resultSet.getInt(1);
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
-                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email);
+                String avatarSource = resultSet.getString(4);
+                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -102,7 +106,8 @@ public class UserDaoImpl extends UserDao {
                 int userId = resultSet.getInt(1);
                 String username = resultSet.getString(2);
                 String role = resultSet.getString(3);
-                User user =  new User(username, userId, Role.valueOf(role.toUpperCase()), email);
+                String avatarSource = resultSet.getString(4);
+                User user =  new User(username, userId, Role.valueOf(role.toUpperCase()), email, avatarSource);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -182,5 +187,16 @@ public class UserDaoImpl extends UserDao {
     @Override
     public User update(User toReplace, User replacement) throws DaoException {
         return null;
+    }
+
+    public void updateImage(int toUpdateId, String imageSrc) throws DaoException {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
+            statement.setString(1, imageSrc);
+            statement.setInt(2, toUpdateId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("Failed to update user image, id: " + toUpdateId, e);
+            throw new DaoException("Failed to update user image, id: " + toUpdateId, e);
+        }
     }
 }

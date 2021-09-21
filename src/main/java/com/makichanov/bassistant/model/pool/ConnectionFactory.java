@@ -11,8 +11,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import static com.makichanov.bassistant.util.manager.PropertyManager.*;
-
 public class ConnectionFactory {
 
     private static final Logger LOG = LogManager.getLogger();
@@ -44,7 +42,7 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {}
 
-    public static Connection getConnection() throws PoolException {
+    static Connection getConnection() throws PoolException {
         try {
             return DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
         } catch (SQLException e) {

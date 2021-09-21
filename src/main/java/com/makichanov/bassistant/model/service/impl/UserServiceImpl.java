@@ -17,6 +17,13 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger();
+    private static final UserServiceImpl instance = new UserServiceImpl();
+
+    private UserServiceImpl() { }
+
+    public static UserServiceImpl getInstance() {
+        return instance;
+    }
 
     @Override
     public Optional<User> createUser(String username, String email, String password) throws ServiceException {
@@ -93,5 +100,31 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User updateImage(int toUpdateId, String imageSrc) throws ServiceException {
+        UserDao userDao = new UserDaoImpl();
+        EntityTransaction transaction = new EntityTransaction();
+        User user = null;
+        try {
+            transaction.initTransaction(userDao);
+            userDao.updateImage(toUpdateId, imageSrc);
+            transaction.commit();
+            Optional<User> updated = userDao.findById(toUpdateId);
+            user = updated.orElseThrow(() -> new ServiceException()); // TODO: 9/13/2021 message
+        } catch (DaoException e) {
+            try {
+                transaction.rollback();
+            } catch (DaoException ex) {
+                throw new ServiceException(); // TODO: 9/13/2021 message
+            }
+        } finally {
+            try {
+                transaction.close();
+            } catch (DaoException e) {
+                throw new ServiceException(); // TODO: 9/13/2021 message
+            }
+        }
+        return user;
+    }
 
 }

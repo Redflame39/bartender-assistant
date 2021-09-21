@@ -11,7 +11,7 @@
     <div class="form-group">
         <input type="hidden" name="file_for" value="cocktail_image">
         <input type="hidden" name="id" value="${cocktail.id}">
-        <label for="cocktailImageFileUpload">Select image fow cocktail ${cocktail.name}</label>
+        <label for="cocktailImageFileUpload">Select image for cocktail ${cocktail.name}</label>
         <input type="file" name="cocktail_image" accept="image/png,image/jpeg" class="form-control-file" id="cocktailImageFileUpload">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>

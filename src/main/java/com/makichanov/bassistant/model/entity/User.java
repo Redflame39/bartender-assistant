@@ -5,16 +5,17 @@ import org.apache.logging.log4j.Logger;
 
 public class User extends Entity {
 
-    private static final Logger LOG = LogManager.getLogger();
     private String username;
     private int userId;
     private Role role;
     private String email;
-    public User(String username, int userId, Role role, String email) {
+    private String avatarSource;
+    public User(String username, int userId, Role role, String email, String avatarSource) {
         this.username = username;
         this.userId = userId;
         this.email = email;
         this.role = role;
+        this.avatarSource = avatarSource;
     }
 
     public String getUsername() {
@@ -49,6 +50,14 @@ public class User extends Entity {
         this.email = email;
     }
 
+    public String getAvatarSource() {
+        return avatarSource;
+    }
+
+    public void setAvatarSource(String avatarSource) {
+        this.avatarSource = avatarSource;
+    }
+
     // TODO: 16.08.2021 equals and hashcode
 
     @Override
@@ -61,4 +70,6 @@ public class User extends Entity {
         sb.append('}');
         return sb.toString();
     }
+
+
 }

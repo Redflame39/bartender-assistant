@@ -1,19 +1,21 @@
 package com.makichanov.bassistant.controller.upload;
 
 import com.makichanov.bassistant.controller.upload.impl.CocktailImageCommand;
+import com.makichanov.bassistant.controller.upload.impl.DefaultFileCommand;
 import com.makichanov.bassistant.controller.upload.impl.UserImageCommand;
 
 import java.util.EnumMap;
 
-import static com.makichanov.bassistant.controller.upload.UploadCommandEnum.*;
+import static com.makichanov.bassistant.controller.upload.UploadCommandType.*;
 
 public class UploadCommandProvider {
     private static UploadCommandProvider instance;
-    private final EnumMap<UploadCommandEnum, UploadCommand> commands = new EnumMap(UploadCommandEnum.class);
+    private final EnumMap<UploadCommandType, UploadCommand> commands = new EnumMap(UploadCommandType.class);
 
     private UploadCommandProvider() {
         commands.put(COCKTAIL_IMAGE, new CocktailImageCommand());
         commands.put(USER_IMAGE, new UserImageCommand());
+        commands.put(DEFAULT, new DefaultFileCommand());
     }
 
     public static UploadCommandProvider getInstance() {
@@ -27,9 +29,9 @@ public class UploadCommandProvider {
         if (commandName == null) {
             return commands.get(DEFAULT);
         }
-        UploadCommandEnum commandType;
+        UploadCommandType commandType;
         try {
-            commandType = UploadCommandEnum.valueOf(commandName.toUpperCase());
+            commandType = UploadCommandType.valueOf(commandName.toUpperCase());
         } catch (IllegalArgumentException e) {
             commandType = DEFAULT;
         }

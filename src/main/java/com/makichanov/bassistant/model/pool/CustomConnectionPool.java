@@ -72,19 +72,24 @@ public class CustomConnectionPool {
         if (connection.getClass() != ProxyConnection.class) {
             LOG.error("Connection pool method releaseConnection(Connection c) accepts only connection objects" +
                     " returned by itself");
+            return;
         }
-        givenAwayConnections.remove(connection);
-        freeConnections.offer((ProxyConnection) connection);
+        boolean removed = givenAwayConnections.remove(connection);
+        if (removed) {
+            freeConnections.offer((ProxyConnection) connection);
+        } else {
+            LOG.warn("Cannot return connection to pool, it was returned earlier or doesn't belongs to this pool.");
+        }
     }
 
-    public void destroyPool() { // FIXME: 11.08.2021 it doesn't work
+    public void destroyPool() { // FIXME: 11.08.2021 it doesn't work (maybe)
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOG.error("Exception occurred while destroying connection pool.", e);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                LOG.error("Exception occurred while destroying connection pool.", e);
             }
         }
         deregisterDrivers();

@@ -1,14 +1,14 @@
 package com.makichanov.bassistant.controller.upload;
 
-public enum UploadCommandEnum {
+public enum UploadCommandType {
 
-    COCKTAIL_IMAGE("img/cocktails/"),
-    USER_IMAGE("img/users/"),
+    COCKTAIL_IMAGE("img\\cocktails\\"),
+    USER_IMAGE("img\\users\\"),
     DEFAULT("default/");
 
-    private  String uploadSubdirectory;
+    private String uploadSubdirectory;
 
-    private UploadCommandEnum(String uploadSubdirectory) {
+    UploadCommandType(String uploadSubdirectory) {
         this.uploadSubdirectory = uploadSubdirectory;
     }
 

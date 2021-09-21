@@ -29,7 +29,7 @@
                 <c:choose>
                     <c:when test="${authenticated}">
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="#">Profile</a>
+                            <a class="nav-item nav-link" href="controller?command=profile&id=${user.userId}">Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-item nav-link" href="controller?command=logout">Log out</a>

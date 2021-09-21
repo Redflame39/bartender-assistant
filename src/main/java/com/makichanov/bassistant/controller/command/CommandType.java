@@ -1,6 +1,6 @@
 package com.makichanov.bassistant.controller.command;
 
-public enum CommandEnum {
+public enum CommandType {
 
     _TEST,
     DEFAULT,
@@ -12,6 +12,7 @@ public enum CommandEnum {
     CREATE_ACCOUNT,
     SHOW_COCKTAIL,
     LOGOUT,
-    CREATE_COCKTAIL
+    CREATE_COCKTAIL,
+    PROFILE
 
 }

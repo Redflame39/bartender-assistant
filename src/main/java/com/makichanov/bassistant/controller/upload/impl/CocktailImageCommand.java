@@ -16,7 +16,7 @@ import java.io.IOException;
 import static com.makichanov.bassistant.controller.command.RequestParameter.ID;
 import static com.makichanov.bassistant.controller.manager.PagePath.COCKTAILS;
 import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
-import static com.makichanov.bassistant.controller.upload.UploadCommandEnum.COCKTAIL_IMAGE;
+import static com.makichanov.bassistant.controller.upload.UploadCommandType.COCKTAIL_IMAGE;
 
 
 public class CocktailImageCommand extends UploadCommand {

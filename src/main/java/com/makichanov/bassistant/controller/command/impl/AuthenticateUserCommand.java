@@ -25,7 +25,7 @@ public class AuthenticateUserCommand implements ActionCommand {
     public String execute(HttpServletRequest request) { // TODO: 08.09.2021 authentication with username or email
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
-        UserService service = new UserServiceImpl();
+        UserService service = UserServiceImpl.getInstance();
         try {
             Optional<User> result = service.authenticateByEmail(email, password);
             if (result.isPresent()) {
@@ -34,7 +34,8 @@ public class AuthenticateUserCommand implements ActionCommand {
                 session.setAttribute(AUTHENTICATED, true);
                 return JspManager.getPage(HOME);
             } else {
-                return JspManager.getPage(ERROR);
+                request.setAttribute("errorMessage", "Incorrect username or password.");
+                return JspManager.getPage(LOGIN);
             }
         } catch (ServiceException e) {
             LOG.error("Authentication failed", e); // FIXME: 27.08.2021 error message

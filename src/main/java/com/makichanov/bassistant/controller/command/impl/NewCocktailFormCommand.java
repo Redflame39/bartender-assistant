@@ -14,10 +14,8 @@ public class NewCocktailFormCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Boolean authenticated = (Boolean) session.getAttribute(AUTHENTICATED);
-        if (Boolean.TRUE.equals(authenticated)) {
-            return JspManager.getPage(CREATE_COCKTAIL);
-        } else {
-            return JspManager.getPage(LOGIN);
-        }
+        return (Boolean.TRUE.equals(authenticated))
+                ? JspManager.getPage(CREATE_COCKTAIL)
+                : JspManager.getPage(LOGIN);
     }
 }

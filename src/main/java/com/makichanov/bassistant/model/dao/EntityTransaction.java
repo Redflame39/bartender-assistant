@@ -19,7 +19,7 @@ public class EntityTransaction implements AutoCloseable {
         }
         if (connection == null) {
             CustomConnectionPool instance = CustomConnectionPool.getInstance();
-            connection = instance.getConnection(); // FIXME: 12.08.2021 check behavior with multithreading
+            connection = instance.getConnection();
         }
         try {
             connection.setAutoCommit(false);
@@ -32,6 +32,17 @@ public class EntityTransaction implements AutoCloseable {
         for (BaseDao<?, ? extends Entity> daoElement : daos) {
             daoElement.setConnection(connection);
         }
+    }
+
+    public void initAction(BaseDao<?, ? extends Entity> dao) throws DaoException {
+        if(dao == null) {
+            throw new DaoException("One or more passed parameters DAO is null, check arguments");
+        }
+        if (connection == null) {
+            CustomConnectionPool instance = CustomConnectionPool.getInstance();
+            connection = instance.getConnection();
+        }
+        dao.setConnection(connection);
     }
 
     public void close() throws DaoException {

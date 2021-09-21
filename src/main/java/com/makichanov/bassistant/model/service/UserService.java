@@ -15,4 +15,5 @@ public interface UserService {
 
     Optional<User> findByEmail(String email) throws ServiceException;
 
+    User updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 }

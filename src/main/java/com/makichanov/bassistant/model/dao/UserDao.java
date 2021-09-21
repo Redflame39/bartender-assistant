@@ -16,4 +16,6 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract String getPassword(int userId) throws DaoException;
 
+    public abstract void updateImage(int toUpdateId, String imageSrc) throws DaoException;
+
 }
