@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public abstract class UploadCommand {
 
-    public abstract String execute(HttpServletRequest request);
+    public abstract String execute(HttpServletRequest request, int fileId, String filename);
 
     protected String getFileExtension(String filename) {
         return filename.substring(filename.lastIndexOf("."));

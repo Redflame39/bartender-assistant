@@ -10,6 +10,9 @@ public class User extends Entity {
     private Role role;
     private String email;
     private String avatarSource;
+
+    public User() { }
+
     public User(String username, int userId, Role role, String email, String avatarSource) {
         this.username = username;
         this.userId = userId;
@@ -58,7 +61,31 @@ public class User extends Entity {
         this.avatarSource = avatarSource;
     }
 
-    // TODO: 16.08.2021 equals and hashcode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User u = (User) o;
+        return userId != u.userId
+                && (username != null ? username.equals(u.username) : u.username == null)
+                && (role != null ? role.equals(u.role) : u.role == null)
+                && (email != null ? email.equals(u.email) : u.email == null)
+                && (avatarSource != null ? avatarSource.equals(u.avatarSource) : u.avatarSource == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + userId;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (avatarSource != null ? avatarSource.hashCode() : 0);
+        return result;
+    }
 
     @Override
     public String toString() {

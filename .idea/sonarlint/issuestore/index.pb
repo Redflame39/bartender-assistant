@@ -48,8 +48,6 @@ n
 p
 @src/main/java/com/makichanov/bassistant/model/entity/Entity.java,9\2\92113d9b70e5e7adaaacf5af0e341d44a41036da
 t
-Dsrc/main/java/com/makichanov/bassistant/model/entity/Ingredient.java,d\4\d443755978c144629e7dffe229028f4c60354ad3
-t
 Dsrc/main/java/com/makichanov/bassistant/model/dao/IngredientDao.java,4\f\4f1b00ffb532331dd892d6d4fd73b5523ab955b9
 }
 Msrc/main/java/com/makichanov/bassistant/model/dao/impl/IngredientDaoImpl.java,a\3\a393ad9ae847a09931aac8b4e2a0e1d59ae86b7e
@@ -61,8 +59,6 @@ p
 @src/main/java/com/makichanov/bassistant/model/dao/ReviewDao.java,b\c\bcdda4449ed7e68ca32697b7787993aba5ecbad0
 y
 Isrc/main/java/com/makichanov/bassistant/model/dao/impl/ReviewDaoImpl.java,b\e\be8af6ac4a79086735875c16eaf7d709343185f8
-n
->src/main/java/com/makichanov/bassistant/model/entity/Role.java,9\3\93690157240f7c181acad1b6c9fc16577144e174
 I
 src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 x
@@ -86,15 +82,9 @@ Bsrc/main/java/com/makichanov/bassistant/model/dao/CocktailDao.java,9\2\924b3c6
 z
 Jsrc/main/java/com/makichanov/bassistant/model/service/CocktailService.java,7\d\7d499c205dbbc04331a6f3844638cdf85962cfaa
 z
-Jsrc/main/java/com/makichanov/bassistant/controller/servlet/Controller.java,3\6\36fbf297169512d51eb7d41d5df88218ad4d943b
-z
 Jsrc/main/java/com/makichanov/bassistant/controller/manager/JspManager.java,d\e\def3d7c8781ad93cc692f089e5bf6db49b002b9f
 |
 Lsrc/main/java/com/makichanov/bassistant/util/security/PasswordEncryptor.java,6\d\6d91c3845c157c61cd066ee61db15ddd7fa4972c
-†
-Vsrc/main/java/com/makichanov/bassistant/controller/upload/impl/DefaultFileCommand.java,6\4\644e81a8d4a1eed25de946c5d72d3314dc2472cc
-r
-Bsrc/main/java/com/makichanov/bassistant/model/entity/Cocktail.java,2\a\2af4cd1c9a1f5f8981905235e39643abfe31f42e
 „
 Tsrc/main/java/com/makichanov/bassistant/controller/listener/SessionListenerImpl.java,7\2\72396d5aa7c3ffb43b02170b87bcdb55dab50e70
 …
@@ -117,9 +107,5 @@ s
 Csrc/main/java/com/makichanov/bassistant/exception/DaoException.java,5\7\577bb92ca8f6bd9a2937b9c92f3d3fbb89be784c
 g
 7src/main/java/com/makichanov/bassistant/_main/Main.java,e\0\e044529c5d8163aba7cc13dab1d2308942ea1745
-|
-Lsrc/main/java/com/makichanov/bassistant/controller/upload/UploadCommand.java,e\3\e3aa68691cc9d2f6e6493709b833882042cdbd1f
-„
-Tsrc/main/java/com/makichanov/bassistant/controller/servlet/FileUploadController.java,2\7\27ffe127ae9082aec174a63bd741d4afd933244a
 {
 Ksrc/main/java/com/makichanov/bassistant/model/dao/impl/CocktailDaoImpl.java,d\d\dd67420bd0f759eb1b8363a9a01b7a3d482438be

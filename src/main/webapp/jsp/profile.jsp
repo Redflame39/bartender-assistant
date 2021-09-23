@@ -17,19 +17,25 @@
 </head>
 <body>
 <c:import url="header.jsp"/>
-<span>${user.username}</span>
-<span>${user.avatarSource}</span>
-<c:if test="${owner}">
-    <form action="upload" enctype="multipart/form-data" method="post">
-        <div class="form-group">
-            <input type="hidden" name="file_for" value="user_image">
-            <input type="hidden" name="id" value="${user.userId}">
-            <label for="userImageFileUpload">Update your avatar</label>
-            <input type="file" name="user_image" accept="image/png,image/jpeg" class="form-control-file"
-                   id="userImageFileUpload">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</c:if>
+<c:choose>
+    <c:when test="${owner}">
+        <span>${user.username}</span>
+        <img src="${user.avatarSource}" class="img-fluid">
+        <form action="upload" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <input type="hidden" name="file_for" value="user_image">
+                <input type="hidden" name="id" value="${user.userId}">
+                <label for="userImageFileUpload">Update your avatar</label>
+                <input type="file" name="user_image" accept="image/png,image/jpeg" class="form-control-file"
+                       id="userImageFileUpload">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </c:when>
+    <c:otherwise>
+        <span>${requestedUser.username}</span>
+        <img src="${requestedUser.avatarSource}" class="img-fluid">
+    </c:otherwise>
+</c:choose>
 </body>
 </html>

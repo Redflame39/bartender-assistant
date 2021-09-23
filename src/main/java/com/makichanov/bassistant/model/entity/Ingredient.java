@@ -34,4 +34,6 @@ public class Ingredient extends Entity {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

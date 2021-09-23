@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class DefaultFileCommand extends UploadCommand {
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, int id, String filename) {
         return null;
     }
 }

@@ -68,8 +68,8 @@ public class Cocktail extends Entity {
 
         return id == c.id
                 && userId == c.userId
-                && (name != null ? name.equals(c.getName()) : c.getName() != null)
-                && (instructions != null ? instructions.equals(c.getInstructions()) : c.getInstructions() != null);
+                && (name != null ? name.equals(c.getName()) : c.getName() == null)
+                && (instructions != null ? instructions.equals(c.getInstructions()) : c.getInstructions() == null);
     }
 
     @Override

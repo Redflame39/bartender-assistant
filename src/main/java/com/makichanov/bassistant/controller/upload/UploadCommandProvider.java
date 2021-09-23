@@ -10,7 +10,7 @@ import static com.makichanov.bassistant.controller.upload.UploadCommandType.*;
 
 public class UploadCommandProvider {
     private static UploadCommandProvider instance;
-    private final EnumMap<UploadCommandType, UploadCommand> commands = new EnumMap(UploadCommandType.class);
+    private final EnumMap<UploadCommandType, UploadCommand> commands = new EnumMap<>(UploadCommandType.class);
 
     private UploadCommandProvider() {
         commands.put(COCKTAIL_IMAGE, new CocktailImageCommand());
@@ -25,16 +25,7 @@ public class UploadCommandProvider {
         return instance;
     }
 
-    public UploadCommand getCommand(String commandName) {
-        if (commandName == null) {
-            return commands.get(DEFAULT);
-        }
-        UploadCommandType commandType;
-        try {
-            commandType = UploadCommandType.valueOf(commandName.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            commandType = DEFAULT;
-        }
+    public UploadCommand getCommand(UploadCommandType commandType) {
         return commands.get(commandType);
     }
 }

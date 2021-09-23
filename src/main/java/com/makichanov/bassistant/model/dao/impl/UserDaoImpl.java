@@ -45,7 +45,7 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(3);
                 String email = resultSet.getString(4);
                 String avatarSource = resultSet.getString(5);
-                User user = new User(username, userId, Role.valueOf(roleName), email, avatarSource);
+                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -65,7 +65,7 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
-                User user = new User(username, id, Role.valueOf(roleName), email, avatarSource);
+                User user = new User(username, id, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
