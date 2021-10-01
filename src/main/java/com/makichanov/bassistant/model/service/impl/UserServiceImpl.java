@@ -19,7 +19,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LogManager.getLogger();
     private static final UserServiceImpl instance = new UserServiceImpl();
 
-    private UserServiceImpl() { }
+    private UserServiceImpl() {
+    }
 
     public static UserServiceImpl getInstance() {
         return instance;
@@ -33,11 +34,9 @@ public class UserServiceImpl implements UserService {
             String passwordHash = PasswordEncryptor.encrypt(password);
             boolean created = userDao.create(username, email, Role.CLIENT, passwordHash);
             transaction.commit();
-            if (created) {
-                return userDao.findByUsername(username);
-            } else {
-                return Optional.empty();
-            }
+            return created
+                    ? userDao.findByUsername(username)
+                    : Optional.empty();
         } catch (DaoException e) {
             LOG.error("Failed to create new user", e);
             throw new ServiceException("Failed to create new user", e);

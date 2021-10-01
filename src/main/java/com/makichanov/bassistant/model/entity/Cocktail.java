@@ -96,5 +96,43 @@ public class Cocktail extends Entity {
         sb.append('}');
         return sb.toString();
     }
+
+    public static class CocktailBuilder {
+
+        private String name;
+        private int id;
+        private int userId;
+        private String instructions;
+        private String imageSource;
+
+        public CocktailBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CocktailBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public CocktailBuilder setUserId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public CocktailBuilder setInstructions(String instructions) {
+            this.instructions = instructions;
+            return this;
+        }
+
+        public CocktailBuilder setImageSource(String imageSource) {
+            this.imageSource = imageSource;
+            return this;
+        }
+
+        public Cocktail createCocktail() {
+            return new Cocktail(name, id, userId, instructions, imageSource);
+        }
+    }
 }
 

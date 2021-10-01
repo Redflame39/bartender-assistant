@@ -47,7 +47,7 @@ public class CocktailDaoImpl extends CocktailDao {
                 int userId = resultSet.getInt(3);
                 String instructions = resultSet.getString(4);
                 String imageSource = resultSet.getString(5);
-                Cocktail cocktail = new Cocktail(name, id, userId, instructions, imageSource);
+                Cocktail cocktail = new Cocktail.CocktailBuilder().setName(name).setId(id).setUserId(userId).setInstructions(instructions).setImageSource(imageSource).createCocktail();
                 cocktails.add(cocktail);
             }
         } catch (SQLException e) {
@@ -67,7 +67,7 @@ public class CocktailDaoImpl extends CocktailDao {
                 int userId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
                 String imageSource = resultSet.getString(4);
-                Cocktail cocktail = new Cocktail(name, id, userId, instructions, imageSource);
+                Cocktail cocktail = new Cocktail.CocktailBuilder().setName(name).setId(id).setUserId(userId).setInstructions(instructions).setImageSource(imageSource).createCocktail();
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();
@@ -88,7 +88,7 @@ public class CocktailDaoImpl extends CocktailDao {
                 int cocktailId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
                 String imageSource = resultSet.getString(4);
-                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions, imageSource);
+                Cocktail cocktail = new Cocktail.CocktailBuilder().setName(name).setId(cocktailId).setUserId(userId).setInstructions(instructions).setImageSource(imageSource).createCocktail();
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();
@@ -109,7 +109,7 @@ public class CocktailDaoImpl extends CocktailDao {
                 int cocktailId = resultSet.getInt(2);
                 String instructions = resultSet.getString(3);
                 String imageSource = resultSet.getString(4);
-                Cocktail cocktail = new Cocktail(name, cocktailId, userId, instructions, imageSource);
+                Cocktail cocktail = new Cocktail.CocktailBuilder().setName(name).setId(cocktailId).setUserId(userId).setInstructions(instructions).setImageSource(imageSource).createCocktail();
                 return Optional.of(cocktail);
             } else {
                 return Optional.empty();

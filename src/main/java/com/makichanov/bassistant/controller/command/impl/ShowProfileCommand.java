@@ -20,7 +20,6 @@ import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
 
 public class ShowProfileCommand implements ActionCommand {
 
-    // TODO: 9/18/2021 id param is null -> authenticated user profile, extract profile data from db
     @Override
     public String execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -40,9 +39,9 @@ public class ShowProfileCommand implements ActionCommand {
             }
         }
         UserDao dao = new UserDaoImpl();
-        EntityTransaction transaction = new EntityTransaction();
+
         Optional<User> requestedUser;
-        try {
+        try(EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             requestedUser = dao.findById(requestedProfileId);
         } catch (DaoException e) {

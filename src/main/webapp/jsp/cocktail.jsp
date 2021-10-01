@@ -11,13 +11,17 @@
 <body>
 <c:import url="/jsp/header.jsp" charEncoding="utf-8"/>
 <div class="container-fluid">
-    <div class="d-flex">
+    <div class="d-flex mb-3">
         <img src="${cocktail.imageSource}" alt=""/>
         <div class="d-flex flex-column">
-            <span>${cocktail.name}</span>
+            <h1>${cocktail.name}</h1>
             <span>${cocktail.instructions}</span>
         </div>
     </div>
+    <br>
+    <ul class="list-group">
+        <li class="list-group-item"></li>
+    </ul>
 </div>
 </body>
 </html>

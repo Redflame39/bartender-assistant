@@ -35,5 +35,28 @@ public class Ingredient extends Entity {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ingredient i = (Ingredient) o;
+        return ingredientId == i.ingredientId
+                && Double.compare(price, i.price) == 0
+                && (name != null) ? name.equals(i.name) : i.name == null;
+    }
 
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = ingredientId;
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }
