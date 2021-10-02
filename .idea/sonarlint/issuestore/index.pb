@@ -13,8 +13,6 @@ z
 J.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_7_2.xml,0\6\063bb6c96cfa01b8f9e8a8ac4ee0eb3579e3fdb9
 y
 I.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_7_2.xml,3\f\3f17adf7ebdbffb0b6fc5a07e2263613fa381805
-v
-F.idea/libraries/Maven__com_sun_activation_jakarta_activation_2_0_0.xml,d\a\dabeac51d63b0f8f049d25712159adc1a1d331a5
 j
 :.idea/libraries/Maven__jakarta_el_jakarta_el_api_4_0_0.xml,b\d\bd151d9650e232ad81e0fcd21719881b7c5050f4
 †
@@ -31,14 +29,8 @@ L
 src/main/webapp/js/jquery.js,9\d\9d9ec3138cdcc74d93f3ff40273320821bdf4d6e
 _
 /src/main/webapp/css/bootstrap-utilities.rtl.css,a\b\abc1e03a4b30862da0cc2f36db70f44feac2d987
-G
-bartender-assistant.iml,3\6\36ab7c43fb01e9e2a5f3225743846a2262836a6e
-d
-4.idea/artifacts/bartender_assistant_war_exploded.xml,7\f\7f4272a4a92b1f645f908fed7a0ebea890832530
 b
 2.idea/libraries/Maven__org_mindrot_jbcrypt_0_4.xml,2\4\2498ba101d99163b3693b649c755583733180eea
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 w
 Gsrc/main/java/com/makichanov/bassistant/exception/ServiceException.java,a\b\ab44a6ff30fb0bb2c188853686545dc373c0a2a7
 t
@@ -55,8 +47,6 @@ p
 @src/main/java/com/makichanov/bassistant/model/dao/ReviewDao.java,b\c\bcdda4449ed7e68ca32697b7787993aba5ecbad0
 y
 Isrc/main/java/com/makichanov/bassistant/model/dao/impl/ReviewDaoImpl.java,b\e\be8af6ac4a79086735875c16eaf7d709343185f8
-I
-src/main/webapp/index.jsp,8\e\8e6d3b70c9f5b02570779b0441540d45eceb0ded
 x
 Hsrc/main/java/com/makichanov/bassistant/controller/filter/JspFilter.java,2\f\2ff932015287ce31c76f08cbabb090a703b24807
 N
@@ -65,12 +55,8 @@ N
 Psrc/main/java/com/makichanov/bassistant/controller/command/RequestAttribute.java,9\9\993c80933701005cd94b1e945b3d0938a079d7a0
 …
 Usrc/main/java/com/makichanov/bassistant/controller/command/SessionRequestContent.java,1\d\1d698236c9b184e2b40f610125caa1fbf99c35b9
-O
-src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
 }
 Msrc/main/java/com/makichanov/bassistant/controller/command/ActionCommand.java,9\d\9da99f27993d1f185d4907a0826a790e6e133b84
-
-Qsrc/main/java/com/makichanov/bassistant/controller/command/impl/_TestCommand.java,e\e\ee97885c6cd0cbde411a10760313e002dc3941a2
 r
 Bsrc/main/java/com/makichanov/bassistant/model/dao/CocktailDao.java,9\2\924b3c68518010f4373708adc581a0bdde685b98
 z
@@ -79,8 +65,6 @@ z
 Jsrc/main/java/com/makichanov/bassistant/controller/manager/JspManager.java,d\e\def3d7c8781ad93cc692f089e5bf6db49b002b9f
 |
 Lsrc/main/java/com/makichanov/bassistant/util/security/PasswordEncryptor.java,6\d\6d91c3845c157c61cd066ee61db15ddd7fa4972c
-„
-Tsrc/main/java/com/makichanov/bassistant/controller/listener/SessionListenerImpl.java,7\2\72396d5aa7c3ffb43b02170b87bcdb55dab50e70
 …
 Usrc/main/java/com/makichanov/bassistant/controller/command/impl/CocktailsCommand.java,a\a\aaea1839f916eba6388203058db83e47996e5a71
 Š
@@ -103,8 +87,6 @@ g
 Psrc/main/java/com/makichanov/bassistant/controller/upload/UploadCommandType.java,b\0\b00a33a80017427ce2a30f143030b7ffeb9d0a10
 ƒ
 Ssrc/main/java/com/makichanov/bassistant/model/service/impl/CocktailServiceImpl.java,a\e\ae67b7a4c13c5f37a8081ce347fd311edc23bb47
-|
-Lsrc/main/java/com/makichanov/bassistant/model/pool/CustomConnectionPool.java,0\b\0b7b415bea11a76c438075c29aa96cd6fade736e
 †
 Vsrc/main/java/com/makichanov/bassistant/controller/upload/impl/DefaultFileCommand.java,6\4\644e81a8d4a1eed25de946c5d72d3314dc2472cc
 |
@@ -117,3 +99,25 @@ p
 @src/main/java/com/makichanov/bassistant/model/entity/Entity.java,9\2\92113d9b70e5e7adaaacf5af0e341d44a41036da
 M
 src/main/webapp/css/style.css,2\c\2c1f525046eaa5ad3e39cc3d3b2f4c4fab4ff318
+N
+src/main/webapp/jsp/header.jsp,8\2\827eb199c7b048e4d6471ce62caaa65821afc21a
+n
+>src/main/java/com/makichanov/bassistant/model/entity/User.java,7\8\78ca6941c40105e39e67a8a647e9de06ba0bc899
+r
+Bsrc/main/java/com/makichanov/bassistant/model/entity/Cocktail.java,2\a\2af4cd1c9a1f5f8981905235e39643abfe31f42e
+P
+ src/main/webapp/jsp/cocktail.jsp,1\f\1f3156013a7ae5b62160707daa32cd08c403c015
+t
+Dsrc/main/java/com/makichanov/bassistant/model/entity/Ingredient.java,d\4\d443755978c144629e7dffe229028f4c60354ad3
+p
+@src/main/java/com/makichanov/bassistant/model/entity/Review.java,e\f\ef679a0f629144f1026ea22534af19548bfb062f
+‡
+Wsrc/main/java/com/makichanov/bassistant/controller/command/impl/ShowProfileCommand.java,1\5\15077824cc3b4c77b74609d93edeadbcc22a5bac
+{
+Ksrc/main/java/com/makichanov/bassistant/model/dao/impl/CocktailDaoImpl.java,d\d\dd67420bd0f759eb1b8363a9a01b7a3d482438be
+
+Osrc/main/java/com/makichanov/bassistant/model/service/impl/UserServiceImpl.java,9\1\918ee385d6181851ee26fd9956ddcb212fe49c53
+Q
+!src/main/webapp/jsp/cocktails.jsp,2\e\2e7425d261d9f5524e0be7a9be4462dcc88474f6
+‰
+Ysrc/main/java/com/makichanov/bassistant/controller/command/impl/CreateAccountCommand.java,b\2\b27bf016959fb4477d99c654796bcce2cebe9e72
