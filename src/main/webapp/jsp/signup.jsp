@@ -31,7 +31,7 @@
     </div>
     <div class="form-group">
         <label for="rePasswordInputForm">Confirm your password</label>
-        <input type="password" name="rePassword" class="form-control" id="rePasswordInputForm" placeholder="Re-password">
+        <input type="password" name="re_password" class="form-control" id="rePasswordInputForm" placeholder="Re-password">
     </div>
     <div class="d-flex align-items-center m-1">
         <button type="submit" class="btn btn-primary">Submit</button>

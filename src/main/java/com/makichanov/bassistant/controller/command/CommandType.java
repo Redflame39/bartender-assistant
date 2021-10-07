@@ -13,6 +13,7 @@ public enum CommandType {
     SHOW_COCKTAIL,
     LOGOUT,
     CREATE_COCKTAIL,
-    PROFILE
+    PROFILE,
+    ACTIVATE
 
 }

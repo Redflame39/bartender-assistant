@@ -1,8 +1,5 @@
 package com.makichanov.bassistant.model.entity;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class User extends Entity {
 
     private String username;
@@ -10,15 +7,17 @@ public class User extends Entity {
     private Role role;
     private String email;
     private String avatarSource;
+    boolean activated;
 
     public User() { }
 
-    public User(String username, int userId, Role role, String email, String avatarSource) {
+    public User(String username, int userId, Role role, String email, String avatarSource, boolean activated) {
         this.username = username;
         this.userId = userId;
         this.email = email;
         this.role = role;
         this.avatarSource = avatarSource;
+        this.activated = activated;
     }
 
     public String getUsername() {
@@ -59,6 +58,14 @@ public class User extends Entity {
 
     public void setAvatarSource(String avatarSource) {
         this.avatarSource = avatarSource;
+    }
+
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(boolean activated) {
+        this.activated = activated;
     }
 
     @Override

@@ -18,4 +18,6 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract void updateImage(int toUpdateId, String imageSrc) throws DaoException;
 
+    public abstract void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException;
+
 }

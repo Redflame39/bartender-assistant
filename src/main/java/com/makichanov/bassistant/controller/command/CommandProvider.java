@@ -27,6 +27,7 @@ public class CommandProvider {
         commands.put(LOGOUT, new LogoutCommand());
         commands.put(CREATE_COCKTAIL, new CreateCocktailCommand());
         commands.put(PROFILE, new ShowProfileCommand());
+        commands.put(ACTIVATE, new ActivateUserCommand());
     }
 
     public static CommandProvider getInstance() {

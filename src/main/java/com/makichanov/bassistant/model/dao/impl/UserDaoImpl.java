@@ -18,13 +18,13 @@ public class UserDaoImpl extends UserDao {
 
     private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_FIND_ALL =
-            "select user_id, username, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id;";
+            "select user_id, username, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id;";
     private static final String SQL_FIND_BY_ID =
-            "select username, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id where user_id = ?;";
+            "select username, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where user_id = ?;";
     private static final String SQL_FIND_BY_USERNAME =
-            "select user_id, role.role_name, email, profile_picture from users join role on users.role_id = role.role_id where username = ?;";
+            "select user_id, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where username = ?;";
     private static final String SQL_FIND_BY_EMAIL =
-            "select user_id, username, role.role_name, profile_picture from users join role on users.role_id = role.role_id where email = ?;";
+            "select user_id, username, role.role_name, profile_picture, activated from users join role on users.role_id = role.role_id where email = ?;";
     private static final String SQL_CREATE =
             "insert into users (username, password, role_id, email) values (?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
@@ -32,6 +32,7 @@ public class UserDaoImpl extends UserDao {
             "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?;";
     private static final String SQL_GET_PASSWORD = "select password from users where user_id = ?;";
     private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
+    private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
 
     @Override
     public List<User> findAll() throws DaoException {
@@ -45,7 +46,8 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(3);
                 String email = resultSet.getString(4);
                 String avatarSource = resultSet.getString(5);
-                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
+                boolean activated = resultSet.getBoolean(6);
+                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -65,7 +67,8 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
-                User user = new User(username, id, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
+                boolean activated = resultSet.getBoolean(5);
+                User user = new User(username, id, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -86,7 +89,8 @@ public class UserDaoImpl extends UserDao {
                 String roleName = resultSet.getString(2);
                 String email = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
-                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource);
+                boolean activated = resultSet.getBoolean(5);
+                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -107,7 +111,8 @@ public class UserDaoImpl extends UserDao {
                 String username = resultSet.getString(2);
                 String role = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
-                User user =  new User(username, userId, Role.valueOf(role.toUpperCase()), email, avatarSource);
+                boolean activated = resultSet.getBoolean(5);
+                User user =  new User(username, userId, Role.valueOf(role.toUpperCase()), email, avatarSource, activated);
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -197,6 +202,18 @@ public class UserDaoImpl extends UserDao {
         } catch (SQLException e) {
             LOG.error("Failed to update user image, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user image, id: " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException {
+        try(PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACTIVATED)) {
+            statement.setBoolean(1, newStatus);
+            statement.setInt(2, toUpdateId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("Failed to update user activation status, id: " + toUpdateId, e);
+            throw new DaoException("Failed to update user activation status, id: " + toUpdateId, e);
         }
     }
 }

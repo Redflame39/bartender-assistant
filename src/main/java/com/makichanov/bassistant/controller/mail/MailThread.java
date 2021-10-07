@@ -32,8 +32,8 @@ public class MailThread extends Thread {
         mailSession.setDebug(true);
         message = new MimeMessage(mailSession);
         try {
-            message.setSubject(mailSubject);
-            message.setContent(mailText, "text/html");
+            message.setSubject(mailSubject, "utf-8");
+            message.setText(mailText, "utf-8");
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(sendToEmail));
         } catch (AddressException e) {
             LOG.error("Incorrect address: " + sendToEmail, e);

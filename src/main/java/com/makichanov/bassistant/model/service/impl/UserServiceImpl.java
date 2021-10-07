@@ -126,4 +126,14 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public void updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException {
+        UserDao userDao = new UserDaoImpl();
+        try(EntityTransaction entityTransaction = new EntityTransaction()) {
+            entityTransaction.initAction(userDao);
+            userDao.updateActivatedStatus(toUpdateId, newStatus);
+        } catch (DaoException e) {
+            throw new ServiceException(); // TODO: 10/5/2021 message
+        }
+    }
 }
