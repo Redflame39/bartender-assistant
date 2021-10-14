@@ -40,8 +40,14 @@ public class ReviewDaoImpl extends ReviewDao {
                 int userId = resultSet.getInt(2);
                 int cocktailId = resultSet.getInt(3);
                 String comment = resultSet.getString(4);
-                double rate = resultSet.getDouble(5);
-                Review review = new Review(reviewId, userId, cocktailId, comment, rate);
+                int rate = resultSet.getInt(5);
+                Review review = new Review.ReviewBuilder()
+                        .setId(reviewId)
+                        .setUserId(userId)
+                        .setCocktailId(cocktailId)
+                        .setComment(comment)
+                        .setRate(rate)
+                        .createReview();
                 reviews.add(review);
             }
         } catch (SQLException e) {
@@ -60,8 +66,14 @@ public class ReviewDaoImpl extends ReviewDao {
                 int userId = resultSet.getInt(1);
                 int cocktailId = resultSet.getInt(2);
                 String comment = resultSet.getString(3);
-                double rate = resultSet.getDouble(4);
-                Review review = new Review(id, userId, cocktailId, comment, rate);
+                int rate = resultSet.getInt(4);
+                Review review = new Review.ReviewBuilder()
+                        .setId(id)
+                        .setUserId(userId)
+                        .setCocktailId(cocktailId)
+                        .setComment(comment)
+                        .setRate(rate)
+                        .createReview();
                 return Optional.of(review);
             } else {
                 return Optional.empty();
@@ -82,8 +94,14 @@ public class ReviewDaoImpl extends ReviewDao {
                 int reviewId = resultSet.getInt(1);
                 int cocktailId = resultSet.getInt(2);
                 String comment = resultSet.getString(3);
-                double rate = resultSet.getDouble(4);
-                Review review = new Review(reviewId, userId, cocktailId, comment, rate);
+                int rate = resultSet.getInt(4);
+                Review review = new Review.ReviewBuilder()
+                        .setId(reviewId)
+                        .setUserId(userId)
+                        .setCocktailId(cocktailId)
+                        .setComment(comment)
+                        .setRate(rate)
+                        .createReview();
                 reviews.add(review);
             }
         } catch (SQLException e) {
@@ -103,8 +121,14 @@ public class ReviewDaoImpl extends ReviewDao {
                 int reviewId = resultSet.getInt(1);
                 int userId = resultSet.getInt(2);
                 String comment = resultSet.getString(3);
-                double rate = resultSet.getDouble(4);
-                Review review = new Review(reviewId, userId, cocktailId, comment, rate);
+                int rate = resultSet.getInt(4);
+                Review review = new Review.ReviewBuilder()
+                        .setId(reviewId)
+                        .setUserId(userId)
+                        .setCocktailId(cocktailId)
+                        .setComment(comment)
+                        .setRate(rate)
+                        .createReview();
                 reviews.add(review);
             }
         } catch (SQLException e) {
@@ -115,17 +139,17 @@ public class ReviewDaoImpl extends ReviewDao {
     }
 
     @Override
-    public boolean create(Review review) throws DaoException {
+    public boolean create(int userId, int cocktailId, String comment, int rate) throws DaoException {
         try(PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
-            statement.setInt(1, review.getUserId());
-            statement.setInt(2, review.getCocktailId());
-            statement.setString(3, review.getComment());
-            statement.setDouble(4, review.getRate());
+            statement.setInt(1, userId);
+            statement.setInt(2, cocktailId);
+            statement.setString(3, comment);
+            statement.setInt(4, rate);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_CREATE", e);
-            throw new DaoException("ReviewDao: Failed to execute SQL_CREATE", e);
+            LOG.error("Failed to execute SQL_CREATE", e);
+            throw new DaoException("Failed to execute SQL_CREATE", e);
         }
     }
 

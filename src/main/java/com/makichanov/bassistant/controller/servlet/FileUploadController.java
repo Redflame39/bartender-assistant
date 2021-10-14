@@ -1,12 +1,9 @@
 package com.makichanov.bassistant.controller.servlet;
 
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.prg.PostRedirectGet;
 import com.makichanov.bassistant.controller.upload.UploadCommand;
 import com.makichanov.bassistant.controller.upload.UploadCommandProvider;
 import com.makichanov.bassistant.controller.upload.UploadCommandType;
-import com.makichanov.bassistant.model.entity.Cocktail;
-import com.makichanov.bassistant.model.service.CocktailService;
-import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,8 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
-import static com.makichanov.bassistant.controller.upload.UploadCommandType.COCKTAIL_IMAGE;
+import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.upload.UploadCommandType.DEFAULT;
 
 @WebServlet("/upload")
@@ -29,18 +25,12 @@ import static com.makichanov.bassistant.controller.upload.UploadCommandType.DEFA
         maxRequestSize = 25 * 1024 * 1024)
 public class FileUploadController extends HttpServlet {
 
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
-    }
-
-
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String fileFor = request.getParameter(FILE_FOR);
-        String applicationDir = request.getServletContext().getRealPath("");
+        String uploadPath = getServletContext().getInitParameter("uploadPath");
         UploadCommandType commandType = defineUploadType(fileFor);
         String uploadSubdirectory = commandType.getUploadSubdirectory();
-        String imageUploadPath = applicationDir + uploadSubdirectory;
+        String imageUploadPath = uploadPath + uploadSubdirectory;
         File uploadDir = new File(imageUploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
@@ -55,16 +45,12 @@ public class FileUploadController extends HttpServlet {
                 }
             }
         } catch (IOException e) {
-            getServletContext().getRequestDispatcher(ERROR).forward(request, response);
+            getServletContext().getRequestDispatcher(ERROR404).forward(request, response);
         }
         UploadCommandProvider provider = UploadCommandProvider.getInstance();
         UploadCommand command = provider.getCommand(commandType);
         String page = command.execute(request, id, uploadSubdirectory + filename);
-        if (page != null) {
-            getServletContext().getRequestDispatcher(page).forward(request, response);
-        } else {
-            getServletContext().getRequestDispatcher(ERROR).forward(request, response);
-        }
+        response.sendRedirect(getServletContext().getContextPath() + "/index.jsp");
     }
 
     private UploadCommandType defineUploadType(String commandName) {

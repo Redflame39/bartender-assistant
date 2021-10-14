@@ -15,7 +15,7 @@ import java.util.Optional;
 import static com.makichanov.bassistant.controller.command.RequestParameter.ID;
 import static com.makichanov.bassistant.controller.command.SessionAttribute.OWNER;
 import static com.makichanov.bassistant.controller.command.SessionAttribute.USER;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
+import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
 
 public class ShowProfileCommand implements ActionCommand {
@@ -45,12 +45,12 @@ public class ShowProfileCommand implements ActionCommand {
             transaction.initAction(dao);
             requestedUser = dao.findById(requestedProfileId);
         } catch (DaoException e) {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         if (requestedUser.isPresent()) {
             request.setAttribute("requestedUser", requestedUser.get());
         } else {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         return JspManager.getPage(PROFILE);
     }

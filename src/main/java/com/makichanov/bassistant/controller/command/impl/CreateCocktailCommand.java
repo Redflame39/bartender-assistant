@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.RequestAttribute;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.entity.User;
@@ -30,19 +31,22 @@ public class CreateCocktailCommand implements ActionCommand {
             created = cocktailService.create(name, userId, instructions);
         } catch (ServiceException e) {
             // TODO: 08.09.2021 log
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR500);
         }
         if (created) {
             try {
                 Optional<Cocktail> cocktail = cocktailService.findByName(name);
-                cocktail.ifPresent(value -> request.setAttribute("cocktail", value)); // TODO: 9/12/2021 action if not present
+                if (cocktail.isPresent()) {
+                    Cocktail c = cocktail.get();
+                    request.setAttribute(RequestAttribute.ID, c.getId());
+                }
             } catch (ServiceException e) {
-                return JspManager.getPage(ERROR);
+                return JspManager.getPage(ERROR500);
             }
             return JspManager.getPage(COCKTAIL_IMAGE);
         } else {
             // TODO: 08.09.2021 not created message
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR400);
         }
     }
 }

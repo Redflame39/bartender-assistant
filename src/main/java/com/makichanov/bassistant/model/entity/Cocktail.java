@@ -1,18 +1,23 @@
 package com.makichanov.bassistant.model.entity;
 
+import java.sql.Timestamp;
+
 public class Cocktail extends Entity {
     private String name;
     private int id;
     private int userId;
     private String instructions;
     private String imageSource;
+    private double averageMark;
+    private Timestamp uploadDate;
 
-    public Cocktail(String name, int id, int userId, String instructions, String imageSource) {
+    public Cocktail(String name, int id, int userId, String instructions, String imageSource, Timestamp uploadDate) {
         this.name = name;
         this.id = id;
         this.userId = userId;
         this.instructions = instructions;
         this.imageSource = imageSource;
+        this.uploadDate = uploadDate;
     }
 
     public String getName() {
@@ -53,6 +58,14 @@ public class Cocktail extends Entity {
 
     public void setImageSource(String imageSource) {
         this.imageSource = imageSource;
+    }
+
+    public double getAverageMark() {
+        return averageMark;
+    }
+
+    public void setAverageMark(double averageMark) {
+        this.averageMark = averageMark;
     }
 
     @Override
@@ -104,6 +117,7 @@ public class Cocktail extends Entity {
         private int userId;
         private String instructions;
         private String imageSource;
+        private Timestamp uploadDate;
 
         public CocktailBuilder setName(String name) {
             this.name = name;
@@ -130,8 +144,13 @@ public class Cocktail extends Entity {
             return this;
         }
 
+        public CocktailBuilder setUploadDate(Timestamp uploadDate) {
+            this.uploadDate = uploadDate;
+            return this;
+        }
+
         public Cocktail createCocktail() {
-            return new Cocktail(name, id, userId, instructions, imageSource);
+            return new Cocktail(name, id, userId, instructions, imageSource, uploadDate);
         }
     }
 }

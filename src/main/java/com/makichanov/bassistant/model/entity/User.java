@@ -9,8 +9,6 @@ public class User extends Entity {
     private String avatarSource;
     boolean activated;
 
-    public User() { }
-
     public User(String username, int userId, Role role, String email, String avatarSource, boolean activated) {
         this.username = username;
         this.userId = userId;
@@ -105,5 +103,48 @@ public class User extends Entity {
         return sb.toString();
     }
 
+    public static class UserBuilder {
+
+        private String username;
+        private int userId;
+        private Role role;
+        private String email;
+        private String avatarSource;
+        private boolean activated;
+
+        public UserBuilder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder setUserId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public UserBuilder setRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder setAvatarSource(String avatarSource) {
+            this.avatarSource = avatarSource;
+            return this;
+        }
+
+        public UserBuilder setActivated(boolean activated) {
+            this.activated = activated;
+            return this;
+        }
+
+        public User createUser() {
+            return new User(username, userId, role, email, avatarSource, activated);
+        }
+    }
 
 }

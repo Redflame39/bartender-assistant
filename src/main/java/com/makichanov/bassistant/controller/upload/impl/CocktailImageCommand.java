@@ -8,7 +8,7 @@ import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static com.makichanov.bassistant.controller.manager.PagePath.COCKTAILS;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
+import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 
 
 public class CocktailImageCommand extends UploadCommand {
@@ -19,7 +19,7 @@ public class CocktailImageCommand extends UploadCommand {
         try {
             service.updateImage(id, filename);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         return JspManager.getPage(COCKTAILS);
     }

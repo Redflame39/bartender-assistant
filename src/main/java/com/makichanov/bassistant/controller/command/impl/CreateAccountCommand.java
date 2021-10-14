@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
+import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.HOME;
 
 public class CreateAccountCommand implements ActionCommand {
@@ -25,7 +25,7 @@ public class CreateAccountCommand implements ActionCommand {
         String password = request.getParameter(PASSWORD);
         String rePassword = request.getParameter(RE_PASSWORD);
         if (!password.equals(rePassword)) {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         UserService service = UserServiceImpl.getInstance();
         Optional<User> createdUser;
@@ -33,14 +33,14 @@ public class CreateAccountCommand implements ActionCommand {
         try {
             createdUser = service.createUser(username, email, passwordHash);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         if (createdUser.isPresent()) {
             ActivationMailSender mailSender = ActivationMailSender.getInstance();
             mailSender.sendMail(createdUser.get());
             return JspManager.getPage(HOME); // TODO: 10/5/2021 go to page that informs user he need to activate account
         } else {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
     }
 }

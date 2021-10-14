@@ -25,6 +25,8 @@ public class UserDaoImpl extends UserDao {
             "select user_id, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where username = ?;";
     private static final String SQL_FIND_BY_EMAIL =
             "select user_id, username, role.role_name, profile_picture, activated from users join role on users.role_id = role.role_id where email = ?;";
+    private static final String SQL_FIND_BY_ROLE =
+            "select user_id, username, email, profile_picture, activated from users join role on users.role_id = role.role_id where role.role_name = ?;";
     private static final String SQL_CREATE =
             "insert into users (username, password, role_id, email) values (?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
@@ -33,6 +35,7 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_GET_PASSWORD = "select password from users where user_id = ?;";
     private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
     private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
+    private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where user_id = ?";
 
     @Override
     public List<User> findAll() throws DaoException {
@@ -42,12 +45,19 @@ public class UserDaoImpl extends UserDao {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int userId = resultSet.getInt(1);
-                String  username = resultSet.getString(2);
+                String username = resultSet.getString(2);
                 String roleName = resultSet.getString(3);
                 String email = resultSet.getString(4);
                 String avatarSource = resultSet.getString(5);
                 boolean activated = resultSet.getBoolean(6);
-                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setUserId(userId)
+                        .setRole(Role.valueOf(roleName.toUpperCase()))
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .createUser();
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -68,7 +78,14 @@ public class UserDaoImpl extends UserDao {
                 String email = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
                 boolean activated = resultSet.getBoolean(5);
-                User user = new User(username, id, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setUserId(id)
+                        .setRole(Role.valueOf(roleName.toUpperCase()))
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .createUser();
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -90,7 +107,14 @@ public class UserDaoImpl extends UserDao {
                 String email = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
                 boolean activated = resultSet.getBoolean(5);
-                User user = new User(username, userId, Role.valueOf(roleName.toUpperCase()), email, avatarSource, activated);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setUserId(userId)
+                        .setRole(Role.valueOf(roleName.toUpperCase()))
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .createUser();
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -112,7 +136,14 @@ public class UserDaoImpl extends UserDao {
                 String role = resultSet.getString(3);
                 String avatarSource = resultSet.getString(4);
                 boolean activated = resultSet.getBoolean(5);
-                User user =  new User(username, userId, Role.valueOf(role.toUpperCase()), email, avatarSource, activated);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setUserId(userId)
+                        .setRole(Role.valueOf(role.toUpperCase()))
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .createUser();
                 return Optional.of(user);
             } else {
                 return Optional.empty();
@@ -124,8 +155,37 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
+    public List<User> findByRole(Role role) throws DaoException {
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ROLE)) {
+            statement.setString(1, role.toString());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                String username = resultSet.getString(2);
+                String email = resultSet.getString(3);
+                String avatarSource = resultSet.getString(4);
+                boolean activated = resultSet.getBoolean(5);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setUserId(userId)
+                        .setRole(role)
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .createUser();
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            LOG.error("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+        }
+        return users;
+    }
+
+    @Override
     public boolean create(String username, String email, Role role, String passwordHash) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setString(1, username);
             statement.setString(2, passwordHash);
             statement.setInt(3, role.getRoleId());
@@ -140,7 +200,7 @@ public class UserDaoImpl extends UserDao {
 
     @Override
     public String getPassword(int userId) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_GET_PASSWORD)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_GET_PASSWORD)) {
             statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -161,7 +221,7 @@ public class UserDaoImpl extends UserDao {
 
     @Override
     public boolean remove(Integer id) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
             statement.executeUpdate();
             return true;
@@ -195,7 +255,7 @@ public class UserDaoImpl extends UserDao {
     }
 
     public void updateImage(int toUpdateId, String imageSrc) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
             statement.setString(1, imageSrc);
             statement.setInt(2, toUpdateId);
             statement.executeUpdate();
@@ -207,13 +267,25 @@ public class UserDaoImpl extends UserDao {
 
     @Override
     public void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACTIVATED)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACTIVATED)) {
             statement.setBoolean(1, newStatus);
             statement.setInt(2, toUpdateId);
             statement.executeUpdate();
         } catch (SQLException e) {
             LOG.error("Failed to update user activation status, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user activation status, id: " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public void updatePassword(int toUpdateId, String newPassword) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD)) {
+            statement.setString(1, newPassword);
+            statement.setInt(2, toUpdateId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            LOG.error("Failed to update user password, id: " + toUpdateId, e);
+            throw new DaoException("Failed to update user password, id: " + toUpdateId, e);
         }
     }
 }

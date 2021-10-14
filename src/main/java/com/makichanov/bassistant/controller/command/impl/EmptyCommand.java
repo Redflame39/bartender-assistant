@@ -8,9 +8,8 @@ import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class EmptyCommand implements ActionCommand {
 
-
     @Override
     public String execute(HttpServletRequest request) {
-        return JspManager.getPage(HOME);
+        return JspManager.getPage(ERROR404);
     }
 }

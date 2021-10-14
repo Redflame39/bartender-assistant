@@ -12,9 +12,9 @@ public class EntityTransaction implements AutoCloseable {
     private Connection connection;
 
     @SafeVarargs
-    public final void initTransaction(BaseDao<?, ? extends Entity> dao, BaseDao<?, ? extends Entity>... daos)
+    public final void initTransaction(BaseDao<?, ? extends Entity>... daos)
             throws DaoException {
-        if(dao == null && Arrays.stream(daos).noneMatch(d -> d != null)) {
+        if(daos == null || Arrays.stream(daos).noneMatch(d -> d != null)) {
             throw new DaoException("One or more passed parameters DAO is null, check arguments");
         }
         if (connection == null) {
@@ -25,9 +25,6 @@ public class EntityTransaction implements AutoCloseable {
             connection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new DaoException("Failed to disable autocommit to create transaction", e);
-        }
-        if (dao != null) {
-            dao.setConnection(connection);
         }
         for (BaseDao<?, ? extends Entity> daoElement : daos) {
             daoElement.setConnection(connection);

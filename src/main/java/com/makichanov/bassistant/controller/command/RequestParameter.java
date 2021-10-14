@@ -10,6 +10,9 @@ public final class RequestParameter {
     public static final String COCKTAIL_NAME = "cocktail_name";
     public static final String COCKTAIL_INSTRUCTIONS = "cocktail_instr";
     public static final String FILE_FOR = "file_for";
-    public static final String ACTIVATION_CODE = "token";
+    public static final String TOKEN = "token";
     public static final String LOCALE = "locale";
+    public static final String REVIEW_TEXT = "review_text";
+    public static final String REVIEW_MARK = "review_mark";
+    public static final String USER_ID = "user_id";
 }

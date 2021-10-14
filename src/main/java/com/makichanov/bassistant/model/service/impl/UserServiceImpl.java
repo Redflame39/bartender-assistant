@@ -12,6 +12,7 @@ import com.makichanov.bassistant.util.security.PasswordEncryptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
@@ -100,6 +101,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findById(int id) throws ServiceException {
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            UserDao dao = new UserDaoImpl();
+            transaction.initAction(dao);
+            return dao.findById(id);
+        } catch (DaoException e) {
+            LOG.error("Failed to find user by id: " + id, e);
+            throw new ServiceException("Failed to find user by email: " + id, e);
+        }
+    }
+
+    @Override
     public User updateImage(int toUpdateId, String imageSrc) throws ServiceException {
         UserDao userDao = new UserDaoImpl();
         EntityTransaction transaction = new EntityTransaction();
@@ -134,6 +147,28 @@ public class UserServiceImpl implements UserService {
             userDao.updateActivatedStatus(toUpdateId, newStatus);
         } catch (DaoException e) {
             throw new ServiceException(); // TODO: 10/5/2021 message
+        }
+    }
+
+    @Override
+    public List<User> findByRole(Role role) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.findByRole(role);
+        } catch (DaoException e) {
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    public void updatePassword(int toUpdateId, String newPassword) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            dao.updatePassword(toUpdateId, newPassword);
+        } catch (DaoException e) {
+            throw new ServiceException();
         }
     }
 }

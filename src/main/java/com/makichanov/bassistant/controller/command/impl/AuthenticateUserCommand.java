@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
+import static com.makichanov.bassistant.controller.command.RequestAttribute.ERROR_MESSAGE;
 import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 import static com.makichanov.bassistant.controller.manager.PagePath.*;
@@ -34,12 +35,12 @@ public class AuthenticateUserCommand implements ActionCommand {
                 session.setAttribute(AUTHENTICATED, true);
                 return JspManager.getPage(HOME);
             } else {
-                request.setAttribute("errorMessage", "Incorrect username or password.");
+                request.setAttribute(ERROR_MESSAGE, "Incorrect username or password.");
                 return JspManager.getPage(LOGIN);
             }
         } catch (ServiceException e) {
             LOG.error("Authentication failed", e); // FIXME: 27.08.2021 error message
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
 
     }

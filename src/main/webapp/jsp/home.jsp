@@ -17,5 +17,6 @@
     <input type="text" name="message_text">
     <button type="submit" class="btn btn-light">Execute test command</button>
 </form>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

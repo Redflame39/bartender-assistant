@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: vanya
-  Date: 9/18/2021
-  Time: 8:52 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,6 +10,8 @@
 </head>
 <body>
 <c:import url="header.jsp"/>
+<span>${requestScope["jakarta.servlet.forward.servlet_path"]}</span>
+<span>${requestScope["jakarta.servlet.forward.query_string"]}</span>
 <c:choose>
     <c:when test="${owner}">
         <span>${user.username}</span>

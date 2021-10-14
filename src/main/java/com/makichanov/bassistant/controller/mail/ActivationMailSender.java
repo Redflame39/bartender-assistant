@@ -19,7 +19,7 @@ public class ActivationMailSender {
     private final String MAIL_TEMPLATE_EN;
 
     private ActivationMailSender() {
-        InputStream inputStream = getClass().getResourceAsStream("/activatemailtempEN.txt");
+        InputStream inputStream = getClass().getResourceAsStream("/mails/activatemailtempEN.txt");
         try {
             MAIL_TEMPLATE_EN = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {

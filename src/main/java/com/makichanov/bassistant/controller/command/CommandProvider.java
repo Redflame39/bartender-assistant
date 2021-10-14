@@ -12,13 +12,15 @@ public class CommandProvider {
     private static CommandProvider instance;
     private static AtomicBoolean isInstanceCreated = new AtomicBoolean(false);
     private static ReentrantLock instanceLock = new ReentrantLock(true);
-    private final EnumMap<CommandType, ActionCommand> commands = new EnumMap(CommandType.class);
+    private final EnumMap<CommandType, ActionCommand> commands = new EnumMap<>(CommandType.class);
 
     private CommandProvider() {
         commands.put(_TEST, new _TestCommand());
+        commands.put(HOME, new HomePageCommand());
         commands.put(DEFAULT, new EmptyCommand());
         commands.put(COCKTAILS, new CocktailsCommand());
         commands.put(CREATE_COCKTAIL_PAGE, new NewCocktailFormCommand());
+        commands.put(COCKTAIL_IMAGE, new CocktailImageFormCommand());
         commands.put(LOGIN, new LoginPageCommand());
         commands.put(AUTHENTICATE, new AuthenticateUserCommand());
         commands.put(SIGN_UP, new RegistrationPageCommand());
@@ -28,6 +30,12 @@ public class CommandProvider {
         commands.put(CREATE_COCKTAIL, new CreateCocktailCommand());
         commands.put(PROFILE, new ShowProfileCommand());
         commands.put(ACTIVATE, new ActivateUserCommand());
+        commands.put(POST_REVIEW, new PostReviewCommand());
+        commands.put(BARTENDERS, new ShowBartendersCommand());
+        commands.put(RESTORE_PASSWORD_PAGE, new RestorePasswordPageCommand());
+        commands.put(RESTORE_PASSWORD, new RestorePasswordCommand());
+        commands.put(CHANGE_PASSWORD, new ChangePasswordCommand());
+        commands.put(NEW_PASSWORD, new NewPasswordFormCommand());
     }
 
     public static CommandProvider getInstance() {
@@ -46,15 +54,11 @@ public class CommandProvider {
     }
 
     public ActionCommand getCommand(String commandName) {
-        if (commandName == null) {
-            return commands.get(DEFAULT);
-        }
-        CommandType commandType;
-        try {
-            commandType = valueOf(commandName.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            commandType = DEFAULT;
-        }
+        CommandType commandType = CommandType.getCommandType(commandName);
+        return commands.get(commandType);
+    }
+
+    public ActionCommand getCommand(CommandType commandType) {
         return commands.get(commandType);
     }
 

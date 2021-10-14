@@ -5,9 +5,9 @@ public class Review extends Entity {
     private int userId;
     private int cocktailId;
     private String comment;
-    private double rate;
+    private int rate;
 
-    public Review(int id, int userId, int cocktailId, String comment, double rate) {
+    public Review(int id, int userId, int cocktailId, String comment, int rate) {
         this.id = id;
         this.userId = userId;
         this.cocktailId = cocktailId;
@@ -47,11 +47,11 @@ public class Review extends Entity {
         this.comment = comment;
     }
 
-    public double getRate() {
+    public int getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(int rate) {
         this.rate = rate;
     }
 
@@ -67,20 +67,17 @@ public class Review extends Entity {
         return id == r.id
                 && userId == r.userId
                 && cocktailId == r.cocktailId
-                && Double.compare(rate, r.rate) == 0
+                && rate == r.rate
                 && (comment != null) ? comment.equals(r.comment) : r.comment == null;
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = id;
+        int result = id;
         result = 31 * result + userId;
         result = 31 * result + cocktailId;
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
-        temp = Double.doubleToLongBits(rate);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + rate;
         return result;
     }
 
@@ -94,5 +91,43 @@ public class Review extends Entity {
         sb.append(", rate=").append(rate);
         sb.append('}');
         return sb.toString();
+    }
+
+    public static class ReviewBuilder {
+
+        private int id;
+        private int userId;
+        private int cocktailId;
+        private String comment;
+        private int rate;
+
+        public ReviewBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public ReviewBuilder setUserId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public ReviewBuilder setCocktailId(int cocktailId) {
+            this.cocktailId = cocktailId;
+            return this;
+        }
+
+        public ReviewBuilder setComment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+
+        public ReviewBuilder setRate(int rate) {
+            this.rate = rate;
+            return this;
+        }
+
+        public Review createReview() {
+            return new Review(id, userId, cocktailId, comment, rate);
+        }
     }
 }

@@ -11,5 +11,5 @@ public abstract class ReviewDao extends BaseDao<Integer, Review> {
 
     public abstract List<Review> findByCocktailId(int cocktailId) throws DaoException;
 
-    public abstract boolean create(Review review) throws DaoException;
+    public abstract boolean create(int userId, int cocktailId, String comment, int rate) throws DaoException;
 }

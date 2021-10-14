@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,13 +16,33 @@
         <img src="${cocktail.imageSource}" alt=""/>
         <div class="d-flex flex-column">
             <h1>${cocktail.name}</h1>
+            <span>${cocktail.averageMark}</span>
             <span>${cocktail.instructions}</span>
         </div>
     </div>
     <br>
-    <ul class="list-group">
-        <li class="list-group-item"></li>
-    </ul>
+    <form name="addReviewForm" method="POST" action="controller">
+        <input type="hidden" name="command" value="post_review">
+        <input type="hidden" name="id" value="${cocktail.id}">
+        <div class="form-group">
+            <label for="reviewTextFormTextArea">Review text</label>
+            <textarea class="form-control" name="review_text" id="reviewTextFormTextArea" rows="3"></textarea>
+        </div>
+        <label for="cocktailMark">Rate this cocktail</label>
+        <select name="review_mark" class="form-select" aria-label="Mark" id="cocktailMark">
+            <option value="5">5 - Great</option>
+            <option value="4">4 - Wonderful</option>
+            <option value="3">3 - Good</option>
+            <option value="2">2 - Weak</option>
+            <option value="1">1 - Bad</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div class="list-group">
+        <c:forEach var="review" items="${reviews}">
+            <span class="list-group-item">${review.comment}</span>
+        </c:forEach>
+    </div>
 </div>
 </body>
 </html>

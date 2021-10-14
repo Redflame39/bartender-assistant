@@ -1,16 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: vanya
-  Date: 27.08.2021
-  Time: 15:16
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="ru_RU" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Log in</title>
+    <title><fmt:message key="user.login.title"/></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
@@ -18,22 +14,19 @@
 <form action="controller" method="post">
     <input type="hidden" name="command" value="authenticate"/>
     <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
+        <label for="exampleInputEmail1"><fmt:message key="user.login.email"/></label>
         <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <small id="emailHelp" class="form-text text-muted"><fmt:message key="user.login.info"/></small>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
+        <label for="exampleInputPassword1"><fmt:message key="user.login.password"/></label>
         <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
     <span class="text-danger">${errorMessage}</span>
     <div class="d-flex align-items-center m-1">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="controller?command=sign_up">Create account</a>
+        <button type="submit" class="btn btn-primary"><fmt:message key="user.login.submit"/></button>
+        <a href="controller?command=sign_up"><fmt:message key="user.login.signup"/></a>
+        <a href="controller?command=restore_password_page">Forgot your password?</a>
     </div>
 </form>
 </body>

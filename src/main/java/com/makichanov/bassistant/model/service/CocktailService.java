@@ -14,6 +14,8 @@ public interface CocktailService {
 
     Optional<Cocktail> findByName(String name) throws ServiceException;
 
+    List<Cocktail> findByUserId(int id) throws ServiceException;
+
     boolean create(String cocktailName, int userId, String instructions) throws ServiceException;
 
     Cocktail update(int toReplaceId, Cocktail replacement);

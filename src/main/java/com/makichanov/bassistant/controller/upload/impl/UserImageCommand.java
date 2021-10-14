@@ -7,7 +7,7 @@ import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR;
+import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
 
 public class UserImageCommand extends UploadCommand {
@@ -17,7 +17,7 @@ public class UserImageCommand extends UploadCommand {
         try {
             service.updateImage(id, filename);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR);
+            return JspManager.getPage(ERROR404);
         }
         return JspManager.getPage(PROFILE);
     }
