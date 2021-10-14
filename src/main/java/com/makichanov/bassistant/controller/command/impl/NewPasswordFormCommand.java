@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
@@ -19,7 +20,7 @@ import static com.makichanov.bassistant.controller.manager.PagePath.NEW_PASSWORD
 
 public class NewPasswordFormCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String activationToken = request.getParameter(TOKEN);
         DigitalSigner signer = CustomDigitalSigner.getInstance();
         String decrypted = signer.decrypt(activationToken);
@@ -29,12 +30,12 @@ public class NewPasswordFormCommand implements ActionCommand {
         try {
             userToRestore = service.findById(userId);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (userToRestore.isEmpty()) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         request.setAttribute(USER_ID, userToRestore.get().getUserId());
-        return JspManager.getPage(NEW_PASSWORD_FORM);
+        return new CommandResult(JspManager.getPage(NEW_PASSWORD_FORM), CommandResult.RoutingType.FORWARD);
     }
 }

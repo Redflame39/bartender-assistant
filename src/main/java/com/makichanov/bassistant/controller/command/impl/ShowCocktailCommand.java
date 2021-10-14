@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
@@ -21,27 +22,27 @@ import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class ShowCocktailCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         int cocktailId = Integer.parseInt(request.getParameter(RequestParameter.ID));
         CocktailService service = CocktailServiceImpl.getInstance();
         Optional<Cocktail> toShow;
         try {
             toShow = service.findById(cocktailId);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (toShow.isPresent()) {
             request.setAttribute(COCKTAIL, toShow.get());
         } else {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         try {
             List<Review> reviews = reviewService.findByCocktailId(cocktailId);
             request.setAttribute(REVIEWS, reviews);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
-        return JspManager.getPage(SHOW_COCKTAIL);
+        return new CommandResult(JspManager.getPage(SHOW_COCKTAIL), CommandResult.RoutingType.FORWARD);
     }
 }

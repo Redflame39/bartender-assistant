@@ -1,5 +1,7 @@
 package com.makichanov.bassistant.controller.servlet;
 
+import com.makichanov.bassistant.controller.command.CommandType;
+import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.controller.prg.PostRedirectGet;
 import com.makichanov.bassistant.controller.upload.UploadCommand;
 import com.makichanov.bassistant.controller.upload.UploadCommandProvider;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.Part;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
@@ -27,7 +30,7 @@ public class FileUploadController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String fileFor = request.getParameter(FILE_FOR);
-        String uploadPath = getServletContext().getInitParameter("uploadPath");
+        String uploadPath = getServletContext().getRealPath("");
         UploadCommandType commandType = defineUploadType(fileFor);
         String uploadSubdirectory = commandType.getUploadSubdirectory();
         String imageUploadPath = uploadPath + uploadSubdirectory;
@@ -50,7 +53,8 @@ public class FileUploadController extends HttpServlet {
         UploadCommandProvider provider = UploadCommandProvider.getInstance();
         UploadCommand command = provider.getCommand(commandType);
         String page = command.execute(request, id, uploadSubdirectory + filename);
-        response.sendRedirect(getServletContext().getContextPath() + "/index.jsp");
+        response.sendRedirect(getServletContext().getContextPath() 
+                + "/controller?" + COMMAND + "=" + CommandType.UPLOADED.toString().toLowerCase());
     }
 
     private UploadCommandType defineUploadType(String commandName) {

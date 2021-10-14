@@ -14,10 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-// TODO: 10/9/2021 f5 protection
 public class PostReviewCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String reviewText = request.getParameter(RequestParameter.REVIEW_TEXT);
         String reviewMarkString = request.getParameter(RequestParameter.REVIEW_MARK);
         String cocktailIdString = request.getParameter(RequestParameter.ID);
@@ -30,18 +29,20 @@ public class PostReviewCommand implements ActionCommand {
         try {
             reviewTo = cocktailService.findById(cocktailId);
         } catch (ServiceException e) {
-            return JspManager.getPage(PagePath.COCKTAILS);
+            return new CommandResult(JspManager.getPage(PagePath.COCKTAILS), CommandResult.RoutingType.REDIRECT);
         }
         if (reviewTo.isEmpty()) {
-            // TODO: 10/9/2021 go to "cocktail not found" page
-            return JspManager.getPage(PagePath.ERROR404);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
         request.setAttribute(RequestAttribute.COCKTAIL, reviewTo.get());
         try {
             reviewService.createReview(author.getUserId(), cocktailId, reviewText, reviewMark);
         } catch (ServiceException e) {
-            return JspManager.getPage(PagePath.ERROR500);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
         }
-        return JspManager.getPage(PagePath.SHOW_COCKTAIL);
+        CommandResult commandResult =
+                new CommandResult(JspManager.getPage(PagePath.SHOW_COCKTAIL), CommandResult.RoutingType.REDIRECT);
+        commandResult.putRedirectParameter(RequestParameter.ID, Integer.toString(cocktailId));
+        return commandResult;
     }
 }

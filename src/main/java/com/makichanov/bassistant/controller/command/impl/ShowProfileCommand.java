@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.model.dao.EntityTransaction;
@@ -21,21 +22,21 @@ import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
 public class ShowProfileCommand implements ActionCommand {
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();
         User authenticatedUser = (User) session.getAttribute(USER);
         boolean authenticated = authenticatedUser != null;
         String idParamValue = request.getParameter(ID);
         if (idParamValue == null) {
             request.setAttribute(OWNER, true);
-            return JspManager.getPage(PROFILE);
+            return new CommandResult(JspManager.getPage(PROFILE), CommandResult.RoutingType.FORWARD);
         }
         int requestedProfileId = Integer.parseInt(idParamValue);
         if (authenticated) {
             int authenticatedUserId = authenticatedUser.getUserId();
             if (requestedProfileId == authenticatedUserId) {
                 request.setAttribute(OWNER, true);
-                return JspManager.getPage(PROFILE);
+                return new CommandResult(JspManager.getPage(PROFILE), CommandResult.RoutingType.FORWARD);
             }
         }
         UserDao dao = new UserDaoImpl();
@@ -45,13 +46,13 @@ public class ShowProfileCommand implements ActionCommand {
             transaction.initAction(dao);
             requestedUser = dao.findById(requestedProfileId);
         } catch (DaoException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (requestedUser.isPresent()) {
             request.setAttribute("requestedUser", requestedUser.get());
         } else {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
-        return JspManager.getPage(PROFILE);
+        return new CommandResult(JspManager.getPage(PROFILE), CommandResult.RoutingType.FORWARD);
     }
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -59,7 +60,8 @@
                         Languages
                     </h6>
                     <p>
-                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?${requestScope["jakarta.servlet.forward.query_string"]}&locale=en_US"
+                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?
+                        ${requestScope["jakarta.servlet.forward.query_string"]}&locale=en_US"
                            class="text-reset">English
                         </a>
                     </p>

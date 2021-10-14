@@ -10,8 +10,6 @@
 </head>
 <body>
 <c:import url="header.jsp"/>
-<span>${requestScope["jakarta.servlet.forward.servlet_path"]}</span>
-<span>${requestScope["jakarta.servlet.forward.query_string"]}</span>
 <c:choose>
     <c:when test="${owner}">
         <span>${user.username}</span>

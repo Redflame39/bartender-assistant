@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
@@ -16,7 +17,7 @@ import static com.makichanov.bassistant.controller.manager.PagePath.LOGIN;
 public class ActivateUserCommand implements ActionCommand {
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String activationToken = request.getParameter(TOKEN);
         DigitalSigner signer = CustomDigitalSigner.getInstance();
         String decrypted = signer.decrypt(activationToken);
@@ -25,8 +26,9 @@ public class ActivateUserCommand implements ActionCommand {
         try {
             service.updateActivationStatus(userId, true);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
-        return JspManager.getPage(LOGIN);
+
+        return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
     }
 }

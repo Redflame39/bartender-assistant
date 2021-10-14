@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.RequestAttribute;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.exception.ServiceException;
@@ -20,7 +21,7 @@ public class CocktailsCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         CocktailService cocktailService = CocktailServiceImpl.getInstance();
         List<Cocktail> cocktails = null;
         try {
@@ -30,6 +31,6 @@ public class CocktailsCommand implements ActionCommand {
             // TODO: 26.08.2021 forward to error page
         }
         request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
-        return JspManager.getPage(COCKTAILS);
+        return new CommandResult(JspManager.getPage(COCKTAILS), CommandResult.RoutingType.FORWARD);
     }
 }

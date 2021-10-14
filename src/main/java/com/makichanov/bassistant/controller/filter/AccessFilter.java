@@ -29,12 +29,7 @@ public class AccessFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String commandName = httpRequest.getParameter(RequestParameter.COMMAND);
         if (commandName != null) {
-            CommandType command;
-            try {
-                command = CommandType.valueOf(commandName.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                command = CommandType.DEFAULT;
-            }
+            CommandType command = CommandType.getCommandType(commandName);
             int commandAccessLevel = command.getAccessLevel();
             User user = (User) httpRequest.getSession().getAttribute(SessionAttribute.USER);
             int userAccessLevel = user != null ? user.getRole().getAccessLevel() : AccessLevel.LEVEL_GUEST;

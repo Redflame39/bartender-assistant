@@ -166,21 +166,6 @@ public class CocktailDaoImpl extends CocktailDao {
         }
     }
 
-    // TODO: 23.08.2021 probably delete me
-    @Override
-    public boolean remove(Cocktail cocktail) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_OBJECT)) {
-            statement.setString(1, cocktail.getName());
-            statement.setInt(2, cocktail.getId());
-            statement.setInt(3, cocktail.getUserId());
-            statement.setString(4, cocktail.getInstructions());
-            statement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new DaoException("Exception occurred while executing REMOVE by OBJECT", e);
-        }
-    }
-
     @Override
     public boolean remove(Integer id) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
@@ -208,29 +193,6 @@ public class CocktailDaoImpl extends CocktailDao {
         } catch (SQLException e) {
             LOG.error("CocktailDao: Failed to execute SQL_UPDATE_ID", e);
             throw new DaoException("CocktailDao: Failed to execute SQL_UPDATE_ID", e);
-        }
-    }
-
-    // TODO: 23.08.2021 probably delete me
-    @Override
-    public Cocktail update(Cocktail toReplace, Cocktail replacement) throws DaoException {
-        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_OBJECT)) {
-            Cocktail old = findById(toReplace.getId())
-                    .orElseThrow(() -> new DaoException("Object with id " + toReplace.getId() +
-                            " not found and cannot be removed"));
-            statement.setString(1, replacement.getName());
-            statement.setInt(2, replacement.getId());
-            statement.setInt(3, replacement.getUserId());
-            statement.setString(4, replacement.getInstructions());
-            statement.setString(5, replacement.getName());
-            statement.setInt(6, replacement.getId());
-            statement.setInt(7, replacement.getUserId());
-            statement.setString(8, replacement.getInstructions());
-            statement.executeUpdate();
-            return old;
-        } catch (SQLException e) {
-            LOG.error("Failed to update cocktail " + toReplace, e);
-            throw new DaoException("Exception occurred while executing UPDATE by OBJECT", e);
         }
     }
 

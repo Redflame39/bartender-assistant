@@ -16,4 +16,5 @@ public final class PagePath {
     public static final String BARTENDERS = "path.page.bartenders";
     public static final String RESTORE_PASSWORD = "path.page.restorepass";
     public static final String NEW_PASSWORD_FORM = "path.page.newpasswordform";
+    public static final String UPLOADED = "path.page.uploaded";
 }

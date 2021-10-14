@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.mail.ActivationMailSender;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
@@ -19,13 +20,13 @@ import static com.makichanov.bassistant.controller.manager.PagePath.HOME;
 public class CreateAccountCommand implements ActionCommand {
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String username = request.getParameter(USERNAME);
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
         String rePassword = request.getParameter(RE_PASSWORD);
         if (!password.equals(rePassword)) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         UserService service = UserServiceImpl.getInstance();
         Optional<User> createdUser;
@@ -33,14 +34,14 @@ public class CreateAccountCommand implements ActionCommand {
         try {
             createdUser = service.createUser(username, email, passwordHash);
         } catch (ServiceException e) {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (createdUser.isPresent()) {
             ActivationMailSender mailSender = ActivationMailSender.getInstance();
             mailSender.sendMail(createdUser.get());
-            return JspManager.getPage(HOME); // TODO: 10/5/2021 go to page that informs user he need to activate account
+            return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.FORWARD); // TODO: 10/5/2021 go to page that informs user he need to activate account
         } else {
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
     }
 }

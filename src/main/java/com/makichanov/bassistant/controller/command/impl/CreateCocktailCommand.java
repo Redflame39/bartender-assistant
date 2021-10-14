@@ -1,7 +1,9 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.RequestAttribute;
+import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.entity.User;
@@ -19,7 +21,7 @@ import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class CreateCocktailCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String name = request.getParameter(COCKTAIL_NAME);
         String instructions = request.getParameter(COCKTAIL_INSTRUCTIONS);
         HttpSession session = request.getSession();
@@ -31,22 +33,27 @@ public class CreateCocktailCommand implements ActionCommand {
             created = cocktailService.create(name, userId, instructions);
         } catch (ServiceException e) {
             // TODO: 08.09.2021 log
-            return JspManager.getPage(ERROR500);
+            return new CommandResult(JspManager.getPage(ERROR500), CommandResult.RoutingType.FORWARD);
         }
         if (created) {
             try {
-                Optional<Cocktail> cocktail = cocktailService.findByName(name);
-                if (cocktail.isPresent()) {
-                    Cocktail c = cocktail.get();
-                    request.setAttribute(RequestAttribute.ID, c.getId());
+                Optional<Cocktail> createdCocktail = cocktailService.findByName(name);
+                Cocktail cocktail;
+                if (createdCocktail.isPresent()) {
+                    cocktail = createdCocktail.get();
+                } else {
+                    return new CommandResult(JspManager.getPage(ERROR500), CommandResult.RoutingType.FORWARD);
                 }
+                CommandResult commandResult =
+                        new CommandResult(JspManager.getPage(COCKTAIL_IMAGE), CommandResult.RoutingType.REDIRECT);
+                commandResult.putRedirectParameter(ID, Integer.toString(cocktail.getId()));
+                return commandResult;
             } catch (ServiceException e) {
-                return JspManager.getPage(ERROR500);
+                return new CommandResult(JspManager.getPage(ERROR500), CommandResult.RoutingType.FORWARD);
             }
-            return JspManager.getPage(COCKTAIL_IMAGE);
         } else {
             // TODO: 08.09.2021 not created message
-            return JspManager.getPage(ERROR400);
+            return new CommandResult(JspManager.getPage(ERROR400), CommandResult.RoutingType.FORWARD);
         }
     }
 }

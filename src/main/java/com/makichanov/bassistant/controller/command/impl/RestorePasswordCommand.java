@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.controller.mail.RestorePasswordMailSender;
 import com.makichanov.bassistant.controller.manager.JspManager;
@@ -19,7 +20,7 @@ import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class RestorePasswordCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String email = request.getParameter(EMAIL);
         UserService service = UserServiceImpl.getInstance();
         Optional<User> userToRestore;
@@ -27,14 +28,14 @@ public class RestorePasswordCommand implements ActionCommand {
             userToRestore = service.findByEmail(email);
         } catch (ServiceException e) {
             request.setAttribute(ERROR_MESSAGE, "Incorrect email.");
-            return JspManager.getPage(RESTORE_PASSWORD);
+            return new CommandResult(JspManager.getPage(RESTORE_PASSWORD), CommandResult.RoutingType.FORWARD);
         }
         if (userToRestore.isEmpty()) {
             request.setAttribute(ERROR_MESSAGE, "Incorrect email.");
-            return JspManager.getPage(RESTORE_PASSWORD);
+            return new CommandResult(JspManager.getPage(RESTORE_PASSWORD), CommandResult.RoutingType.FORWARD);
         }
         RestorePasswordMailSender sender = RestorePasswordMailSender.getInstance();
         sender.sendMail(userToRestore.get());
-        return JspManager.getPage(LOGIN);
+        return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
     }
 }

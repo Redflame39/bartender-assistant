@@ -215,11 +215,6 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public boolean remove(User user) throws DaoException {
-        return false;
-    }
-
-    @Override
     public boolean remove(Integer id) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
@@ -247,11 +242,6 @@ public class UserDaoImpl extends UserDao {
             LOG.error("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
             throw new DaoException("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
         }
-    }
-
-    @Override
-    public User update(User toReplace, User replacement) throws DaoException {
-        return null;
     }
 
     public void updateImage(int toUpdateId, String imageSrc) throws DaoException {

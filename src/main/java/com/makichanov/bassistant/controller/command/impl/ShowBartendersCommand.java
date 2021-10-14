@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.controller.manager.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
@@ -17,15 +18,15 @@ import static com.makichanov.bassistant.controller.command.RequestAttribute.BART
 
 public class ShowBartendersCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         UserService service = UserServiceImpl.getInstance();
         List<User> bartenders = new ArrayList<>();
         try {
             bartenders.addAll(service.findByRole(Role.BARTENDER));
         } catch (ServiceException e) {
-            return JspManager.getPage(PagePath.ERROR404);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
         request.setAttribute(BARTENDERS, bartenders);
-        return JspManager.getPage(PagePath.BARTENDERS);
+        return new CommandResult(JspManager.getPage(PagePath.BARTENDERS), CommandResult.RoutingType.FORWARD);
     }
 }

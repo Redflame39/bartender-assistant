@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.RequestAttribute;
 import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.controller.manager.JspManager;
@@ -16,22 +17,22 @@ import static com.makichanov.bassistant.controller.command.RequestParameter.RE_P
 
 public class ChangePasswordCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public CommandResult execute(HttpServletRequest request) {
         String password = request.getParameter(PASSWORD);
         String rePassword = request.getParameter(RE_PASSWORD);
         int userId = Integer.parseInt(request.getParameter(RequestParameter.USER_ID));
         if (!password.equals(rePassword)) {
             request.setAttribute(RequestAttribute.USER_ID, userId);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Passwords are not equal.");
-            return JspManager.getPage(PagePath.NEW_PASSWORD_FORM);
+            return new CommandResult(JspManager.getPage(PagePath.NEW_PASSWORD_FORM), CommandResult.RoutingType.FORWARD);
         }
         String passwordHash = PasswordEncryptor.encrypt(password);
         UserService service = UserServiceImpl.getInstance();
         try {
             service.updatePassword(userId, passwordHash);
         } catch (ServiceException e) {
-            return JspManager.getPage(PagePath.ERROR404);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
-        return JspManager.getPage(PagePath.LOGIN);
+        return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.FORWARD);
     }
 }

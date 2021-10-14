@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
+import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
@@ -23,7 +24,7 @@ public class AuthenticateUserCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest request) { // TODO: 08.09.2021 authentication with username or email
+    public CommandResult execute(HttpServletRequest request) { // TODO: 08.09.2021 authentication with username or email
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
         UserService service = UserServiceImpl.getInstance();
@@ -33,14 +34,14 @@ public class AuthenticateUserCommand implements ActionCommand {
                 HttpSession session = request.getSession();
                 session.setAttribute(USER, result.get());
                 session.setAttribute(AUTHENTICATED, true);
-                return JspManager.getPage(HOME);
+                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.FORWARD);
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Incorrect username or password.");
-                return JspManager.getPage(LOGIN);
+                return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
             }
         } catch (ServiceException e) {
             LOG.error("Authentication failed", e); // FIXME: 27.08.2021 error message
-            return JspManager.getPage(ERROR404);
+            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
 
     }

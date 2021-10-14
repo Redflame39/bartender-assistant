@@ -154,11 +154,6 @@ public class ReviewDaoImpl extends ReviewDao {
     }
 
     @Override
-    public boolean remove(Review review) throws DaoException {
-        return false;
-    }
-
-    @Override
     public boolean remove(Integer id) throws DaoException {
         try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
@@ -188,10 +183,5 @@ public class ReviewDaoImpl extends ReviewDao {
                     "ReviewDao: Failed to execute SQL_UPDATE_ID, id = %d, replacement = %s", id, replacement));
             throw new DaoException("ReviewDao: Failed to execute SQL_UPDATE_ID, id = " + id);
         }
-    }
-
-    @Override
-    public Review update(Review toReplace, Review replacement) throws DaoException {
-        return null;
     }
 }

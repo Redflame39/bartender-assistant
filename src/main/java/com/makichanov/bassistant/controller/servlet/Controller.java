@@ -28,6 +28,9 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (response.isCommitted()) {
+            return;
+        }
         String commandName = request.getParameter(COMMAND);
         CommandProvider commandProvider = CommandProvider.getInstance();
         ActionCommand command = commandProvider.getCommand(commandName);
