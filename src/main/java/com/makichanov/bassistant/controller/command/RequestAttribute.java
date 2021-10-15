@@ -9,4 +9,6 @@ public final class RequestAttribute {
     public static final String USER_ID = "user_id";
     public static final String COCKTAIL_NAME = "cocktail_name";
     public static final String ID = "id";
+    public static final String CURRENT_PAGE = "current_page";
+    public static final String IS_LAST_PAGE = "is_last_page";
 }

@@ -82,7 +82,7 @@ public class CustomConnectionPool {
         }
     }
 
-    public void destroyPool() { // FIXME: 11.08.2021 it doesn't work (maybe)
+    public void destroyPool() {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();

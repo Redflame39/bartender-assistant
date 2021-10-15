@@ -12,6 +12,6 @@ public interface ParameterValidator {
 
     boolean validatePassword(String password);
 
-    boolean validateId(String id);
+    boolean validatePositiveInt(String number);
 
 }

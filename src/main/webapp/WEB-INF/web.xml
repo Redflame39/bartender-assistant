@@ -9,8 +9,8 @@
         <param-value>/properties/mail.properties</param-value>
     </context-param>
     <context-param>
-        <param-name>uploadPath</param-name>
-        <param-value>C:/BAssistantResources/</param-value>
+        <param-name>objectsOnPage</param-name>
+        <param-value>10</param-value>
     </context-param>
 
     <error-page>

@@ -17,4 +17,5 @@ public final class RequestParameter {
     public static final String REVIEW_TEXT = "review_text";
     public static final String REVIEW_MARK = "review_mark";
     public static final String USER_ID = "user_id";
+    public static final String PAGE = "page";
 }

@@ -11,12 +11,13 @@ public class Cocktail extends Entity {
     private double averageMark;
     private Timestamp uploadDate;
 
-    public Cocktail(String name, int id, int userId, String instructions, String imageSource, Timestamp uploadDate) {
+    private Cocktail(String name, int id, int userId, String instructions, String imageSource, double averageMark, Timestamp uploadDate) {
         this.name = name;
         this.id = id;
         this.userId = userId;
         this.instructions = instructions;
         this.imageSource = imageSource;
+        this.averageMark = averageMark;
         this.uploadDate = uploadDate;
     }
 
@@ -24,48 +25,28 @@ public class Cocktail extends Entity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getInstructions() {
         return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
     }
 
     public String getImageSource() {
         return imageSource;
     }
 
-    public void setImageSource(String imageSource) {
-        this.imageSource = imageSource;
-    }
-
     public double getAverageMark() {
         return averageMark;
     }
 
-    public void setAverageMark(double averageMark) {
-        this.averageMark = averageMark;
+    public Timestamp getUploadDate() {
+        return uploadDate;
     }
 
     @Override
@@ -117,6 +98,7 @@ public class Cocktail extends Entity {
         private int userId;
         private String instructions;
         private String imageSource;
+        private double averageMark;
         private Timestamp uploadDate;
 
         public CocktailBuilder setName(String name) {
@@ -149,8 +131,13 @@ public class Cocktail extends Entity {
             return this;
         }
 
+        public CocktailBuilder setAverageMark(double averageMark) {
+            this.averageMark = averageMark;
+            return this;
+        }
+
         public Cocktail createCocktail() {
-            return new Cocktail(name, id, userId, instructions, imageSource, uploadDate);
+            return new Cocktail(name, id, userId, instructions, imageSource, averageMark, uploadDate);
         }
     }
 }

@@ -38,7 +38,7 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where user_id = ?";
 
     @Override
-    public List<User> findAll() throws DaoException {
+    public List<User> findAll(int offset, int count) throws DaoException {
         List<User> users = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {

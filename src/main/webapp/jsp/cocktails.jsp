@@ -51,11 +51,12 @@
     </c:forEach>
 </div>
 <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    <li class="page-item <c:if test="${requestScope.current_page - 1 <= 0}">disabled</c:if>"><a class="page-link"
+                             href="controller?command=cocktails&page=${requestScope.current_page - 1}">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">${requestScope.current_page}</a></li>
+    <li class="page-item <c:if test="${requestScope.is_last_page}">disabled</c:if>"><a class="page-link"
+                             href="controller?command=cocktails&page=${requestScope.current_page + 1}">Next</a>
+    </li>
 </ul>
 </body>
 </html>

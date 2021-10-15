@@ -41,14 +41,19 @@ public class ParameterValidatorImpl implements ParameterValidator {
 
     @Override
     public boolean validatePassword(String password) {
-        return false;
+        return password.matches(PASSWORD_REGEXP);
     }
 
     @Override
-    public boolean validateId(String id) {
-        Scanner scanner = new Scanner(id);
-        boolean isInt = scanner.hasNextInt();
-        scanner.close();
-        return isInt;
+    public boolean validatePositiveInt(String number) {
+        try (Scanner scanner = new Scanner(number)) {
+            boolean isInt = scanner.hasNextInt();
+            if (isInt) {
+                int value = scanner.nextInt();
+                return value > 0;
+            } else {
+                return false;
+            }
+        }
     }
 }

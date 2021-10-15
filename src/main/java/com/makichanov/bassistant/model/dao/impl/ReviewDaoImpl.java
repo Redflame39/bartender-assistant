@@ -31,7 +31,7 @@ public class ReviewDaoImpl extends ReviewDao {
             "update reviews set review_id = ?, user_id = ?, cocktail_id = ?, comment = ?, rate = ? where review_id = ?;";
 
     @Override
-    public List<Review> findAll() throws DaoException {
+    public List<Review> findAll(int offset, int count) throws DaoException {
         List<Review> reviews = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
              ResultSet resultSet = statement.executeQuery()) {

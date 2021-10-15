@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface CocktailService {
 
-    List<Cocktail> findAll() throws ServiceException;
+    List<Cocktail> findAll(int offset, int count) throws ServiceException;
 
     Optional<Cocktail> findById(int id) throws ServiceException;
 
@@ -23,4 +23,6 @@ public interface CocktailService {
     Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 
     Cocktail delete(int toDeleteId);
+
+    int countCocktails() throws ServiceException;
 }
