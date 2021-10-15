@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class CocktailDao extends BaseDao<Integer, Cocktail> {
+
     public abstract List<Cocktail> findByUserID(int id) throws DaoException;
 
     public abstract Optional<Cocktail> findByName(String name) throws DaoException;
+
+
 
     public abstract boolean create(String cocktailName, int userId, String instructions) throws DaoException;
 

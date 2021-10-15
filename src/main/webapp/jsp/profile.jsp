@@ -12,7 +12,12 @@
 <c:import url="header.jsp"/>
 <c:choose>
     <c:when test="${owner}">
-        <span>${user.username}</span>
+        <div class="d-flex flex-column">
+            <span>${user.username}</span>
+            <div class="d-flex flex-row">
+                <span>${user.firstName}</span> <span>${user.lastName}</span>
+            </div>
+        </div>
         <img src="${user.avatarSource}" class="img-fluid">
         <form action="upload" enctype="multipart/form-data" method="post">
             <div class="form-group">
@@ -30,5 +35,8 @@
         <img src="${requestedUser.avatarSource}" class="img-fluid">
     </c:otherwise>
 </c:choose>
+<c:if test="${sessionScope.user.role == 'ADMIN'}">
+    <a type="button" href="controller?command=admin_page" class="btn btn-primary">Admin page</a>
+</c:if>
 </body>
 </html>

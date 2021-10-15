@@ -2,10 +2,8 @@ package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
 import com.makichanov.bassistant.controller.command.CommandResult;
-import com.makichanov.bassistant.controller.command.RequestParameter;
-import com.makichanov.bassistant.controller.mail.RestorePasswordMailSender;
+import com.makichanov.bassistant.controller.util.mail.RestorePasswordMailSender;
 import com.makichanov.bassistant.controller.manager.JspManager;
-import com.makichanov.bassistant.controller.manager.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;

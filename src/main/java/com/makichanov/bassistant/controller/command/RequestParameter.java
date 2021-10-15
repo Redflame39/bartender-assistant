@@ -6,6 +6,8 @@ public final class RequestParameter {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String RE_PASSWORD = "re_password";
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
     public static final String ID = "id";
     public static final String COCKTAIL_NAME = "cocktail_name";
     public static final String COCKTAIL_INSTRUCTIONS = "cocktail_instr";

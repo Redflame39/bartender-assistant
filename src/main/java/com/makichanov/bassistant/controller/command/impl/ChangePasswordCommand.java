@@ -9,7 +9,7 @@ import com.makichanov.bassistant.controller.manager.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.util.security.PasswordEncryptor;
+import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.PASSWORD;

@@ -25,7 +25,8 @@ public enum CommandType {
     RESTORE_PASSWORD(LEVEL_GUEST),
     CHANGE_PASSWORD(LEVEL_GUEST),
     NEW_PASSWORD(LEVEL_GUEST),
-    UPLOADED(LEVEL_USER);
+    UPLOADED(LEVEL_USER),
+    ADMIN_PAGE(LEVEL_ADMIN);
 
     private int accessLevel;
 

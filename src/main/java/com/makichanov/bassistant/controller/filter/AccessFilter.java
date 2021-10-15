@@ -26,7 +26,6 @@ public class AccessFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
         String commandName = httpRequest.getParameter(RequestParameter.COMMAND);
         if (commandName != null) {
             CommandType command = CommandType.getCommandType(commandName);

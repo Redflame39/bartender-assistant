@@ -28,7 +28,7 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_FIND_BY_ROLE =
             "select user_id, username, email, profile_picture, activated from users join role on users.role_id = role.role_id where role.role_name = ?;";
     private static final String SQL_CREATE =
-            "insert into users (username, password, role_id, email) values (?, ?, ?, ?)";
+            "insert into users (username, password, role_id, email, first_name, last_name) values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
     private static final String SQL_UPDATE_ID =
             "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?;";
@@ -184,12 +184,14 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public boolean create(String username, String email, Role role, String passwordHash) throws DaoException {
+    public boolean create(String username, String firstName, String lastName, String email, Role role, String passwordHash) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setString(1, username);
             statement.setString(2, passwordHash);
             statement.setInt(3, role.getRoleId());
             statement.setString(4, email);
+            statement.setString(5, firstName);
+            statement.setString(6, lastName);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

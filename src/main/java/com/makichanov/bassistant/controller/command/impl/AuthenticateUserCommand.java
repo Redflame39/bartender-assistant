@@ -34,7 +34,7 @@ public class AuthenticateUserCommand implements ActionCommand {
                 HttpSession session = request.getSession();
                 session.setAttribute(USER, result.get());
                 session.setAttribute(AUTHENTICATED, true);
-                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.FORWARD);
+                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT);
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Incorrect username or password.");
                 return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
@@ -43,6 +43,5 @@ public class AuthenticateUserCommand implements ActionCommand {
             LOG.error("Authentication failed", e); // FIXME: 27.08.2021 error message
             return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
-
     }
 }

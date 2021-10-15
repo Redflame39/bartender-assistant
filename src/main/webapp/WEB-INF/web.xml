@@ -28,7 +28,7 @@
 
     <filter-mapping>
         <filter-name>XssFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>LocaleFilter</filter-name>
@@ -44,6 +44,6 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </filter-mapping>
 </web-app>

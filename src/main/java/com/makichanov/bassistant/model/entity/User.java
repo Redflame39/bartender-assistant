@@ -7,63 +7,52 @@ public class User extends Entity {
     private Role role;
     private String email;
     private String avatarSource;
-    boolean activated;
+    private  boolean activated;
+    private String firstName;
+    private String lastName;
 
-    public User(String username, int userId, Role role, String email, String avatarSource, boolean activated) {
+    private User(String username, int userId, Role role, String email,
+                String avatarSource, boolean activated, String firstName, String lastName) {
         this.username = username;
         this.userId = userId;
         this.email = email;
         this.role = role;
         this.avatarSource = avatarSource;
         this.activated = activated;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getAvatarSource() {
         return avatarSource;
     }
 
-    public void setAvatarSource(String avatarSource) {
-        this.avatarSource = avatarSource;
-    }
-
     public boolean isActivated() {
         return activated;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
@@ -111,6 +100,8 @@ public class User extends Entity {
         private String email;
         private String avatarSource;
         private boolean activated;
+        private String firstName;
+        private String lastName;
 
         public UserBuilder setUsername(String username) {
             this.username = username;
@@ -142,8 +133,19 @@ public class User extends Entity {
             return this;
         }
 
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
         public User createUser() {
-            return new User(username, userId, role, email, avatarSource, activated);
+            return new User(username, userId, role, email,
+                    avatarSource, activated, firstName, lastName);
         }
     }
 

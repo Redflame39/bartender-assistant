@@ -19,9 +19,9 @@
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
                     <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
-                    <div class="d-flex flex-column m-2">
-                        <h5 class="mb-1">${bartender.username}</h5>
-                        <p class="mb-1"></p>
+                    <div class="d-flex flex-row m-2">
+                        <span>${bartender.firstName}</span>
+                        <span>${bartender.lastName}</span>
                     </div>
                 </div>
                 <small><fmt:formatNumber type="number" maxFractionDigits="2" value=""/></small>

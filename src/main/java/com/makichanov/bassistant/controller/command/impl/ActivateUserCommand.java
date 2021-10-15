@@ -6,8 +6,8 @@ import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.util.security.CustomDigitalSigner;
-import com.makichanov.bassistant.util.security.DigitalSigner;
+import com.makichanov.bassistant.model.util.security.CustomDigitalSigner;
+import com.makichanov.bassistant.model.util.security.DigitalSigner;
 import jakarta.servlet.http.HttpServletRequest;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.TOKEN;

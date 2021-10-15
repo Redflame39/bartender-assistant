@@ -3,14 +3,12 @@ package com.makichanov.bassistant.controller.servlet;
 import java.io.*;
 
 import com.makichanov.bassistant.controller.command.*;
-import com.makichanov.bassistant.controller.manager.PagePath;
-import com.makichanov.bassistant.controller.prg.PostRedirectGet;
+import com.makichanov.bassistant.controller.util.prg.PostRedirectGet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {

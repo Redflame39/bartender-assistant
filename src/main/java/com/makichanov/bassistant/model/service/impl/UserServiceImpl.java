@@ -8,7 +8,7 @@ import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
-import com.makichanov.bassistant.util.security.PasswordEncryptor;
+import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,12 +28,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> createUser(String username, String email, String password) throws ServiceException {
+    public Optional<User> createUser(String username, String firstName, String lastName, String email, String password) throws ServiceException {
         try (EntityTransaction transaction = new EntityTransaction()) {
             UserDao userDao = new UserDaoImpl();
             transaction.initTransaction(userDao);
             String passwordHash = PasswordEncryptor.encrypt(password);
-            boolean created = userDao.create(username, email, Role.CLIENT, passwordHash);
+            boolean created = userDao.create(username, firstName, lastName, email, Role.CLIENT, passwordHash);
             transaction.commit();
             return created
                     ? userDao.findByUsername(username)

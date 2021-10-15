@@ -23,17 +23,22 @@ public class CocktailDaoImpl extends CocktailDao {
             "select name, cocktail_id, instructions, cocktail_image, upload_date from cocktails where user_id = ?;";
     private static final String SQL_FIND_BY_NAME =
             "select user_id, cocktail_id, instructions, cocktail_image, upload_date from cocktails where name = ?;";
+    private static final String SQL_FIND_PAGE_ORDER_BY_UPLOAD = """
+            select name, cocktail_id, user_id, instructions, cocktail_image, upload_date from cocktails
+            order by upload_date ?
+            limit ?, ?;
+            """;
     private static final String SQL_CREATE =
             "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
-    private static final String SQL_REMOVE_OBJECT =
-            "delete from cocktails where name = ?, cocktail_id = ?, user_id = ?, instructions = ?;";
     private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
     private static final String SQL_UPDATE_ID =
             "update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? where cocktail_id = ?";
-    private static final String SQL_UPDATE_OBJECT = """
-            update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? 
-            where name = ?, cocktail_id = ?, user_id = ?, instructions = ?""";
     private static final String SQL_UPDATE_IMAGE = "update cocktails set cocktail_image = ? where cocktail_id = ?";
+
+    public enum OrderType {
+        DESC,
+        ASC
+    }
 
     @Override
     public List<Cocktail> findAll() throws DaoException {
@@ -206,5 +211,4 @@ public class CocktailDaoImpl extends CocktailDao {
             throw new DaoException("Failed to update cocktail image, id: " + toUpdateId, e);
         }
     }
-
 }

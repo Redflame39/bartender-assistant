@@ -15,7 +15,7 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract List<User> findByRole(Role role) throws DaoException;
 
-    public abstract boolean create(String username, String email, Role role, String passwordHash) throws DaoException;
+    public abstract boolean create(String username, String firstName, String lastName, String email, Role role, String passwordHash) throws DaoException;
 
     public abstract String getPassword(int userId) throws DaoException;
 

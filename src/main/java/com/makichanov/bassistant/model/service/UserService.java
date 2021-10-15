@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> createUser(String username, String email, String password) throws ServiceException;
+    Optional<User> createUser(String username, String firstName, String lastName, String email, String password) throws ServiceException;
 
     Optional<User> authenticateByEmail(String email, String password) throws ServiceException;
 

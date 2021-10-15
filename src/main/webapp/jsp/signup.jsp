@@ -11,6 +11,7 @@
 <jsp:include page="header.jsp"/>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="create_account"/>
+    <span class="text-danger">${errorMessage}</span>
     <div class="form-group">
         <label for="usernameInputForm"><fmt:message key="user.create.username"/></label>
         <input type="text" name="username" class="form-control" id="usernameInputForm" aria-describedby="usernameHelp" placeholder="Enter username">
@@ -20,6 +21,14 @@
         <label for="emailInputForm"><fmt:message key="user.create.email"/></label>
         <input type="email" name="email" class="form-control" id="emailInputForm" aria-describedby="emailHelp" placeholder="Enter email">
         <small id="emailHelp" class="form-text text-muted"><fmt:message key="user.create.email.info"/></small>
+    </div>
+    <div class="form-group">
+        <label for="firstNameInputForm">First name</label>
+        <input type="text" name="first_name" class="form-control" id="firstNameInputForm" aria-describedby="firstnameHelp" placeholder="Enter first name">
+    </div>
+    <div class="form-group">
+        <label for="lastNameInputForm">Last name</label>
+        <input type="text" name="last_name" class="form-control" id="lastNameInputForm" aria-describedby="lastnameHelp" placeholder="Enter last name">
     </div>
     <div class="form-group">
         <label for="passwordInputForm"><fmt:message key="user.create.password"/></label>

@@ -13,10 +13,30 @@
 </head>
 <body>
 <jsp:include page="/jsp/header.jsp"/>
-<div class="list-group pagination">
+<div class="d-flex flex-row">
+    <form class="form-inline my-2 my-lg-0 mx-3">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <div class="d-flex flex-column mx-3">
+        <label for="orderSelect">Order</label>
+        <select name="order" class="form-select" aria-label="Order" id="orderSelect">
+            <option selected value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </select>
+    </div>
+    <div class="d-flex flex-column">
+        <label for="orderBySelect">Order by</label>
+        <select name="order_by" class="form-select" aria-label="OrderBy" id="orderBySelect">
+            <option selected value="rate">Rate</option>
+            <option value="date">Publication date</option>
+        </select>
+    </div>
+</div>
+<div class="list-group">
     <c:forEach var="cocktail" items="${cocktails}">
         <a href="controller?command=show_cocktail&id=${cocktail.id}"
-           class="page-item page-link list-group-item list-group-item-action flex-column align-items-start">
+           class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
                     <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
@@ -30,5 +50,12 @@
         </a>
     </c:forEach>
 </div>
+<ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
 </body>
 </html>

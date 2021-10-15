@@ -37,6 +37,7 @@ public class CommandProvider {
         commands.put(CHANGE_PASSWORD, new ChangePasswordCommand());
         commands.put(NEW_PASSWORD, new NewPasswordFormCommand());
         commands.put(UPLOADED, new SuccessfullyUploadedPageCommand());
+        commands.put(ADMIN_PAGE, new AdminPageCommand());
     }
 
     public static CommandProvider getInstance() {
