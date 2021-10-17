@@ -7,7 +7,5 @@ import org.apache.logging.log4j.Logger;
 @FunctionalInterface
 public interface ActionCommand {
 
-    Logger LOG = LogManager.getLogger();
-
     CommandResult execute(HttpServletRequest request);
 }

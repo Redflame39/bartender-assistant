@@ -10,11 +10,13 @@ public interface CocktailService {
 
     List<Cocktail> findAll(int offset, int count) throws ServiceException;
 
+    List<Cocktail> findByUserId(int id) throws ServiceException;
+
+    List<Cocktail> findByNameRegexp(String regexp) throws ServiceException;
+
     Optional<Cocktail> findById(int id) throws ServiceException;
 
     Optional<Cocktail> findByName(String name) throws ServiceException;
-
-    List<Cocktail> findByUserId(int id) throws ServiceException;
 
     boolean create(String cocktailName, int userId, String instructions) throws ServiceException;
 

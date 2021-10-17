@@ -16,14 +16,21 @@ public class CocktailDaoImpl extends CocktailDao {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private static final String SQL_FIND_ALL =
-            """
+    private static final String SQL_FIND_ALL = """
             select name, cocktails.cocktail_id, cocktails.user_id, instructions,
             cocktail_image, upload_date, avg(reviews.rate) as avg_rate from cocktails
             left join reviews on cocktails.cocktail_id = reviews.cocktail_id
             group by cocktails.cocktail_id
             order by avg_rate desc
             limit ?, ?;
+            """;
+    private static final String SQL_FIND_BY_NAME_REGEXP = """
+            select name, cocktails.cocktail_id, cocktails.user_id, instructions,
+            cocktail_image, upload_date, avg(reviews.rate) as avg_rate from cocktails
+            left join reviews on cocktails.cocktail_id = reviews.cocktail_id
+            where name regexp ?
+            group by cocktails.cocktail_id
+            order by avg_rate desc
             """;
     private static final String SQL_FIND_BY_ID =
             "select name, user_id, instructions, cocktail_image, upload_date from cocktails where cocktail_id = ?;";
@@ -31,19 +38,6 @@ public class CocktailDaoImpl extends CocktailDao {
             "select name, cocktail_id, instructions, cocktail_image, upload_date from cocktails where user_id = ?;";
     private static final String SQL_FIND_BY_NAME =
             "select user_id, cocktail_id, instructions, cocktail_image, upload_date from cocktails where name = ?;";
-    private static final String SQL_FIND_PAGE_ORDER_BY_UPLOAD = """
-            select name, cocktail_id, user_id, instructions, cocktail_image, upload_date from cocktails
-            order by upload_date ?
-            limit ?, ?;
-            """;
-    private static final String SQL_FIND_PAGE_ORDER_BY_RATING = """
-            select name, cocktails.cocktail_id, cocktails.user_id, instructions,
-            cocktail_image, upload_date, avg(reviews.rate) as avg_rate from cocktails
-            left join reviews on cocktails.cocktail_id = reviews.cocktail_id
-            group by cocktails.cocktail_id
-            order by avg_rate desc
-            limit ?, ?;
-            """;
     private static final String SQL_CREATE =
             "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
     private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
@@ -149,6 +143,38 @@ public class CocktailDaoImpl extends CocktailDao {
     }
 
     @Override
+    public List<Cocktail> findByNameRegexp(String regexp) throws DaoException {
+        List<Cocktail> cocktails = new ArrayList<>();
+        try(PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME_REGEXP)) {
+            statement.setString(1, regexp);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString(1);
+                int id = resultSet.getInt(2);
+                int userId = resultSet.getInt(3);
+                String instructions = resultSet.getString(4);
+                String imageSource = resultSet.getString(5);
+                Timestamp uploadDate = resultSet.getTimestamp(6);
+                double averageMark = resultSet.getDouble(7);
+                Cocktail cocktail = new Cocktail.CocktailBuilder()
+                        .setName(name)
+                        .setId(id)
+                        .setUserId(userId)
+                        .setInstructions(instructions)
+                        .setImageSource(imageSource)
+                        .setUploadDate(uploadDate)
+                        .setAverageMark(averageMark)
+                        .createCocktail();
+                cocktails.add(cocktail);
+            }
+            return cocktails;
+        } catch (SQLException e) {
+            LOG.error("Failed to find cocktails by name regexp: " + regexp, e);
+            throw new DaoException("Failed to find cocktails by name regexp: " + regexp, e);
+        }
+    }
+
+    @Override
     public Optional<Cocktail> findByName(String name) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME)) {
             statement.setString(1, name);
@@ -177,11 +203,6 @@ public class CocktailDaoImpl extends CocktailDao {
             LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
             throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
         }
-    }
-
-    @Override
-    public List<Cocktail> findByNameRegexp(String regexp, int offset, int count) throws DaoException {
-        return null;
     }
 
     @Override
@@ -241,7 +262,7 @@ public class CocktailDaoImpl extends CocktailDao {
 
     @Override
     public OptionalInt countTotalCocktails() throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_COUNT_COCKTAILS)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_COUNT_COCKTAILS)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);

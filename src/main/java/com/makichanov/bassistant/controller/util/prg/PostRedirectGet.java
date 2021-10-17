@@ -21,6 +21,8 @@ public class PostRedirectGet {
         redirectCommandMapper.put(POST_REVIEW, SHOW_COCKTAIL);
         redirectCommandMapper.put(AUTHENTICATE, HOME);
         redirectCommandMapper.put(CREATE_COCKTAIL, COCKTAIL_IMAGE);
+        redirectCommandMapper.put(CREATE_ACCOUNT, HOME);
+        redirectCommandMapper.put(DELETE_REVIEW, SHOW_COCKTAIL);
     }
 
     public static PostRedirectGet getInstance() {

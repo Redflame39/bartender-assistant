@@ -15,7 +15,6 @@ public class CommandProvider {
     private final EnumMap<CommandType, ActionCommand> commands = new EnumMap<>(CommandType.class);
 
     private CommandProvider() {
-        commands.put(_TEST, new _TestCommand());
         commands.put(HOME, new HomePageCommand());
         commands.put(DEFAULT, new EmptyCommand());
         commands.put(COCKTAILS, new CocktailsCommand());
@@ -31,13 +30,16 @@ public class CommandProvider {
         commands.put(PROFILE, new ShowProfileCommand());
         commands.put(ACTIVATE, new ActivateUserCommand());
         commands.put(POST_REVIEW, new PostReviewCommand());
-        commands.put(BARTENDERS, new ShowBartendersCommand());
+        commands.put(BARTENDERS, new BartendersCommand());
         commands.put(RESTORE_PASSWORD_PAGE, new RestorePasswordPageCommand());
         commands.put(RESTORE_PASSWORD, new RestorePasswordCommand());
         commands.put(CHANGE_PASSWORD, new ChangePasswordCommand());
         commands.put(NEW_PASSWORD, new NewPasswordFormCommand());
         commands.put(UPLOADED, new SuccessfullyUploadedPageCommand());
         commands.put(ADMIN_PAGE, new AdminPageCommand());
+        commands.put(SEARCH_COCKTAIL_NAME, new SearchCocktailByNameCommand());
+        commands.put(SEARCH_BARTENDER_NAME, new SearchBartenderByNameCommand());
+        commands.put(DELETE_REVIEW, new DeleteReviewCommand());
     }
 
     public static CommandProvider getInstance() {

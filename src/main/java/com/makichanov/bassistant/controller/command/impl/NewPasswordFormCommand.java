@@ -10,6 +10,8 @@ import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import com.makichanov.bassistant.model.util.security.CustomDigitalSigner;
 import com.makichanov.bassistant.model.util.security.DigitalSigner;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -19,6 +21,9 @@ import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.NEW_PASSWORD_FORM;
 
 public class NewPasswordFormCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         String activationToken = request.getParameter(TOKEN);

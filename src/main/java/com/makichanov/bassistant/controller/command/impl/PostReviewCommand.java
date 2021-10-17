@@ -26,8 +26,10 @@ public class PostReviewCommand implements ActionCommand {
         ReviewService reviewService = ReviewServiceImpl.getInstance();
         CocktailService cocktailService = CocktailServiceImpl.getInstance();
         Optional<Cocktail> reviewTo;
+        boolean didUserHasReview;
         try {
             reviewTo = cocktailService.findById(cocktailId);
+            didUserHasReview = reviewService.didUserHasReview(cocktailId, author.getUserId());
         } catch (ServiceException e) {
             return new CommandResult(JspManager.getPage(PagePath.COCKTAILS), CommandResult.RoutingType.REDIRECT);
         }
@@ -35,10 +37,16 @@ public class PostReviewCommand implements ActionCommand {
             return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
         request.setAttribute(RequestAttribute.COCKTAIL, reviewTo.get());
+        if (didUserHasReview) {
+            CommandResult commandResult =
+                    new CommandResult(JspManager.getPage(PagePath.SHOW_COCKTAIL), CommandResult.RoutingType.REDIRECT);
+            commandResult.putRedirectParameter(RequestParameter.ID, Integer.toString(cocktailId));
+            return commandResult;
+        }
         try {
             reviewService.createReview(author.getUserId(), cocktailId, reviewText, reviewMark);
         } catch (ServiceException e) {
-            return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.REDIRECT);
         }
         CommandResult commandResult =
                 new CommandResult(JspManager.getPage(PagePath.SHOW_COCKTAIL), CommandResult.RoutingType.REDIRECT);

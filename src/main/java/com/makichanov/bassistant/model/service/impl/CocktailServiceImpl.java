@@ -55,7 +55,22 @@ public class CocktailServiceImpl implements CocktailService {
             transaction.initAction(dao);
             cocktails = dao.findByUserID(id);
         } catch (DaoException e) {
-            throw new ServiceException();
+            LOG.error("Failed to find cocktails by user id: " + id, e);
+            throw new ServiceException("Failed to find cocktails by user id: " + id, e);
+        }
+        return cocktails;
+    }
+
+    @Override
+    public List<Cocktail> findByNameRegexp(String regexp) throws ServiceException {
+        CocktailDao cocktailDao = new CocktailDaoImpl();
+        List<Cocktail> cocktails;
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(cocktailDao);
+            cocktails = cocktailDao.findByNameRegexp(regexp);
+        } catch (DaoException e) {
+            LOG.error("Failed to find cocktails by name regexp: " + regexp, e);
+            throw new ServiceException("Failed to find cocktails by name regexp: " + regexp, e);
         }
         return cocktails;
     }

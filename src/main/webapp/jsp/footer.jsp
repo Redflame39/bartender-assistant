@@ -28,7 +28,7 @@
             <a href="" class="me-4 text-reset">
                 <i class="fab fa-linkedin"></i>
             </a>
-            <a href="" class="me-4 text-reset">
+            <a href="https://github.com/Redflame39/bartender-assistant" class="me-4 text-reset">
                 <i class="fab fa-github"></i>
             </a>
         </div>
@@ -60,13 +60,12 @@
                         Languages
                     </h6>
                     <p>
-                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?
-                        ${requestScope["jakarta.servlet.forward.query_string"]}&locale=en_US"
+                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?command=home&locale=en_US"
                            class="text-reset">English
                         </a>
                     </p>
                     <p>
-                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?${requestScope["jakarta.servlet.forward.query_string"]}&locale=ru_RU"
+                        <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?command=home&locale=ru_RU"
                            class="text-reset">Русский
                         </a>
                     </p>

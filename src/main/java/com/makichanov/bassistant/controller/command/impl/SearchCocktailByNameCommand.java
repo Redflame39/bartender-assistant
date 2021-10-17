@@ -14,35 +14,28 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Optional;
+import java.util.List;
 
-public class CocktailImageFormCommand implements ActionCommand {
+public class SearchCocktailByNameCommand implements ActionCommand {
 
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        String idParam = request.getParameter(RequestParameter.ID);
-        int id;
-        try {
-            id = Integer.parseInt(idParam);
-        } catch (NumberFormatException e) {
-            return new CommandResult(JspManager.getPage(PagePath.ERROR400), CommandResult.RoutingType.FORWARD);
+        String regexp = request.getParameter(RequestParameter.COCKTAIL_NAME);
+        if (regexp.isBlank()) {
+            regexp = ".*";
         }
         CocktailService service = CocktailServiceImpl.getInstance();
-        Optional<Cocktail> cocktailToEdit;
+        List<Cocktail> cocktails;
         try {
-            cocktailToEdit = service.findById(id);
+            cocktails = service.findByNameRegexp(regexp);
         } catch (ServiceException e) {
+            LOG.error("Failed to execute SearchCocktailByNameCommand", e);
             return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
         }
-        if (cocktailToEdit.isEmpty()) {
-            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
-        }
-        Cocktail cocktail = cocktailToEdit.get();
-
-        request.setAttribute(RequestAttribute.COCKTAIL_NAME, cocktail.getName());
-        request.setAttribute(RequestAttribute.ID, cocktail.getId());
-        return new CommandResult(JspManager.getPage(PagePath.COCKTAIL_IMAGE), CommandResult.RoutingType.FORWARD);
+        request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
+        request.setAttribute(RequestAttribute.COCKTAIL_NAME, ".*".equals(regexp) ? "" : regexp);
+        return new CommandResult(JspManager.getPage(PagePath.COCKTAILS), CommandResult.RoutingType.FORWARD);
     }
 }

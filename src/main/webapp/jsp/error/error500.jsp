@@ -10,6 +10,6 @@
 </head>
 <body>
 <c:import url="../header.jsp"/>
-<span>${pageContext.exception.getLocalizedMessage()}</span>
+<span>${pageContext.errorData.throwable.cause}</span>
 </body>
 </html>

@@ -24,23 +24,29 @@ public class AuthenticateUserCommand implements ActionCommand {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public CommandResult execute(HttpServletRequest request) { // TODO: 08.09.2021 authentication with username or email
+    public CommandResult execute(HttpServletRequest request) {
         String email = request.getParameter(EMAIL);
         String password = request.getParameter(PASSWORD);
         UserService service = UserServiceImpl.getInstance();
         try {
             Optional<User> result = service.authenticateByEmail(email, password);
             if (result.isPresent()) {
-                HttpSession session = request.getSession();
-                session.setAttribute(USER, result.get());
-                session.setAttribute(AUTHENTICATED, true);
-                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT);
+                User user = result.get();
+                if (user.isActivated()) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute(USER, result.get());
+                    session.setAttribute(AUTHENTICATED, true);
+                    return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT);
+                } else {
+                    request.setAttribute(ERROR_MESSAGE, "You need to activate your account before login.");
+                    return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
+                }
             } else {
                 request.setAttribute(ERROR_MESSAGE, "Incorrect username or password.");
                 return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
             }
         } catch (ServiceException e) {
-            LOG.error("Authentication failed", e); // FIXME: 27.08.2021 error message
+            LOG.error("Authentication failed", e);
             return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
     }

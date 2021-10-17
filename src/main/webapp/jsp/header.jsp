@@ -23,11 +23,6 @@
                        href="${pageContext.request.contextPath}/controller?command=create_cocktail_page"><fmt:message key="header.create"/></a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><fmt:message
-                        key="header.search-button"/></button>
-            </form>
             <ul class="navbar-nav d-flex align-items-center">
                 <c:choose>
                     <c:when test="${authenticated}">

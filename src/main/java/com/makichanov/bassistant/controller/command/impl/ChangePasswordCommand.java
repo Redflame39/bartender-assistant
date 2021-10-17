@@ -11,11 +11,16 @@ import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.PASSWORD;
 import static com.makichanov.bassistant.controller.command.RequestParameter.RE_PASSWORD;
 
 public class ChangePasswordCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         String password = request.getParameter(PASSWORD);

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class UserDaoImpl extends UserDao {
 
@@ -25,8 +26,44 @@ public class UserDaoImpl extends UserDao {
             "select user_id, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where username = ?;";
     private static final String SQL_FIND_BY_EMAIL =
             "select user_id, username, role.role_name, profile_picture, activated from users join role on users.role_id = role.role_id where email = ?;";
-    private static final String SQL_FIND_BY_ROLE =
-            "select user_id, username, email, profile_picture, activated from users join role on users.role_id = role.role_id where role.role_name = ?;";
+    private static final String SQL_FIND_BY_ROLE = """
+            select users.user_id,
+                   username,
+                   first_name,
+                   last_name,
+                   email,
+                   profile_picture,
+                   activated,
+                   avg(r.rate)          as avg_rate,
+                   count(c.cocktail_id) as cocktails_created
+            from users
+                     left join role on users.role_id = role.role_id
+                     left join cocktails c on users.user_id = c.user_id
+                     left join reviews r on c.cocktail_id = r.cocktail_id
+            where role.role_name = ?
+            group by users.user_id
+            order by avg_rate desc, cocktails_created desc
+            limit ?, ?;
+            """;
+    private static final String SQL_FIND_BY_NAME_REGEXP = """
+            select users.user_id,
+                   username,
+                   role.role_name,
+                   first_name,
+                   last_name,
+                   email,
+                   profile_picture,
+                   activated,
+                   avg(r.rate)          as avg_rate,
+                   count(c.cocktail_id) as cocktails_created
+            from users
+                     left join role on users.role_id = role.role_id
+                     left join cocktails c on users.user_id = c.user_id
+                     left join reviews r on c.cocktail_id = r.cocktail_id
+            where concat(first_name, last_name) regexp ?
+            group by users.user_id
+            order by avg_rate desc, cocktails_created desc;
+            """;
     private static final String SQL_CREATE =
             "insert into users (username, password, role_id, email, first_name, last_name) values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
@@ -36,6 +73,7 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
     private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
     private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where user_id = ?";
+    private static final String SQL_COUNT_BY_ROLE = "select count(*) as users_count from users where role_id = ?";
 
     @Override
     public List<User> findAll(int offset, int count) throws DaoException {
@@ -155,24 +193,72 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public List<User> findByRole(Role role) throws DaoException {
+    public List<User> findByRole(Role role, int offset, int count) throws DaoException {
         List<User> users = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ROLE)) {
             statement.setString(1, role.toString());
+            statement.setInt(2, offset);
+            statement.setInt(3, count);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 int userId = resultSet.getInt(1);
                 String username = resultSet.getString(2);
-                String email = resultSet.getString(3);
-                String avatarSource = resultSet.getString(4);
-                boolean activated = resultSet.getBoolean(5);
+                String firstName = resultSet.getString(3);
+                String lastName = resultSet.getString(4);
+                String email = resultSet.getString(5);
+                String avatarSource = resultSet.getString(6);
+                boolean activated = resultSet.getBoolean(7);
+                double averageRate = resultSet.getDouble(8);
+                int cocktailsCreated = resultSet.getInt(9);
                 User user = new User.UserBuilder()
                         .setUsername(username)
+                        .setLastName(lastName)
+                        .setFirstName(firstName)
                         .setUserId(userId)
                         .setRole(role)
                         .setEmail(email)
                         .setAvatarSource(avatarSource)
                         .setActivated(activated)
+                        .setAverageCocktailsRate(averageRate)
+                        .setCocktailsCreated(cocktailsCreated)
+                        .createUser();
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            LOG.error("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findByNameRegexp(String regexp) throws DaoException {
+        List<User> users = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME_REGEXP)) {
+            statement.setString(1, regexp);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int userId = resultSet.getInt(1);
+                String username = resultSet.getString(2);
+                String role = resultSet.getString(3);
+                String firstName = resultSet.getString(4);
+                String lastName = resultSet.getString(5);
+                String email = resultSet.getString(6);
+                String avatarSource = resultSet.getString(7);
+                boolean activated = resultSet.getBoolean(8);
+                double averageRate = resultSet.getDouble(9);
+                int cocktailsCreated = resultSet.getInt(10);
+                User user = new User.UserBuilder()
+                        .setUsername(username)
+                        .setLastName(lastName)
+                        .setFirstName(firstName)
+                        .setUserId(userId)
+                        .setRole(Role.valueOf(role.toUpperCase()))
+                        .setEmail(email)
+                        .setAvatarSource(avatarSource)
+                        .setActivated(activated)
+                        .setAverageCocktailsRate(averageRate)
+                        .setCocktailsCreated(cocktailsCreated)
                         .createUser();
                 users.add(user);
             }
@@ -278,6 +364,25 @@ public class UserDaoImpl extends UserDao {
         } catch (SQLException e) {
             LOG.error("Failed to update user password, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user password, id: " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public OptionalInt countUsersByRole(Role role) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_COUNT_BY_ROLE)) {
+            statement.setInt(1, role.getRoleId());
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                resultSet.close();
+                return OptionalInt.of(count);
+            } else {
+                resultSet.close();
+                return OptionalInt.empty();
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed to count users with role " + role, e);
+            throw new DaoException("Failed to count users with role " + role, e);
         }
     }
 }

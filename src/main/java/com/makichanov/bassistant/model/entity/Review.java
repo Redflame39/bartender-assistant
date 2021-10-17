@@ -7,7 +7,7 @@ public class Review extends Entity {
     private String comment;
     private int rate;
 
-    public Review(int id, int userId, int cocktailId, String comment, int rate) {
+    private Review(int id, int userId, int cocktailId, String comment, int rate) {
         this.id = id;
         this.userId = userId;
         this.cocktailId = cocktailId;
@@ -19,40 +19,20 @@ public class Review extends Entity {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getCocktailId() {
         return cocktailId;
     }
 
-    public void setCocktailId(int cocktailId) {
-        this.cocktailId = cocktailId;
-    }
-
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public int getRate() {
         return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
     }
 
     @Override
@@ -83,7 +63,7 @@ public class Review extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Review{");
+        StringBuilder sb = new StringBuilder("Review{");
         sb.append("id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", cocktailId=").append(cocktailId);

@@ -7,12 +7,15 @@ public class User extends Entity {
     private Role role;
     private String email;
     private String avatarSource;
-    private  boolean activated;
+    private boolean activated;
     private String firstName;
     private String lastName;
+    private int cocktailsCreated;
+    private double averageCocktailsRate;
 
-    private User(String username, int userId, Role role, String email,
-                String avatarSource, boolean activated, String firstName, String lastName) {
+    private User(String username, int userId, Role role, String email, String avatarSource,
+                 boolean activated, String firstName, String lastName, int cocktailsCreated,
+                 double averageCocktailsRate) {
         this.username = username;
         this.userId = userId;
         this.email = email;
@@ -21,6 +24,8 @@ public class User extends Entity {
         this.activated = activated;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.cocktailsCreated = cocktailsCreated;
+        this.averageCocktailsRate = averageCocktailsRate;
     }
 
     public String getUsername() {
@@ -53,6 +58,14 @@ public class User extends Entity {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public int getCocktailsCreated() {
+        return cocktailsCreated;
+    }
+
+    public double getAverageCocktailsRate() {
+        return averageCocktailsRate;
     }
 
     @Override
@@ -93,7 +106,6 @@ public class User extends Entity {
     }
 
     public static class UserBuilder {
-
         private String username;
         private int userId;
         private Role role;
@@ -102,6 +114,8 @@ public class User extends Entity {
         private boolean activated;
         private String firstName;
         private String lastName;
+        private int cocktailsCreated;
+        private double averageCocktailsRate;
 
         public UserBuilder setUsername(String username) {
             this.username = username;
@@ -143,9 +157,19 @@ public class User extends Entity {
             return this;
         }
 
+        public UserBuilder setCocktailsCreated(int cocktailsCreated) {
+            this.cocktailsCreated = cocktailsCreated;
+            return this;
+        }
+
+        public UserBuilder setAverageCocktailsRate(double averageCocktailsRate) {
+            this.averageCocktailsRate = averageCocktailsRate;
+            return this;
+        }
+
         public User createUser() {
-            return new User(username, userId, role, email,
-                    avatarSource, activated, firstName, lastName);
+            return new User(username, userId, role, email, avatarSource,
+                     activated, firstName, lastName, cocktailsCreated, averageCocktailsRate);
         }
     }
 

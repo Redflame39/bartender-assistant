@@ -1,14 +1,19 @@
 package com.makichanov.bassistant.model.dao;
 
+import com.makichanov.bassistant.exception.PoolException;
 import com.makichanov.bassistant.model.entity.Entity;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.model.pool.CustomConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 
 public class EntityTransaction implements AutoCloseable {
+
+    private static final Logger LOG = LogManager.getLogger();
     private Connection connection;
 
     @SafeVarargs
@@ -19,7 +24,12 @@ public class EntityTransaction implements AutoCloseable {
         }
         if (connection == null) {
             CustomConnectionPool instance = CustomConnectionPool.getInstance();
-            connection = instance.getConnection();
+            try {
+                connection = instance.getConnection();
+            } catch (PoolException e) {
+                LOG.error("Failed to get connection from pool", e);
+                throw new DaoException("Failed to get connection from pool", e);
+            }
         }
         try {
             connection.setAutoCommit(false);
@@ -37,7 +47,12 @@ public class EntityTransaction implements AutoCloseable {
         }
         if (connection == null) {
             CustomConnectionPool instance = CustomConnectionPool.getInstance();
-            connection = instance.getConnection();
+            try {
+                connection = instance.getConnection();
+            } catch (PoolException e) {
+                LOG.error("Failed to get connection from pool", e);
+                throw new DaoException("Failed to get connection from pool", e);
+            }
         }
         dao.setConnection(connection);
     }

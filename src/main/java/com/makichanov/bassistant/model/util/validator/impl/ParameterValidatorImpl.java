@@ -9,7 +9,7 @@ public class ParameterValidatorImpl implements ParameterValidator {
     private static final ParameterValidatorImpl instance = new ParameterValidatorImpl();
     private static final String FIRST_LAST_NAME_REGEXP = "[a-zA-Zа-яА-Я- ]{1,40}";
     private static final String EMAIL_REGEXP = "(.+@.+){3,255}";
-    private static final String PASSWORD_REGEXP = "{3,255}";
+    private static final String PASSWORD_REGEXP = "(.+){5,40}";
 
     private ParameterValidatorImpl() {
 
@@ -46,6 +46,9 @@ public class ParameterValidatorImpl implements ParameterValidator {
 
     @Override
     public boolean validatePositiveInt(String number) {
+        if (number == null) {
+            return false;
+        }
         try (Scanner scanner = new Scanner(number)) {
             boolean isInt = scanner.hasNextInt();
             if (isInt) {

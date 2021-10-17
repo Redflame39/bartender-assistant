@@ -12,6 +12,8 @@ import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
 import com.makichanov.bassistant.model.util.validator.ParameterValidator;
 import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -20,6 +22,8 @@ import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class CreateAccountCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
@@ -44,7 +48,7 @@ public class CreateAccountCommand implements ActionCommand {
             if (createdUser.isPresent()) {
                 ActivationMailSender mailSender = ActivationMailSender.getInstance();
                 mailSender.sendMail(createdUser.get());
-                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.FORWARD); // TODO: 10/5/2021 go to page that informs user he need to activate account
+                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT); // TODO: 10/5/2021 go to page that informs user he need to activate account
             } else {
                 return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
             }

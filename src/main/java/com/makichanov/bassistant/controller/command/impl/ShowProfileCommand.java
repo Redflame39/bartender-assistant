@@ -10,6 +10,8 @@ import com.makichanov.bassistant.model.dao.impl.UserDaoImpl;
 import com.makichanov.bassistant.model.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -20,6 +22,8 @@ import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
 
 public class ShowProfileCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {

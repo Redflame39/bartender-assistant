@@ -57,13 +57,14 @@ public class CustomConnectionPool {
         return instance;
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws PoolException {
         ProxyConnection connection = null;
         try {
             connection = freeConnections.take();
             givenAwayConnections.offer(connection);
         } catch (InterruptedException e) {
-            // TODO: 16.08.2021 catch
+            LOG.error("Failed to get connection", e);
+            throw new PoolException("Failed to get connection", e);
         }
         return connection;
     }
@@ -82,7 +83,7 @@ public class CustomConnectionPool {
         }
     }
 
-    public void destroyPool() {
+    public void destroyPool() throws PoolException {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {
                 freeConnections.take().reallyClose();
@@ -90,6 +91,7 @@ public class CustomConnectionPool {
                 LOG.error("Exception occurred while destroying connection pool.", e);
             } catch (InterruptedException e) {
                 LOG.error("Exception occurred while destroying connection pool.", e);
+                throw new PoolException("Failed to get connection", e);
             }
         }
         deregisterDrivers();

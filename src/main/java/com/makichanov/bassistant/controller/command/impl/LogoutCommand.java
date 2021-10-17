@@ -6,8 +6,13 @@ import com.makichanov.bassistant.controller.manager.JspManager;
 import com.makichanov.bassistant.controller.manager.PagePath;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class LogoutCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         HttpSession session = request.getSession();

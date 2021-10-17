@@ -12,6 +12,8 @@ import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import com.makichanov.bassistant.controller.manager.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
@@ -20,6 +22,9 @@ import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
 import static com.makichanov.bassistant.controller.manager.PagePath.*;
 
 public class CreateCocktailCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public CommandResult execute(HttpServletRequest request) {
         String name = request.getParameter(COCKTAIL_NAME);

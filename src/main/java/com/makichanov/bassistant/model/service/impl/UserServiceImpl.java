@@ -1,7 +1,9 @@
 package com.makichanov.bassistant.model.service.impl;
 
+import com.makichanov.bassistant.model.dao.CocktailDao;
 import com.makichanov.bassistant.model.dao.EntityTransaction;
 import com.makichanov.bassistant.model.dao.UserDao;
+import com.makichanov.bassistant.model.dao.impl.CocktailDaoImpl;
 import com.makichanov.bassistant.model.dao.impl.UserDaoImpl;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
@@ -14,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 public class UserServiceImpl implements UserService {
 
@@ -151,13 +154,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findByRole(Role role) throws ServiceException {
+    public List<User> findByRole(Role role, int offset, int count) throws ServiceException {
         UserDao dao = new UserDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
-            return dao.findByRole(role);
+            return dao.findByRole(role, offset, count);
         } catch (DaoException e) {
-            throw new ServiceException();
+            LOG.error("Failed to find users with role " + role, e);
+            throw new ServiceException("Failed to find users with role " + role, e);
+        }
+    }
+
+    @Override
+    public List<User> findByNameRegexp(String regexp) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.findByNameRegexp(regexp);
+        } catch (DaoException e) {
+            LOG.error("Failed to find users by name regexp " + regexp, e);
+            throw new ServiceException("Failed to find users by name regexp " + regexp, e);
         }
     }
 
@@ -169,6 +185,19 @@ public class UserServiceImpl implements UserService {
             dao.updatePassword(toUpdateId, newPassword);
         } catch (DaoException e) {
             throw new ServiceException();
+        }
+    }
+
+    @Override
+    public int countUsersByRole(Role role) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            OptionalInt count = dao.countUsersByRole(role);
+            return count.orElseThrow(() -> new ServiceException("Failed to count users with role " + role));
+        } catch (DaoException e) {
+            LOG.error("Failed to count users with role " + role, e);
+            throw new ServiceException("Failed to count users with role " + role, e);
         }
     }
 }

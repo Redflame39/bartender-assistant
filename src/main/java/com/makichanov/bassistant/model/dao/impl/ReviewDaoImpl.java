@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.model.dao.impl;
 
 import com.makichanov.bassistant.model.dao.ReviewDao;
+import com.makichanov.bassistant.model.dto.ReviewDto;
 import com.makichanov.bassistant.model.entity.Review;
 import com.makichanov.bassistant.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +19,12 @@ public class ReviewDaoImpl extends ReviewDao {
     private static final Logger LOG = LogManager.getLogger();
 
     private static final String SQL_FIND_ALL = "select review_id, user_id, cocktail_id, comment, rate from reviews;";
+    private static final String SQL_FIND_ALL_COMMENTS = """
+            select comment, rate, u.user_id, concat(u.first_name, ' ', u.last_name) as name, u.profile_picture, review_id
+            from reviews
+                     left join users u on reviews.user_id = u.user_id
+            where cocktail_id = ?;
+            """;
     private static final String SQL_FIND_BY_ID =
             "select user_id, cocktail_id, comment, rate from reviews where review_id = ?;";
     private static final String SQL_FIND_BY_USER_ID =
@@ -29,6 +36,8 @@ public class ReviewDaoImpl extends ReviewDao {
     private static final String SQL_REMOVE_ID = "delete from reviews where review_id = ?;";
     private static final String SQL_UPDATE_ID =
             "update reviews set review_id = ?, user_id = ?, cocktail_id = ?, comment = ?, rate = ? where review_id = ?;";
+    private static final String SQL_COUNT_REVIEWS_FOR_COCKTAIL =
+            "select count(cocktail_id) from reviews where cocktail_id = ? and user_id = ?;";
 
     @Override
     public List<Review> findAll(int offset, int count) throws DaoException {
@@ -58,6 +67,36 @@ public class ReviewDaoImpl extends ReviewDao {
     }
 
     @Override
+    public List<ReviewDto> findAllComments(int cocktailId) throws DaoException {
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+        try(PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_COMMENTS)) {
+            statement.setInt(1, cocktailId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String comment = resultSet.getString(1);
+                double rate = resultSet.getDouble(2);
+                int userId = resultSet.getInt(3);
+                String name = resultSet.getString(4);
+                String avatar = resultSet.getString(5);
+                int reviewId = resultSet.getInt(6);
+                ReviewDto reviewDto = new ReviewDto.ReviewDtoBuilder()
+                        .setComment(comment)
+                        .setRate(rate)
+                        .setAuthorId(userId)
+                        .setAuthorName(name)
+                        .setAuthorImage(avatar)
+                        .setReviewId(reviewId)
+                        .createReviewDto();
+                reviewDtos.add(reviewDto);
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed to execute SQL_FIND_ALL_COMMENTS, id: " + cocktailId, e);
+            throw new DaoException("Failed to execute SQL_FIND_ALL_COMMENTS, id: " + cocktailId, e);
+        }
+        return reviewDtos;
+    }
+
+    @Override
     public Optional<Review> findById(Integer id) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setInt(1, id);
@@ -79,8 +118,8 @@ public class ReviewDaoImpl extends ReviewDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_FIND_BY_ID", e);
-            throw new DaoException("ReviewDao: Failed to execute SQL_FIND_BY_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_ID", e);
         }
     }
 
@@ -140,7 +179,7 @@ public class ReviewDaoImpl extends ReviewDao {
 
     @Override
     public boolean create(int userId, int cocktailId, String comment, int rate) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setInt(1, userId);
             statement.setInt(2, cocktailId);
             statement.setString(3, comment);
@@ -155,7 +194,7 @@ public class ReviewDaoImpl extends ReviewDao {
 
     @Override
     public boolean remove(Integer id) throws DaoException {
-        try(PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
             statement.executeUpdate();
             return true;
@@ -179,9 +218,21 @@ public class ReviewDaoImpl extends ReviewDao {
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {
-            LOG.error(String.format(
-                    "ReviewDao: Failed to execute SQL_UPDATE_ID, id = %d, replacement = %s", id, replacement));
-            throw new DaoException("ReviewDao: Failed to execute SQL_UPDATE_ID, id = " + id);
+            LOG.error(String.format("Failed to execute SQL_UPDATE_ID, id = %d, replacement = %s", id, replacement));
+            throw new DaoException("Failed to execute SQL_UPDATE_ID, id = " + id);
+        }
+    }
+
+    @Override
+    public int countUserCocktailReviews(int userId, int cocktailId) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_COUNT_REVIEWS_FOR_COCKTAIL)) {
+            statement.setInt(1, cocktailId);
+            statement.setInt(2, userId);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next() ? resultSet.getInt(1) : 0;
+        } catch (SQLException e) {
+            LOG.error("Failed to execute SQL_COUNT_REVIEWS_FOR_COCKTAIL", e);
+            throw new DaoException("Failed to execute SQL_COUNT_REVIEWS_FOR_COCKTAIL", e);
         }
     }
 }

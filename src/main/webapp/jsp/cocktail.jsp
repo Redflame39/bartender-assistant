@@ -36,11 +36,28 @@
             <option value="2">2 - Weak</option>
             <option value="1">1 - Bad</option>
         </select>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary"
+                <c:if test="${sessionScope.user.userId == requestScope.cocktail.userId}">disabled</c:if>>Submit
+        </button>
     </form>
+    <span class="text-danger">${requestScope.errorMessage}</span>
     <div class="list-group">
         <c:forEach var="review" items="${reviews}">
-            <span class="list-group-item">${review.comment}</span>
+            <div class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="d-flex flex-row align-items-center">
+                    <img src="${review.authorImage}" class="mx-3" style="width: 5vw; height: 5vh" alt="">
+                    <div class="d-flex flex-column">
+                        <strong><a
+                                href="controller?command=profile&id=${review.authorId}">${review.authorName}</a></strong>
+                        <span>${review.comment}</span>
+                        <strong>${review.rate}</strong>
+                    </div>
+                </div>
+                <c:if test="${review.authorId == sessionScope.user.userId}">
+                    <a type="button" href="controller?command=delete_review&id=${review.reviewId}&cocktail_id=${cocktail.id}"
+                       class="btn btn-danger btn-sm">Delete review</a>
+                </c:if>
+            </div>
         </c:forEach>
     </div>
 </div>

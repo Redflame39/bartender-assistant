@@ -9,12 +9,16 @@ import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import com.makichanov.bassistant.model.util.security.CustomDigitalSigner;
 import com.makichanov.bassistant.model.util.security.DigitalSigner;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.TOKEN;
 import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.manager.PagePath.LOGIN;
 
 public class ActivateUserCommand implements ActionCommand {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
