@@ -32,8 +32,13 @@ public class CocktailDaoImpl extends CocktailDao {
             group by cocktails.cocktail_id
             order by avg_rate desc
             """;
-    private static final String SQL_FIND_BY_ID =
-            "select name, user_id, instructions, cocktail_image, upload_date from cocktails where cocktail_id = ?;";
+    private static final String SQL_FIND_BY_ID = """
+            select name, c.user_id, instructions, cocktail_image, upload_date, avg(r.rate)
+            from cocktails c
+                     left join reviews r on c.cocktail_id = r.cocktail_id
+            where c.cocktail_id = ?
+            group by c.cocktail_id;
+            """;
     private static final String SQL_FIND_BY_USER_ID =
             "select name, cocktail_id, instructions, cocktail_image, upload_date from cocktails where user_id = ?;";
     private static final String SQL_FIND_BY_NAME =
@@ -42,7 +47,7 @@ public class CocktailDaoImpl extends CocktailDao {
             "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
     private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
     private static final String SQL_UPDATE_ID =
-            "update cocktails set name = ?, cocktail_id = ?, user_id = ?, instructions = ? where cocktail_id = ?";
+            "update cocktails set name = ?, instructions = ? where cocktail_id = ?";
     private static final String SQL_UPDATE_IMAGE = "update cocktails set cocktail_image = ? where cocktail_id = ?";
     private static final String SQL_COUNT_COCKTAILS = "select count(*) as cocktails_count from cocktails;";
 
@@ -92,6 +97,7 @@ public class CocktailDaoImpl extends CocktailDao {
                 String instructions = resultSet.getString(3);
                 String imageSource = resultSet.getString(4);
                 Timestamp uploadDate = resultSet.getTimestamp(5);
+                double rate = resultSet.getDouble(6);
                 Cocktail cocktail = new Cocktail.CocktailBuilder()
                         .setName(name)
                         .setId(id)
@@ -99,6 +105,7 @@ public class CocktailDaoImpl extends CocktailDao {
                         .setInstructions(instructions)
                         .setImageSource(imageSource)
                         .setUploadDate(uploadDate)
+                        .setAverageMark(rate)
                         .createCocktail();
                 resultSet.close();
                 return Optional.of(cocktail);
@@ -145,7 +152,7 @@ public class CocktailDaoImpl extends CocktailDao {
     @Override
     public List<Cocktail> findByNameRegexp(String regexp) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
-        try(PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME_REGEXP)) {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME_REGEXP)) {
             statement.setString(1, regexp);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -235,12 +242,10 @@ public class CocktailDaoImpl extends CocktailDao {
     public Cocktail update(Integer id, Cocktail replacement) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ID)) {
             Cocktail old = findById(id)
-                    .orElseThrow(() -> new DaoException("Object with id " + id + " not found and cannot be removed"));
+                    .orElseThrow(() -> new DaoException("Object with id " + id + " not found and cannot be updated"));
             statement.setString(1, replacement.getName());
-            statement.setInt(2, replacement.getId());
-            statement.setInt(3, replacement.getUserId());
-            statement.setString(4, replacement.getInstructions());
-            statement.setInt(5, id);
+            statement.setString(2, replacement.getInstructions());
+            statement.setInt(3, id);
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {

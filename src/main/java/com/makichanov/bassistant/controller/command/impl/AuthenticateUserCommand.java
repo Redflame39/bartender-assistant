@@ -35,7 +35,6 @@ public class AuthenticateUserCommand implements ActionCommand {
                 if (user.isActivated()) {
                     HttpSession session = request.getSession();
                     session.setAttribute(USER, result.get());
-                    session.setAttribute(AUTHENTICATED, true);
                     return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT);
                 } else {
                     request.setAttribute(ERROR_MESSAGE, "You need to activate your account before login.");

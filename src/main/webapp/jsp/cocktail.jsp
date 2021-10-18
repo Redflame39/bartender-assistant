@@ -12,13 +12,22 @@
 <body>
 <c:import url="/jsp/header.jsp" charEncoding="utf-8"/>
 <div class="container-fluid">
-    <div class="d-flex mb-3">
-        <img src="${cocktail.imageSource}" alt=""/>
-        <div class="d-flex flex-column">
-            <h1>${cocktail.name}</h1>
-            <span>${cocktail.averageMark}</span>
-            <span>${cocktail.instructions}</span>
+    <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-row mb-3">
+            <img src="${requestScope.cocktail.imageSource}" alt="../img/unknown.png"/>
+            <div class="d-flex flex-column">
+                <h1>${cocktail.name}</h1>
+                <span>${cocktail.averageMark}</span>
+                <span>${cocktail.instructions}</span>
+            </div>
         </div>
+        <c:if test="${(cocktail.userId == sessionScope.user.userId) || sessionScope.user.role == 'ADMIN'}">
+            <div class="d-flex flex-column align-items-start">
+                <a href="controller?command=update_cocktail&id=${cocktail.id}" class="btn btn-primary">Update cocktail info</a>
+                <a href="controller?command=cocktail_image&id=${cocktail.id}" class="btn btn-primary my-3">Update cocktail picture</a>
+                <a href="controller?command=delete_cocktail&id=${cocktail.id}" class="btn btn-danger">Delete cocktail</a>
+            </div>
+        </c:if>
     </div>
     <br>
     <form name="addReviewForm" method="POST" action="controller">
@@ -53,7 +62,7 @@
                         <strong>${review.rate}</strong>
                     </div>
                 </div>
-                <c:if test="${review.authorId == sessionScope.user.userId}">
+                <c:if test="${review.authorId == sessionScope.user.userId || sessionScope.user.role == 'ADMIN'}">
                     <a type="button" href="controller?command=delete_review&id=${review.reviewId}&cocktail_id=${cocktail.id}"
                        class="btn btn-danger btn-sm">Delete review</a>
                 </c:if>

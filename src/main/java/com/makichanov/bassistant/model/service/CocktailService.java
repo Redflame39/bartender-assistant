@@ -20,11 +20,11 @@ public interface CocktailService {
 
     boolean create(String cocktailName, int userId, String instructions) throws ServiceException;
 
-    Cocktail update(int toReplaceId, Cocktail replacement);
+    Cocktail update(int toReplaceId, Cocktail replacement) throws ServiceException;
 
     Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 
-    Cocktail delete(int toDeleteId);
+    boolean delete(int toDeleteId) throws ServiceException;
 
     int countCocktails() throws ServiceException;
 }

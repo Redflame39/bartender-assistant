@@ -23,6 +23,8 @@ public class PostRedirectGet {
         redirectCommandMapper.put(CREATE_COCKTAIL, COCKTAIL_IMAGE);
         redirectCommandMapper.put(CREATE_ACCOUNT, HOME);
         redirectCommandMapper.put(DELETE_REVIEW, SHOW_COCKTAIL);
+        redirectCommandMapper.put(SAVE_UPDATED_COCKTAIL, SHOW_COCKTAIL);
+        redirectCommandMapper.put(DELETE_COCKTAIL, COCKTAILS);
     }
 
     public static PostRedirectGet getInstance() {

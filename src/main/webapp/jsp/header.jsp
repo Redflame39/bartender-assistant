@@ -13,33 +13,40 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=cocktails"><fmt:message key="header.cocktails"/></a>
+                    <a class="nav-link"
+                       href="${pageContext.request.contextPath}/controller?command=cocktails"><fmt:message
+                            key="header.cocktails"/></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/controller?command=bartenders"><fmt:message key="header.bartenders"/></a>
+                    <a class="nav-link"
+                       href="${pageContext.request.contextPath}/controller?command=bartenders"><fmt:message
+                            key="header.bartenders"/></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-outline-success my-2 my-sm-0"
-                       href="${pageContext.request.contextPath}/controller?command=create_cocktail_page"><fmt:message key="header.create"/></a>
+                       href="${pageContext.request.contextPath}/controller?command=create_cocktail_page"><fmt:message
+                            key="header.create"/></a>
                 </li>
             </ul>
             <ul class="navbar-nav d-flex align-items-center">
                 <c:choose>
-                    <c:when test="${authenticated}">
+                    <c:when test="${sessionScope.user != null}">
                         <li class="nav-item">
                             <a class="nav-item nav-link"
-                               href="${pageContext.request.contextPath}/controller?command=profile&id=${user.userId}"><fmt:message
-                                    key="header.profile"/></a>
+                               href="${pageContext.request.contextPath}/controller?command=profile&id=${sessionScope.user.userId}">
+                                    ${sessionScope.user.username}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message
+                            <a class="nav-item nav-link"
+                               href="${pageContext.request.contextPath}/controller?command=logout"><fmt:message
                                     key="header.logout"
                             /></a>
                         </li>
                     </c:when>
                     <c:otherwise>
                         <li class="nav-item">
-                            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/controller?command=login"><fmt:message
+                            <a class="nav-item nav-link"
+                               href="${pageContext.request.contextPath}/controller?command=login"><fmt:message
                                     key="header.login"/></a>
                         </li>
                     </c:otherwise>

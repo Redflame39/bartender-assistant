@@ -31,7 +31,8 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
-                    <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                    <img src="${cocktail.imageSource}" class="img-fluid w-25"
+                         alt="${pageContext.request.contextPath}/img/unknown.png">
                     <div class="d-flex flex-column m-2">
                         <h5 class="mb-1">${cocktail.name}</h5>
                         <p class="mb-1 w-25">${fn:substring(cocktail.instructions, 0, 100)}</p>

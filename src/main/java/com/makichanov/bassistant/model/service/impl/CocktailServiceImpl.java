@@ -112,8 +112,15 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public Cocktail update(int toReplaceId, Cocktail replacement) {
-        return null;
+    public Cocktail update(int toReplaceId, Cocktail replacement) throws ServiceException {
+        CocktailDao dao = new CocktailDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+             transaction.initAction(dao);
+             return dao.update(toReplaceId, replacement);
+        } catch (DaoException e) {
+            LOG.error("Failed to update cocktail with id " + toReplaceId, e);
+            throw new ServiceException("Failed to update cocktail with id " + toReplaceId, e);
+        }
     }
 
     @Override
@@ -148,8 +155,15 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public Cocktail delete(int toDeleteId) {
-        return null;
+    public boolean delete(int toDeleteId) throws ServiceException {
+        CocktailDao dao = new CocktailDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.remove(toDeleteId);
+        } catch (DaoException e) {
+            LOG.error("Failed to delete cocktail with id " + toDeleteId, e);
+            throw new ServiceException("Failed to delete cocktail with id " + toDeleteId, e);
+        }
     }
 
     @Override
@@ -163,13 +177,5 @@ public class CocktailServiceImpl implements CocktailService {
             LOG.error("Failed to count cocktails", e);
             throw new ServiceException("Failed to count cocktails", e);
         }
-    }
-
-    private double countAverageMark(ReviewDao dao, int cocktailId) throws DaoException {
-        List<Review> reviews = dao.findByCocktailId(cocktailId);
-        return reviews.stream()
-                .mapToInt(Review::getRate)
-                .average()
-                .orElse(0);
     }
 }

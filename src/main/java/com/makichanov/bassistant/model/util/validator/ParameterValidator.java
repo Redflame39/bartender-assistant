@@ -14,4 +14,8 @@ public interface ParameterValidator {
 
     boolean validatePositiveInt(String number);
 
+    boolean validateCocktailName(String name);
+
+    boolean validateCocktailInstructions(String instructions);
+
 }

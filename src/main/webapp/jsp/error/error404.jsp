@@ -10,7 +10,7 @@
 </head>
 <body>
 <c:import url="../header.jsp"/>
-<img src="${pageContext.request.contextPath}/img/anime404.png">
+<img src="${pageContext.request.contextPath}/img/anime404.png" alt="${pageContext.request.contextPath}/img/unknown.png">
 <a class="=btn" href="${pageContext.request.contextPath}/controller?command=home">Go home</a>
 </body>
 </html>

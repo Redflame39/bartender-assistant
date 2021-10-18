@@ -1,4 +1,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -61,12 +64,12 @@
                     </h6>
                     <p>
                         <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?command=home&locale=en_US"
-                           class="text-reset">English
+                           class="text-reset"><fmt:message key="footer.language.en"/>
                         </a>
                     </p>
                     <p>
                         <a href="${requestScope["jakarta.servlet.forward.request_uri"]}?command=home&locale=ru_RU"
-                           class="text-reset">Русский
+                           class="text-reset"><fmt:message key="footer.language.ru"/>
                         </a>
                     </p>
                 </div>

@@ -40,6 +40,9 @@ public class CommandProvider {
         commands.put(SEARCH_COCKTAIL_NAME, new SearchCocktailByNameCommand());
         commands.put(SEARCH_BARTENDER_NAME, new SearchBartenderByNameCommand());
         commands.put(DELETE_REVIEW, new DeleteReviewCommand());
+        commands.put(UPDATE_COCKTAIL, new UpdateCocktailPageCommand());
+        commands.put(SAVE_UPDATED_COCKTAIL, new SaveUpdatedCocktailCommand());
+        commands.put(DELETE_COCKTAIL, new DeleteCocktailCommand());
     }
 
     public static CommandProvider getInstance() {
