@@ -1,9 +1,9 @@
-package com.makichanov.bassistant.controller.servlet;
+package com.makichanov.bassistant.controller;
 
 import java.io.*;
 
 import com.makichanov.bassistant.controller.command.*;
-import com.makichanov.bassistant.controller.util.prg.PostRedirectGet;
+import com.makichanov.bassistant.controller.command.PostRedirectGet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;

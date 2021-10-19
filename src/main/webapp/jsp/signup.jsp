@@ -4,6 +4,8 @@
 <fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><fmt:message key="user.create.title"/></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
@@ -11,7 +13,7 @@
 <jsp:include page="header.jsp"/>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="create_account"/>
-    <span class="text-danger">${errorMessage}</span>
+    <span class="text-danger">${requestScope.errorMessage}</span>
     <div class="form-group">
         <label for="usernameInputForm"><fmt:message key="user.create.username"/></label>
         <input type="text" name="username" class="form-control" id="usernameInputForm" aria-describedby="usernameHelp" placeholder="Enter username">

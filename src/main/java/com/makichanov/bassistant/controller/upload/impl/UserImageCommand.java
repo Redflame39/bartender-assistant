@@ -1,14 +1,14 @@
 package com.makichanov.bassistant.controller.upload.impl;
 
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.controller.upload.UploadCommand;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
-import static com.makichanov.bassistant.controller.manager.PagePath.PROFILE;
+import static com.makichanov.bassistant.controller.command.PagePath.ERROR404;
+import static com.makichanov.bassistant.controller.command.PagePath.PROFILE;
 
 public class UserImageCommand extends UploadCommand {
     @Override

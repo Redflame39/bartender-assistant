@@ -80,8 +80,8 @@ public class CocktailDaoImpl extends CocktailDao {
             }
             resultSet.close();
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_FIND_ALL", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_ALL", e);
+            LOG.error("Failed to execute SQL_FIND_ALL", e);
+            throw new DaoException("Failed to execute SQL_FIND_ALL", e);
         }
         return cocktails;
     }
@@ -114,8 +114,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_ID", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_ID", e);
         }
     }
 
@@ -143,8 +143,8 @@ public class CocktailDaoImpl extends CocktailDao {
             }
             resultSet.close();
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_USER_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_USER_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_USER_ID", e);
         }
         return cocktails;
     }
@@ -207,8 +207,8 @@ public class CocktailDaoImpl extends CocktailDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_FIND_BY_NAME", e);
+            LOG.error("Failed to execute SQL_FIND_BY_NAME", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_NAME", e);
         }
     }
 
@@ -221,8 +221,8 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_CREATE", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_CREATE", e);
+            LOG.error("Failed to execute SQL_CREATE", e);
+            throw new DaoException("Failed to execute SQL_CREATE", e);
         }
     }
 
@@ -233,8 +233,8 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("CocktailDao: Failed to execute SQL_REMOVE_ID", e);
-            throw new DaoException("CocktailDao: Failed to execute SQL_REMOVE_ID", e);
+            LOG.error("Failed to execute SQL_REMOVE_ID", e);
+            throw new DaoException("Failed to execute SQL_REMOVE_ID", e);
         }
     }
 

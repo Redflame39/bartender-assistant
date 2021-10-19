@@ -14,6 +14,7 @@
 <body>
 <div>
     <c:import url="/jsp/header.jsp" charEncoding="utf-8"/>
+    <span id="test"></span>
     <div class="d-flex flex-row justify-content-around">
         <div class="list-group" style="width: 35%">
             <h4>5 best cocktails of all time</h4>

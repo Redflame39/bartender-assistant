@@ -60,8 +60,8 @@ public class ReviewDaoImpl extends ReviewDao {
                 reviews.add(review);
             }
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_FIND_ALL", e);
-            throw new DaoException("ReviewDao: Failed to execute SQL_FIND_ALL", e);
+            LOG.error("Failed to execute SQL_FIND_ALL", e);
+            throw new DaoException("Failed to execute SQL_FIND_ALL", e);
         }
         return reviews;
     }
@@ -144,8 +144,8 @@ public class ReviewDaoImpl extends ReviewDao {
                 reviews.add(review);
             }
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_FIND_BY_USER_ID", e);
-            throw new DaoException("ReviewDao: Failed to execute SQL_FIND_BY_USER_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_USER_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_USER_ID", e);
         }
         return reviews;
     }
@@ -171,8 +171,8 @@ public class ReviewDaoImpl extends ReviewDao {
                 reviews.add(review);
             }
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
-            throw new DaoException("ReviewDao: Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
         }
         return reviews;
     }
@@ -199,8 +199,8 @@ public class ReviewDaoImpl extends ReviewDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("ReviewDao: Failed to execute SQL_REMOVE_ID, id = " + id);
-            throw new DaoException("ReviewDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            LOG.error("Failed to execute SQL_REMOVE_ID, id = " + id);
+            throw new DaoException("Failed to execute SQL_REMOVE_ID, id = " + id, e);
         }
     }
 

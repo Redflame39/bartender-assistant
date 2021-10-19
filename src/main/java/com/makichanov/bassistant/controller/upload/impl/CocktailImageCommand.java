@@ -1,14 +1,14 @@
 package com.makichanov.bassistant.controller.upload.impl;
 
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.controller.upload.UploadCommand;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 
-import static com.makichanov.bassistant.controller.manager.PagePath.COCKTAILS;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
+import static com.makichanov.bassistant.controller.command.PagePath.COCKTAILS;
+import static com.makichanov.bassistant.controller.command.PagePath.ERROR404;
 
 
 public class CocktailImageCommand extends UploadCommand {

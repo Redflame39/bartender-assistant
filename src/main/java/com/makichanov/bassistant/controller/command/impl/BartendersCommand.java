@@ -1,8 +1,8 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.*;
-import com.makichanov.bassistant.controller.manager.JspManager;
-import com.makichanov.bassistant.controller.manager.PagePath;
+import com.makichanov.bassistant.controller.command.JspManager;
+import com.makichanov.bassistant.controller.command.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
@@ -15,11 +15,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.makichanov.bassistant.controller.command.RequestAttribute.BARTENDERS;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR400;
+import static com.makichanov.bassistant.controller.command.PagePath.ERROR400;
 
 public class BartendersCommand implements ActionCommand {
 

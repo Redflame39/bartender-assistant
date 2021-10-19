@@ -2,7 +2,7 @@ package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.ActionCommand;
 import com.makichanov.bassistant.controller.command.CommandResult;
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
@@ -17,8 +17,8 @@ import java.util.Optional;
 
 import static com.makichanov.bassistant.controller.command.RequestAttribute.USER_ID;
 import static com.makichanov.bassistant.controller.command.RequestParameter.TOKEN;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
-import static com.makichanov.bassistant.controller.manager.PagePath.NEW_PASSWORD_FORM;
+import static com.makichanov.bassistant.controller.command.PagePath.ERROR404;
+import static com.makichanov.bassistant.controller.command.PagePath.NEW_PASSWORD_FORM;
 
 public class NewPasswordFormCommand implements ActionCommand {
 

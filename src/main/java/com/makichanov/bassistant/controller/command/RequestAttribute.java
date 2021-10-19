@@ -12,6 +12,7 @@ public final class RequestAttribute {
     public static final String CURRENT_PAGE = "current_page";
     public static final String IS_LAST_PAGE = "is_last_page";
     public static final String BARTENDER_NAME = "bartender_name";
+    public static final String REQUESTED_USER = "requested_user";
 
     private RequestAttribute() {}
 }

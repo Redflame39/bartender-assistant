@@ -14,7 +14,7 @@
 <div class="container-fluid">
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex flex-row mb-3">
-            <img src="${requestScope.cocktail.imageSource}" alt="../img/unknown.png"/>
+            <img src="${requestScope.cocktail.imageSource}" alt="/img/unknown.png"/>
             <div class="d-flex flex-column">
                 <h1>${cocktail.name}</h1>
                 <span>${cocktail.averageMark}</span>

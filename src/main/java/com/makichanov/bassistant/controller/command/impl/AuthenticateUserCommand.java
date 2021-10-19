@@ -6,7 +6,7 @@ import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.command.JspManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,7 @@ import java.util.Optional;
 import static com.makichanov.bassistant.controller.command.RequestAttribute.ERROR_MESSAGE;
 import static com.makichanov.bassistant.controller.command.SessionAttribute.*;
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.*;
+import static com.makichanov.bassistant.controller.command.PagePath.*;
 
 public class AuthenticateUserCommand implements ActionCommand {
 

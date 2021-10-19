@@ -3,15 +3,11 @@ package com.makichanov.bassistant.controller.command;
 import com.makichanov.bassistant.controller.command.impl.*;
 
 import java.util.EnumMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static com.makichanov.bassistant.controller.command.CommandType.*;
 
 public class CommandProvider {
-    private static CommandProvider instance;
-    private static AtomicBoolean isInstanceCreated = new AtomicBoolean(false);
-    private static ReentrantLock instanceLock = new ReentrantLock(true);
+    private static CommandProvider instance = new CommandProvider();
     private final EnumMap<CommandType, ActionCommand> commands = new EnumMap<>(CommandType.class);
 
     private CommandProvider() {
@@ -43,29 +39,16 @@ public class CommandProvider {
         commands.put(UPDATE_COCKTAIL, new UpdateCocktailPageCommand());
         commands.put(SAVE_UPDATED_COCKTAIL, new SaveUpdatedCocktailCommand());
         commands.put(DELETE_COCKTAIL, new DeleteCocktailCommand());
+        commands.put(EDIT_PROFILE, new EditProfilePageCommand());
+        commands.put(SAVE_UPDATED_PROFILE, new SaveUpdatedProfileCommand());
     }
 
     public static CommandProvider getInstance() {
-        if (!isInstanceCreated.get()) {
-            instanceLock.lock();
-            try {
-                if (instance == null) {
-                    instance = new CommandProvider();
-                    isInstanceCreated.set(true);
-                }
-            } finally {
-                instanceLock.unlock();
-            }
-        }
         return instance;
     }
 
     public ActionCommand getCommand(String commandName) {
         CommandType commandType = CommandType.getCommandType(commandName);
-        return commands.get(commandType);
-    }
-
-    public ActionCommand getCommand(CommandType commandType) {
         return commands.get(commandType);
     }
 

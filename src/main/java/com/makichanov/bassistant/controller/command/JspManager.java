@@ -1,4 +1,4 @@
-package com.makichanov.bassistant.controller.manager;
+package com.makichanov.bassistant.controller.command;
 
 import java.io.IOException;
 import java.io.InputStream;

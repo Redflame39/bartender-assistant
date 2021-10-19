@@ -1,8 +1,5 @@
-package com.makichanov.bassistant.controller.util.prg;
+package com.makichanov.bassistant.controller.command;
 
-import com.makichanov.bassistant.controller.command.CommandResult;
-import com.makichanov.bassistant.controller.command.CommandType;
-import com.makichanov.bassistant.controller.command.RequestParameter;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.*;
@@ -12,9 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import static com.makichanov.bassistant.controller.command.CommandType.*;
 
 public class PostRedirectGet {
-    private static PostRedirectGet instance;
-    private static AtomicBoolean isInstanceCreated = new AtomicBoolean(false);
-    private static ReentrantLock instanceLock = new ReentrantLock(true);
+    private static PostRedirectGet instance = new PostRedirectGet();
     private final EnumMap<CommandType, CommandType> redirectCommandMapper = new EnumMap<>(CommandType.class);
 
     private PostRedirectGet() {
@@ -25,20 +20,11 @@ public class PostRedirectGet {
         redirectCommandMapper.put(DELETE_REVIEW, SHOW_COCKTAIL);
         redirectCommandMapper.put(SAVE_UPDATED_COCKTAIL, SHOW_COCKTAIL);
         redirectCommandMapper.put(DELETE_COCKTAIL, COCKTAILS);
+        redirectCommandMapper.put(LOGOUT, HOME);
+        redirectCommandMapper.put(SAVE_UPDATED_PROFILE, PROFILE);
     }
 
     public static PostRedirectGet getInstance() {
-        if (!isInstanceCreated.get()) {
-            instanceLock.lock();
-            try {
-                if (instance == null) {
-                    instance = new PostRedirectGet();
-                    isInstanceCreated.set(true);
-                }
-            } finally {
-                instanceLock.unlock();
-            }
-        }
         return instance;
     }
 

@@ -3,7 +3,7 @@ package com.makichanov.bassistant.controller.command.impl;
 import com.makichanov.bassistant.controller.command.ActionCommand;
 import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.util.mail.ActivationMailSender;
-import com.makichanov.bassistant.controller.manager.JspManager;
+import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static com.makichanov.bassistant.controller.command.RequestAttribute.ERROR_MESSAGE;
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.*;
+import static com.makichanov.bassistant.controller.command.PagePath.*;
 
 public class CreateAccountCommand implements ActionCommand {
 

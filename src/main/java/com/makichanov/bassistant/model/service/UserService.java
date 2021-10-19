@@ -1,13 +1,11 @@
 package com.makichanov.bassistant.model.service;
 
-import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.exception.ServiceException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 public interface UserService {
 
@@ -15,15 +13,17 @@ public interface UserService {
 
     Optional<User> authenticateByEmail(String email, String password) throws ServiceException;
 
-    Optional<User> authenticateByUsername(String username, String password) throws ServiceException;
-
     Optional<User> findByEmail(String email) throws ServiceException;
 
     Optional<User> findById(int id) throws ServiceException;
 
+    Optional<User> findByUsername(String username) throws ServiceException;
+
     List<User> findByRole(Role role, int offset, int count) throws ServiceException;
 
     List<User> findByNameRegexp(String regexp) throws ServiceException;
+
+    User updateProfileData(int id, User newUserData) throws ServiceException;
 
     User updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 

@@ -1,8 +1,8 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.*;
-import com.makichanov.bassistant.controller.manager.JspManager;
-import com.makichanov.bassistant.controller.manager.PagePath;
+import com.makichanov.bassistant.controller.command.JspManager;
+import com.makichanov.bassistant.controller.command.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.entity.User;

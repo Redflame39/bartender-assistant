@@ -70,28 +70,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> authenticateByUsername(String username, String password) throws ServiceException {
-        try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao userDao = new UserDaoImpl();
-            transaction.initTransaction(userDao);
-            Optional<User> queryResult = userDao.findByUsername(username);
-            if (queryResult.isPresent()) {
-                User toAuthenticate = queryResult.get();
-                String passwordFromDb = userDao.getPassword(toAuthenticate.getUserId());
-                String passwordHash = PasswordEncryptor.encrypt(password);
-                return (passwordFromDb.equals(passwordHash))
-                        ? queryResult
-                        : Optional.empty();
-            } else {
-                return Optional.empty();
-            }
-        } catch (DaoException e) {
-            LOG.error("Failed to authenticate user with email " + username, e);
-            throw new ServiceException("Failed to authenticate user with email " + username, e);
-        }
-    }
-
-    @Override
     public Optional<User> findByEmail(String email) throws ServiceException {
         try (EntityTransaction transaction = new EntityTransaction()) {
             UserDao dao = new UserDaoImpl();
@@ -112,6 +90,30 @@ public class UserServiceImpl implements UserService {
         } catch (DaoException e) {
             LOG.error("Failed to find user by id: " + id, e);
             throw new ServiceException("Failed to find user by email: " + id, e);
+        }
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) throws ServiceException {
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            UserDao dao = new UserDaoImpl();
+            transaction.initAction(dao);
+            return dao.findByUsername(username);
+        } catch (DaoException e) {
+            LOG.error("Failed to find user by username: " + username, e);
+            throw new ServiceException("Failed to find user by username: " + username, e);
+        }
+    }
+
+    @Override
+    public User updateProfileData(int id, User newUserData) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.update(id, newUserData);
+        } catch (DaoException e) {
+            LOG.error("Failed to update user with id: " + id, e);
+            throw new ServiceException("Failed to update user with id: " + id, e);
         }
     }
 

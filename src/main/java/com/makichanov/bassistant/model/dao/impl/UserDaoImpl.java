@@ -20,8 +20,23 @@ public class UserDaoImpl extends UserDao {
     private static final Logger LOG = LogManager.getLogger();
     private static final String SQL_FIND_ALL =
             "select user_id, username, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id;";
-    private static final String SQL_FIND_BY_ID =
-            "select username, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where user_id = ?;";
+    private static final String SQL_FIND_BY_ID = """
+            select username,
+                   first_name,
+                   last_name,
+                   email,
+                   role.role_name,
+                   profile_picture,
+                   activated,
+                   avg(r.rate)          as avg_rate,
+                   count(c.cocktail_id) as cocktails_created
+            from users
+                     left join role on users.role_id = role.role_id
+                     left join cocktails c on users.user_id = c.user_id
+                     left join reviews r on c.cocktail_id = r.cocktail_id
+            where users.user_id = ?
+            group by users.user_id;
+            """;
     private static final String SQL_FIND_BY_USERNAME =
             "select user_id, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id where username = ?;";
     private static final String SQL_FIND_BY_EMAIL =
@@ -68,7 +83,7 @@ public class UserDaoImpl extends UserDao {
             "insert into users (username, password, role_id, email, first_name, last_name) values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_REMOVE_ID = "delete from users where user_id = ?;";
     private static final String SQL_UPDATE_ID =
-            "update users set user_id = ?, username = ?, role_id = ?, email = ? where user_id = ?;";
+            "update users set username = ?, first_name = ?, last_name = ? where user_id = ?;";
     private static final String SQL_GET_PASSWORD = "select password from users where user_id = ?;";
     private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
     private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
@@ -99,8 +114,8 @@ public class UserDaoImpl extends UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_ALL", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_ALL", e);
+            LOG.error("Failed to execute SQL_FIND_ALL", e);
+            throw new DaoException("Failed to execute SQL_FIND_ALL", e);
         }
         return users;
     }
@@ -112,25 +127,33 @@ public class UserDaoImpl extends UserDao {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String username = resultSet.getString(1);
-                String roleName = resultSet.getString(2);
-                String email = resultSet.getString(3);
-                String avatarSource = resultSet.getString(4);
-                boolean activated = resultSet.getBoolean(5);
+                String firstName = resultSet.getString(2);
+                String lastName = resultSet.getString(3);
+                String email = resultSet.getString(4);
+                String role = resultSet.getString(5);
+                String avatarSource = resultSet.getString(6);
+                boolean activated = resultSet.getBoolean(7);
+                double averageRate = resultSet.getDouble(8);
+                int cocktailsCount = resultSet.getInt(9);
                 User user = new User.UserBuilder()
                         .setUsername(username)
                         .setUserId(id)
-                        .setRole(Role.valueOf(roleName.toUpperCase()))
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
                         .setEmail(email)
+                        .setRole(Role.valueOf(role.toUpperCase()))
                         .setAvatarSource(avatarSource)
                         .setActivated(activated)
+                        .setAverageCocktailsRate(averageRate)
+                        .setCocktailsCreated(cocktailsCount)
                         .createUser();
                 return Optional.of(user);
             } else {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_BY_ID", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_ID", e);
+            LOG.error("Failed to execute SQL_FIND_BY_ID", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_ID", e);
         }
     }
 
@@ -158,8 +181,8 @@ public class UserDaoImpl extends UserDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_BY_USERNAME", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_USERNAME", e);
+            LOG.error("Failed to execute SQL_FIND_BY_USERNAME", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_USERNAME", e);
         }
     }
 
@@ -187,8 +210,8 @@ public class UserDaoImpl extends UserDao {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+            LOG.error("Failed to execute SQL_FIND_BY_EMAIL", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_EMAIL", e);
         }
     }
 
@@ -225,8 +248,8 @@ public class UserDaoImpl extends UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+            LOG.error("Failed to execute SQL_FIND_BY_EMAIL", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_EMAIL", e);
         }
         return users;
     }
@@ -263,8 +286,8 @@ public class UserDaoImpl extends UserDao {
                 users.add(user);
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
-            throw new DaoException("UserDao: Failed to execute SQL_FIND_BY_EMAIL", e);
+            LOG.error("Failed to execute SQL_FIND_BY_EMAIL", e);
+            throw new DaoException("Failed to execute SQL_FIND_BY_EMAIL", e);
         }
         return users;
     }
@@ -281,8 +304,8 @@ public class UserDaoImpl extends UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_CREATE", e);
-            throw new DaoException("UserDao: Failed to execute SQL_CREATE", e);
+            LOG.error("Failed to execute SQL_CREATE", e);
+            throw new DaoException("Failed to execute SQL_CREATE", e);
         }
     }
 
@@ -297,8 +320,8 @@ public class UserDaoImpl extends UserDao {
                 throw new DaoException("User with id " + userId + " not found");
             }
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_GET_PASSWORD", e);
-            throw new DaoException("UserDao: Failed to execute SQL_GET_PASSWORD", e);
+            LOG.error("Failed to execute SQL_GET_PASSWORD", e);
+            throw new DaoException("Failed to execute SQL_GET_PASSWORD", e);
         }
     }
 
@@ -309,8 +332,8 @@ public class UserDaoImpl extends UserDao {
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
-            throw new DaoException("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            LOG.error("Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            throw new DaoException("Failed to execute SQL_REMOVE_ID, id = " + id, e);
         }
     }
 
@@ -319,16 +342,15 @@ public class UserDaoImpl extends UserDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ID)) {
             User old = findById(id)
                     .orElseThrow(() -> new DaoException("Object with id " + id + " not found and cannot be removed"));
-            statement.setInt(1, replacement.getUserId());
-            statement.setString(2, replacement.getUsername());
-            statement.setInt(3, replacement.getRole().getRoleId());
-            statement.setString(4, replacement.getEmail());
-            statement.setInt(5, id);
+            statement.setString(1, replacement.getUsername());
+            statement.setString(2, replacement.getFirstName());
+            statement.setString(3, replacement.getLastName());
+            statement.setInt(4, id);
             statement.executeUpdate();
             return old;
         } catch (SQLException e) {
-            LOG.error("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
-            throw new DaoException("UserDao: Failed to execute SQL_REMOVE_ID, id = " + id, e);
+            LOG.error("Failed to execute SQL_UPDATE_ID, id = " + id, e);
+            throw new DaoException("Failed to execute SQL_UPDATE_ID, id = " + id, e);
         }
     }
 

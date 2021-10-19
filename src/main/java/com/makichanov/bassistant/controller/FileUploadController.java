@@ -1,4 +1,4 @@
-package com.makichanov.bassistant.controller.servlet;
+package com.makichanov.bassistant.controller;
 
 import com.makichanov.bassistant.controller.command.CommandType;
 import com.makichanov.bassistant.controller.upload.UploadCommand;
@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.makichanov.bassistant.controller.command.RequestParameter.*;
-import static com.makichanov.bassistant.controller.manager.PagePath.ERROR404;
+import static com.makichanov.bassistant.controller.command.PagePath.ERROR404;
 import static com.makichanov.bassistant.controller.upload.UploadCommandType.DEFAULT;
 
 @WebServlet("/upload")

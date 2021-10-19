@@ -1,4 +1,4 @@
-package com.makichanov.bassistant.controller.manager;
+package com.makichanov.bassistant.controller.command;
 
 public final class PagePath {
     public static final String INDEX = "path.page.index";
@@ -19,6 +19,7 @@ public final class PagePath {
     public static final String UPLOADED = "path.page.uploaded";
     public static final String ADMIN = "path.page.admin";
     public static final String EDIT_COCKTAIL = "path.page.cocktail.edit";
+    public static final String EDIT_PROFILE = "path.page.profile.edit";
 
     private PagePath() {}
 }
