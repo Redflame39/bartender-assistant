@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-<jsp:include page="/jsp/header.jsp"/>
+<c:import url="/jsp/header.jsp"/>
 <div class="d-flex flex-row">
     <form class="form-inline my-2 my-lg-0 mx-3" action="controller" method="post">
         <input type="hidden" name="command" value="search_cocktail_name">
@@ -56,5 +56,6 @@
         </li>
     </ul>
 </c:if>
+<c:import url="/jsp/footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

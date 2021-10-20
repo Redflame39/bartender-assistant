@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -35,7 +36,8 @@
                 data</a>
             <c:if test="${sessionScope.user.role == 'ADMIN'}">
                 <div class="d-flex flex-row m-3">
-                    <a type="button" href="controller?command=all_users_admin" class="btn btn-primary mx-3">All users</a>
+                    <a type="button" href="controller?command=all_users_admin" class="btn btn-primary mx-3">All
+                        users</a>
                     <a type="button" href="controller?command=unapproved_cocktails" class="btn btn-primary">Unapproved
                         cocktails</a>
                 </div>
@@ -51,5 +53,29 @@
     <a href="controller?command=edit_user_role&id=${requestScope.requested_user.userId}" class="btn btn-primary">Confirm
         role</a>
 </c:if>
+<div>
+    <div class="list-group" style="width: 35%">
+        <h3>5 best cocktails of this author time</h3>
+        <c:forEach var="cocktail" items="${requestScope.cocktails}">
+            <a href="controller?command=show_cocktail&id=${cocktail.id}"
+               class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex container-fluid justify-content-between">
+                    <div class="d-flex flex-row">
+                        <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                        <div class="d-flex flex-column m-2">
+                            <h5 class="mb-1">${cocktail.name}</h5>
+                            <p class="mb-1">${cocktail.instructions}</p>
+                        </div>
+                    </div>
+                    <small><fmt:formatNumber type="number" maxFractionDigits="2"
+                                             value="${cocktail.averageMark}"/></small>
+                </div>
+            </a>
+        </c:forEach>
+    </div>
+    <a href="controller?command=all_user_cocktails&id=${requestScope.requested_user.userId}">All cocktails of this
+        author</a>
+</div>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

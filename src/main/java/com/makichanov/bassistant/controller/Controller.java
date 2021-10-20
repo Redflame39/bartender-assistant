@@ -38,7 +38,7 @@ public class Controller extends HttpServlet {
                 PostRedirectGet prg = PostRedirectGet.getInstance();
                 response.sendRedirect(prg.defineRedirectPath(commandName, request, commandResult));
             }
-            default -> response.sendError(500);
+            default -> response.sendError(404);
         }
     }
 

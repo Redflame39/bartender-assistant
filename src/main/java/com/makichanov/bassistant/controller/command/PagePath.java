@@ -14,12 +14,15 @@ public final class PagePath {
     public static final String COCKTAIL_IMAGE = "path.page.cocktail.image";
     public static final String PROFILE = "path.page.profile";
     public static final String BARTENDERS = "path.page.bartenders";
+    public static final String USERS = "path.page.admin.users";
+    public static final String UNAPPROVED_COCKTAILS = "path.page.admin.unapproved-cocktails";
     public static final String RESTORE_PASSWORD = "path.page.password.restore";
     public static final String NEW_PASSWORD_FORM = "path.page.password.update";
     public static final String UPLOADED = "path.page.uploaded";
     public static final String ADMIN = "path.page.admin";
     public static final String EDIT_COCKTAIL = "path.page.cocktail.edit";
     public static final String EDIT_PROFILE = "path.page.profile.edit";
+    public static final String ALL_USER_COCKTAILS = "path.page.user.cocktails";
 
     private PagePath() {}
 }

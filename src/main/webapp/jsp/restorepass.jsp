@@ -22,5 +22,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
 </form>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

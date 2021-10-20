@@ -45,5 +45,6 @@
         <a href="controller?command=login"><fmt:message key="user.create.signin"/></a>
     </div>
 </form>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

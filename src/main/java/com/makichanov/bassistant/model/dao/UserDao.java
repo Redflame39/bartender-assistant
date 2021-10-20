@@ -30,4 +30,6 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract OptionalInt countUsersByRole(Role role) throws DaoException;
 
+    public abstract OptionalInt countAllUsers() throws DaoException;
+
 }

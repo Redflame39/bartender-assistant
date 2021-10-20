@@ -22,5 +22,6 @@
     </div>
     <button type="submit" class="btn btn-primary"><fmt:message key="cocktail.create.submit"/></button>
 </form>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

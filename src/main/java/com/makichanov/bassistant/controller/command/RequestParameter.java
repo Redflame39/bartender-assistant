@@ -20,6 +20,7 @@ public final class RequestParameter {
     public static final String PAGE = "page";
     public static final String BARTENDER_NAME = "bartender_name";
     public static final String COCKTAIL_ID = "cocktail_id";
+    public static final String USER_NAME = "user_name";
 
     private RequestParameter() {}
 

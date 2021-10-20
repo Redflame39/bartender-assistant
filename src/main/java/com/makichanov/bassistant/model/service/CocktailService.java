@@ -10,9 +10,11 @@ public interface CocktailService {
 
     List<Cocktail> findAll(int offset, int count) throws ServiceException;
 
-    List<Cocktail> findByUserId(int id) throws ServiceException;
+    List<Cocktail> findByUserId(int id, int offset, int count) throws ServiceException;
 
     List<Cocktail> findByNameRegexp(String regexp) throws ServiceException;
+
+    List<Cocktail> findAllUnapprovedCocktails(int offset, int count) throws ServiceException;
 
     Optional<Cocktail> findById(int id) throws ServiceException;
 
@@ -24,7 +26,13 @@ public interface CocktailService {
 
     Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 
+    boolean updateApprovedStatus(int toUpdateId, boolean newStatus) throws ServiceException;
+
     boolean delete(int toDeleteId) throws ServiceException;
 
     int countCocktails() throws ServiceException;
+
+    int countCocktailsByUserId(int userId) throws ServiceException;
+
+    int countUnapprovedCocktails() throws ServiceException;
 }

@@ -125,20 +125,21 @@ public class UserServiceImpl implements UserService {
         try {
             transaction.initTransaction(userDao);
             userDao.updateImage(toUpdateId, imageSrc);
-            transaction.commit();
             Optional<User> updated = userDao.findById(toUpdateId);
-            user = updated.orElseThrow(() -> new ServiceException()); // TODO: 9/13/2021 message
+            user = updated.orElseThrow(() -> new ServiceException("Updated user not found"));
+            transaction.commit();
         } catch (DaoException e) {
             try {
                 transaction.rollback();
             } catch (DaoException ex) {
-                throw new ServiceException(); // TODO: 9/13/2021 message
+                LOG.error("Failed to rollback transaction executing updating image of user " + toUpdateId, e);
+                throw new ServiceException("Failed to rollback transaction executing updating image of user " + toUpdateId, e);
             }
         } finally {
             try {
                 transaction.close();
             } catch (DaoException e) {
-                throw new ServiceException(); // TODO: 9/13/2021 message
+                LOG.error("Failed to close transaction executing updating image of user " + toUpdateId, e);
             }
         }
         return user;
@@ -147,18 +148,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException {
         UserDao userDao = new UserDaoImpl();
-        try(EntityTransaction entityTransaction = new EntityTransaction()) {
+        try (EntityTransaction entityTransaction = new EntityTransaction()) {
             entityTransaction.initAction(userDao);
             userDao.updateActivatedStatus(toUpdateId, newStatus);
         } catch (DaoException e) {
-            throw new ServiceException(); // TODO: 10/5/2021 message
+            LOG.error("Failed to update activation status of user " + toUpdateId, e);
+            throw new ServiceException("Failed to update activation status of user " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public List<User> findAll(int offset, int count) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.findAll(offset, count);
+        } catch (DaoException e) {
+            LOG.error("Failed to find all users", e);
+            throw new ServiceException("Failed to find all users", e);
         }
     }
 
     @Override
     public List<User> findByRole(Role role, int offset, int count) throws ServiceException {
         UserDao dao = new UserDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             return dao.findByRole(role, offset, count);
         } catch (DaoException e) {
@@ -170,7 +184,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByNameRegexp(String regexp) throws ServiceException {
         UserDao dao = new UserDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             return dao.findByNameRegexp(regexp);
         } catch (DaoException e) {
@@ -182,7 +196,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(int toUpdateId, String newPassword) throws ServiceException {
         UserDao dao = new UserDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             dao.updatePassword(toUpdateId, newPassword);
         } catch (DaoException e) {
@@ -193,13 +207,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public int countUsersByRole(Role role) throws ServiceException {
         UserDao dao = new UserDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             OptionalInt count = dao.countUsersByRole(role);
             return count.orElseThrow(() -> new ServiceException("Failed to count users with role " + role));
         } catch (DaoException e) {
             LOG.error("Failed to count users with role " + role, e);
             throw new ServiceException("Failed to count users with role " + role, e);
+        }
+    }
+
+    @Override
+    public int countAllUsers() throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            OptionalInt count = dao.countAllUsers();
+            return count.orElseThrow(() -> new ServiceException("Failed to count all users"));
+        } catch (DaoException e) {
+            LOG.error("Failed to count all users", e);
+            throw new ServiceException("Failed to count all users", e);
         }
     }
 }

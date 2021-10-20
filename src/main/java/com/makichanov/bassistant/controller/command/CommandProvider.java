@@ -41,6 +41,11 @@ public class CommandProvider {
         commands.put(DELETE_COCKTAIL, new DeleteCocktailCommand());
         commands.put(EDIT_PROFILE, new EditProfilePageCommand());
         commands.put(SAVE_UPDATED_PROFILE, new SaveUpdatedProfileCommand());
+        commands.put(ALL_USER_COCKTAILS, new ShowAllCocktailsOfUserCommand());
+        commands.put(ALL_USERS_ADMIN, new ShowAllUsersAdminCommand());
+        commands.put(SEARCH_USER_BY_NAME, new SearchUserByNameAdminCommand());
+        commands.put(UNAPPROVED_COCKTAILS, new ShowUnapprovedCocktailsAdminCommand());
+        commands.put(APPROVE_COCKTAIL, new ApproveCocktailAdminCommand());
     }
 
     public static CommandProvider getInstance() {

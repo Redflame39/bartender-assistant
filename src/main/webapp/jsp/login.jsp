@@ -29,5 +29,6 @@
         <a href="controller?command=restore_password_page">Forgot your password?</a>
     </div>
 </form>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

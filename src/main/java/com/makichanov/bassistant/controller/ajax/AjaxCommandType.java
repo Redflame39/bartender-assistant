@@ -5,6 +5,7 @@ import static com.makichanov.bassistant.controller.command.AccessLevel.*;
 public enum AjaxCommandType {
 
     IS_FREE(LEVEL_USER),
+    APPROVE_COCKTAIL(LEVEL_ADMIN),
     DEFAULT(LEVEL_GUEST);
 
     private int accessLevel;

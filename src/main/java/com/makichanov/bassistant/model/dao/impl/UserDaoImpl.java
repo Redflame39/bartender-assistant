@@ -18,8 +18,25 @@ import java.util.OptionalInt;
 public class UserDaoImpl extends UserDao {
 
     private static final Logger LOG = LogManager.getLogger();
-    private static final String SQL_FIND_ALL =
-            "select user_id, username, role.role_name, email, profile_picture, activated from users join role on users.role_id = role.role_id;";
+
+    private static final String SQL_FIND_ALL = """
+            select users.user_id,
+                   username,
+                   first_name,
+                   last_name,
+                   role.role_name,
+                   email,
+                   profile_picture,
+                   activated,
+                   avg(r.rate)          as avg_rate,
+                   count(c.cocktail_id) as cocktails_created
+            from users
+                     left join role on users.role_id = role.role_id
+                     left join cocktails c on users.user_id = c.user_id
+                     left join reviews r on c.cocktail_id = r.cocktail_id
+            group by users.user_id
+            limit ?, ?;
+            """;
     private static final String SQL_FIND_BY_ID = """
             select username,
                    first_name,
@@ -89,27 +106,38 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
     private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where user_id = ?";
     private static final String SQL_COUNT_BY_ROLE = "select count(*) as users_count from users where role_id = ?";
+    private static final String SQL_COUNT_ALL = "select count(*) as users_count from users;";
 
     @Override
     public List<User> findAll(int offset, int count) throws DaoException {
         List<User> users = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
+            statement.setInt(1, offset);
+            statement.setInt(2, count);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int userId = resultSet.getInt(1);
                 String username = resultSet.getString(2);
-                String roleName = resultSet.getString(3);
-                String email = resultSet.getString(4);
-                String avatarSource = resultSet.getString(5);
-                boolean activated = resultSet.getBoolean(6);
+                String firstName = resultSet.getString(3);
+                String lastName = resultSet.getString(4);
+                String roleName = resultSet.getString(5);
+                String email = resultSet.getString(6);
+                String avatarSource = resultSet.getString(7);
+                boolean activated = resultSet.getBoolean(8);
+                double avgRate = resultSet.getDouble(9);
+                int cocktailsCount = resultSet.getInt(10);
                 User user = new User.UserBuilder()
                         .setUsername(username)
                         .setUserId(userId)
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
                         .setRole(Role.valueOf(roleName.toUpperCase()))
                         .setEmail(email)
                         .setAvatarSource(avatarSource)
                         .setActivated(activated)
+                        .setAverageCocktailsRate(avgRate)
+                        .setCocktailsCreated(cocktailsCount)
                         .createUser();
                 users.add(user);
             }
@@ -405,6 +433,24 @@ public class UserDaoImpl extends UserDao {
         } catch (SQLException e) {
             LOG.error("Failed to count users with role " + role, e);
             throw new DaoException("Failed to count users with role " + role, e);
+        }
+    }
+
+    @Override
+    public OptionalInt countAllUsers() throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_COUNT_ALL)) {
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                resultSet.close();
+                return OptionalInt.of(count);
+            } else {
+                resultSet.close();
+                return OptionalInt.empty();
+            }
+        } catch (SQLException e) {
+            LOG.error("Failed to count all users", e);
+            throw new DaoException("Failed to count all users", e);
         }
     }
 }

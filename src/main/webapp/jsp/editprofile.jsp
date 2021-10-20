@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -34,6 +35,7 @@
     </div>
     <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
 </form>
-<script src="${pageContext.request.contextPath}/js/edit-profile.js"></script>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
+<script src="${pageContext.request.contextPath}/js/editing.js"></script>
 </body>
 </html>

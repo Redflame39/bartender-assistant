@@ -7,6 +7,7 @@ import com.makichanov.bassistant.controller.command.RequestParameter;
 import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.controller.command.PagePath;
 import com.makichanov.bassistant.exception.ServiceException;
+import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
@@ -34,6 +35,7 @@ public class SearchBartenderByNameCommand implements ActionCommand {
             LOG.error("Failed to execute SearchBartenderByNameCommand", e);
             return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
         }
+        bartenders.removeIf(u -> u.getRole() != Role.BARTENDER);
         request.setAttribute(RequestAttribute.BARTENDERS, bartenders);
         request.setAttribute(RequestAttribute.BARTENDER_NAME, ".*".equals(regexp) ? "" : regexp);
         return new CommandResult(JspManager.getPage(PagePath.BARTENDERS), CommandResult.RoutingType.FORWARD);

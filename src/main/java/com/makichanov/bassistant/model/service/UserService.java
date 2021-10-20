@@ -19,6 +19,8 @@ public interface UserService {
 
     Optional<User> findByUsername(String username) throws ServiceException;
 
+    List<User> findAll(int offset, int count) throws ServiceException;
+
     List<User> findByRole(Role role, int offset, int count) throws ServiceException;
 
     List<User> findByNameRegexp(String regexp) throws ServiceException;
@@ -32,4 +34,6 @@ public interface UserService {
     void updatePassword(int toUpdateId, String newPassword) throws ServiceException;
 
     int countUsersByRole(Role role) throws ServiceException;
+
+    int countAllUsers() throws ServiceException;
 }

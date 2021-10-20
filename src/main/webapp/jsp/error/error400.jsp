@@ -11,5 +11,6 @@
 <body>
 <c:import url="../header.jsp"/>
 Check your request
+<c:import url="../footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

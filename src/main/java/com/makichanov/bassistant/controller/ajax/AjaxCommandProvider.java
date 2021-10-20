@@ -1,5 +1,6 @@
 package com.makichanov.bassistant.controller.ajax;
 
+import com.makichanov.bassistant.controller.ajax.impl.ApproveCocktailAjaxCommand;
 import com.makichanov.bassistant.controller.ajax.impl.DefineUsernameIsFreeAjaxCommand;
 import com.makichanov.bassistant.controller.ajax.impl.EmptyAjaxCommand;
 
@@ -14,6 +15,7 @@ public class AjaxCommandProvider {
     private AjaxCommandProvider() {
         commands.put(DEFAULT, new EmptyAjaxCommand());
         commands.put(IS_FREE, new DefineUsernameIsFreeAjaxCommand());
+        commands.put(APPROVE_COCKTAIL, new ApproveCocktailAjaxCommand());
     }
 
     public static AjaxCommandProvider getInstance() {

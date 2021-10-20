@@ -52,7 +52,7 @@
             </c:forEach>
         </div>
     </div>
-    <c:import url="footer.jsp" charEncoding="utf-8"/>
 </div>
+<c:import url="footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

@@ -48,12 +48,12 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public List<Cocktail> findByUserId(int id) throws ServiceException {
+    public List<Cocktail> findByUserId(int id, int offset, int count) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
         List<Cocktail> cocktails;
         try(EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
-            cocktails = dao.findByUserID(id);
+            cocktails = dao.findByUserID(id, offset, count);
         } catch (DaoException e) {
             LOG.error("Failed to find cocktails by user id: " + id, e);
             throw new ServiceException("Failed to find cocktails by user id: " + id, e);
@@ -71,6 +71,20 @@ public class CocktailServiceImpl implements CocktailService {
         } catch (DaoException e) {
             LOG.error("Failed to find cocktails by name regexp: " + regexp, e);
             throw new ServiceException("Failed to find cocktails by name regexp: " + regexp, e);
+        }
+        return cocktails;
+    }
+
+    @Override
+    public List<Cocktail> findAllUnapprovedCocktails(int offset, int count) throws ServiceException {
+        CocktailDao cocktailDao = new CocktailDaoImpl();
+        List<Cocktail> cocktails;
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(cocktailDao);
+            cocktails = cocktailDao.findAllUnapprovedCocktails(offset, count);
+        } catch (DaoException e) {
+            LOG.error("Failed to find unapproved cocktails", e);
+            throw new ServiceException("Failed to find unapproved cocktails", e);
         }
         return cocktails;
     }
@@ -155,6 +169,18 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
+    public boolean updateApprovedStatus(int toUpdateId, boolean newStatus) throws ServiceException {
+        CocktailDao dao = new CocktailDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.updateApprovedStatus(toUpdateId, newStatus);
+        } catch (DaoException e) {
+            LOG.error("Failed to update approved status for cocktail " + toUpdateId, e);
+            throw new ServiceException("Failed to update approved status for cocktail " + toUpdateId, e);
+        }
+    }
+
+    @Override
     public boolean delete(int toDeleteId) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {
@@ -176,6 +202,32 @@ public class CocktailServiceImpl implements CocktailService {
         } catch (DaoException e) {
             LOG.error("Failed to count cocktails", e);
             throw new ServiceException("Failed to count cocktails", e);
+        }
+    }
+
+    @Override
+    public int countCocktailsByUserId(int userId) throws ServiceException {
+        CocktailDao dao = new CocktailDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            OptionalInt count = dao.countCocktailsByUserId(userId);
+            return count.orElseThrow(() -> new ServiceException("Failed to count cocktails by user id " + userId));
+        } catch (DaoException e) {
+            LOG.error("Failed to count cocktails by user id " + userId, e);
+            throw new ServiceException("Failed to count cocktails by user id " + userId, e);
+        }
+    }
+
+    @Override
+    public int countUnapprovedCocktails() throws ServiceException {
+        CocktailDao dao = new CocktailDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            OptionalInt count = dao.countUnapprovedCocktails();
+            return count.orElseThrow(() -> new ServiceException("Failed to count unapproved cocktails"));
+        } catch (DaoException e) {
+            LOG.error("Failed to count unapproved cocktails", e);
+            throw new ServiceException("Failed to count unapproved cocktails", e);
         }
     }
 }
