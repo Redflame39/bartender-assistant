@@ -105,6 +105,7 @@ public class UserDaoImpl extends UserDao {
     private static final String SQL_UPDATE_IMAGE = "update users set profile_picture = ? where user_id = ?";
     private static final String SQL_UPDATE_ACTIVATED = "update users set activated = ? where user_id = ?";
     private static final String SQL_UPDATE_PASSWORD = "update users set password = ? where user_id = ?";
+    private static final String SQL_UPDATE_ROLE = "update users set role_id = ? where user_id = ?;";
     private static final String SQL_COUNT_BY_ROLE = "select count(*) as users_count from users where role_id = ?";
     private static final String SQL_COUNT_ALL = "select count(*) as users_count from users;";
 
@@ -414,6 +415,19 @@ public class UserDaoImpl extends UserDao {
         } catch (SQLException e) {
             LOG.error("Failed to update user password, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user password, id: " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public boolean updateRole(int toUpdateId, Role newRole) throws DaoException {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ROLE)) {
+            statement.setInt(1, newRole.getRoleId());
+            statement.setInt(2, toUpdateId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            LOG.error("Failed to update user role, id: " + toUpdateId, e);
+            throw new DaoException("Failed to update user role, id: " + toUpdateId, e);
         }
     }
 

@@ -6,10 +6,11 @@ import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import com.makichanov.bassistant.controller.command.JspManager;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +45,7 @@ public class CocktailsCommand implements ActionCommand {
                 cocktails = cocktailService.findAll(offset, objectsOnPage);
             } catch (ServiceException e) {
                 LOG.error("Failed to get cocktails list from database to load cocktails page", e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(ERROR500), CommandResult.RoutingType.FORWARD);
             }
             request.setAttribute(RequestAttribute.COCKTAILS, cocktails);

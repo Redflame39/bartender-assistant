@@ -3,13 +3,15 @@ package com.makichanov.bassistant.controller.command.impl;
 import com.makichanov.bassistant.controller.command.ActionCommand;
 import com.makichanov.bassistant.controller.command.CommandResult;
 import com.makichanov.bassistant.controller.command.JspManager;
+import com.makichanov.bassistant.controller.command.RequestAttribute;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.security.CustomDigitalSigner;
-import com.makichanov.bassistant.model.util.security.DigitalSigner;
+import com.makichanov.bassistant.controller.util.security.CustomDigitalSigner;
+import com.makichanov.bassistant.controller.util.security.DigitalSigner;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +37,8 @@ public class NewPasswordFormCommand implements ActionCommand {
         try {
             userToRestore = service.findById(userId);
         } catch (ServiceException e) {
+            LOG.error("Failed to find user by id to load new password form, user id: " + userId, e);
+            request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
             return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (userToRestore.isEmpty()) {

@@ -14,6 +14,7 @@ import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class HomePageCommand implements ActionCommand {
             topCocktails = cocktailService.findAll(0, 5);
         } catch (ServiceException e) {
             LOG.error("Failed to load top 5 cocktails for home page", e);
+            request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
             return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
         }
         List<User> topBartenders;
@@ -39,6 +41,7 @@ public class HomePageCommand implements ActionCommand {
             topBartenders = userService.findByRole(Role.BARTENDER, 0, 5);
         } catch (ServiceException e) {
             LOG.error("Failed to load top 5 cocktails for home page", e);
+            request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
             return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
         }
         request.setAttribute(RequestAttribute.COCKTAILS, topCocktails);

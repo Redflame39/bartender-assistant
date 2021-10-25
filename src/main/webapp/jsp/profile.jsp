@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,10 +12,10 @@
     <title>${requestScope.requested_user.username}</title>
 </head>
 <body>
-<c:import url="header.jsp"/>
+<c:import url="header.jsp" charEncoding="utf-8"/>
 <div class="d-flex flex-row justify-content-between">
     <div class="d-flex flex-row mx-4 my-2">
-        <img src="${requestScope.requested_user.avatarSource}" class="img-fluid w-25" alt="/img/unknown.png">
+        <img src="${requestScope.requested_user.avatarSource}" class="img-fluid w-25" alt="">
         <div class="d-flex flex-column">
             <h3>${requestScope.requested_user.username}</h3>
             <span>${requestScope.requested_user.firstName} ${requestScope.requested_user.lastName}</span>
@@ -25,43 +27,47 @@
                 <div class="form-group">
                     <input type="hidden" name="file_for" value="user_image">
                     <input type="hidden" name="id" value="${sessionScope.user.userId}">
-                    <label for="userImageFileUpload">Update your avatar</label>
-                    <input type="file" name="user_image" accept="image/png,image/jpeg" class="form-control-file"
+                    <label for="userImageFileUpload"><fmt:message key="user.profile.update.avatar"/></label>
+                    <input type="file" name="user_image" accept="image/png,image/jpeg"
+                           class="chooseFileInput form-control-file"
                            id="userImageFileUpload">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button disabled type="submit" class="btn btn-primary fileUploadSubmit"><fmt:message
+                        key="user.profile.update.avatar.submit"/></button>
             </form>
-            <a href="controller?command=edit_profile&id=${sessionScope.user.userId}" class="btn btn-primary">Edit
-                profile
-                data</a>
+            <a href="controller?command=edit_profile&id=${sessionScope.user.userId}"
+               class="btn btn-primary"><fmt:message key="user.profile.update.profile"/></a>
             <c:if test="${sessionScope.user.role == 'ADMIN'}">
                 <div class="d-flex flex-row m-3">
-                    <a type="button" href="controller?command=all_users_admin" class="btn btn-primary mx-3">All
-                        users</a>
-                    <a type="button" href="controller?command=unapproved_cocktails" class="btn btn-primary">Unapproved
-                        cocktails</a>
+                    <a type="button" href="controller?command=all_users_admin" class="btn btn-primary mx-3"><fmt:message
+                            key="user.profile.admin.users"/></a>
+                    <a type="button" href="controller?command=unapproved_cocktails" class="btn btn-primary"><fmt:message
+                            key="user.profile.admin.unapproved"/></a>
                 </div>
             </c:if>
         </div>
     </c:if>
 </div>
 <c:if test="${sessionScope.user.role == 'ADMIN' && (requestScope.requested_user.userId != sessionScope.user.userId)}">
-    <select name="new_role" class="form-select" aria-label="Role" id="userRoleSelect">
-        <option value="user">User</option>
-        <option value="bartender">Bartender</option>
-    </select>
-    <a href="controller?command=edit_user_role&id=${requestScope.requested_user.userId}" class="btn btn-primary">Confirm
-        role</a>
+    <form>
+        <input type="hidden" name="command" value="edit_user_role">
+        <input type="hidden" name="id" value="${requestScope.requested_user.userId}">
+        <select name="new_role" class="form-select" aria-label="Role" id="userRoleSelect">
+            <option value="client"><fmt:message key="user.profile.admin.role.user"/></option>
+            <option value="bartender"><fmt:message key="user.profile.admin.role.bartender"/></option>
+        </select>
+        <button type="submit" class="btn btn-primary"><fmt:message key="user.profile.admin.role.confirm"/></button>
+    </form>
 </c:if>
 <div>
     <div class="list-group" style="width: 35%">
-        <h3>5 best cocktails of this author time</h3>
+        <h3><fmt:message key="user.profile.best"/></h3>
         <c:forEach var="cocktail" items="${requestScope.cocktails}">
             <a href="controller?command=show_cocktail&id=${cocktail.id}"
                class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex container-fluid justify-content-between">
                     <div class="d-flex flex-row">
-                        <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                        <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="">
                         <div class="d-flex flex-column m-2">
                             <h5 class="mb-1">${cocktail.name}</h5>
                             <p class="mb-1">${cocktail.instructions}</p>
@@ -73,9 +79,10 @@
             </a>
         </c:forEach>
     </div>
-    <a href="controller?command=all_user_cocktails&id=${requestScope.requested_user.userId}">All cocktails of this
-        author</a>
+    <a href="controller?command=all_user_cocktails&id=${requestScope.requested_user.userId}"><fmt:message
+            key="user.profile.cocktails"/></a>
 </div>
 <c:import url="footer.jsp" charEncoding="utf-8"/>
+<script src="${pageContext.request.contextPath}/js/fileinput.js"></script>
 </body>
 </html>

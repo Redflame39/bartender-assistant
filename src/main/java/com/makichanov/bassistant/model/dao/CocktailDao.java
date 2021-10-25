@@ -17,7 +17,7 @@ public abstract class CocktailDao extends BaseDao<Integer, Cocktail> {
 
     public abstract Optional<Cocktail> findByName(String name) throws DaoException;
 
-    public abstract boolean create(String cocktailName, int userId, String instructions) throws DaoException;
+    public abstract boolean create(String cocktailName, int userId, String instructions, boolean approve) throws DaoException;
 
     public abstract boolean updateImage(int toUpdateId, String imageSrc) throws DaoException;
 

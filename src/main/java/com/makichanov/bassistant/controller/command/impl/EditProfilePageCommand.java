@@ -6,9 +6,10 @@ import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,7 @@ public class EditProfilePageCommand implements ActionCommand {
                 requestedUser = service.findById(id);
             } catch (ServiceException e) {
                 LOG.error("Failed to find user with id " + id, e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
             }
             if (requestedUser.isPresent()) {

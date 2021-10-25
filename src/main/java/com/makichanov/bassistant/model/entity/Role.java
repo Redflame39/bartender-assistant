@@ -22,7 +22,7 @@ public enum Role {
             case 2 -> CLIENT;
             case 3 -> BARTENDER;
             case 4 -> ADMIN;
-            default -> throw new EnumConstantNotPresentException(GUEST.getDeclaringClass(), GUEST.name());
+            default -> throw new IllegalArgumentException("Cannot find role with id " + roleId);
         };
     }
 

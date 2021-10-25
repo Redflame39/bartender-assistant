@@ -20,6 +20,7 @@ public class CocktailDaoImpl extends CocktailDao {
             select name, cocktails.cocktail_id, cocktails.user_id, instructions,
             cocktail_image, upload_date, avg(reviews.rate) as avg_rate from cocktails
             left join reviews on cocktails.cocktail_id = reviews.cocktail_id
+            where approved = true
             group by cocktails.cocktail_id
             order by avg_rate desc
             limit ?, ?;
@@ -28,7 +29,7 @@ public class CocktailDaoImpl extends CocktailDao {
             select name, cocktails.cocktail_id, cocktails.user_id, instructions,
             cocktail_image, upload_date, avg(reviews.rate) as avg_rate from cocktails
             left join reviews on cocktails.cocktail_id = reviews.cocktail_id
-            where name regexp ?
+            where approved = true and name regexp ?
             group by cocktails.cocktail_id
             order by avg_rate desc
             """;
@@ -60,7 +61,7 @@ public class CocktailDaoImpl extends CocktailDao {
                    avg(reviews.rate) as avg_rate
             from cocktails
                      left join reviews on cocktails.cocktail_id = reviews.cocktail_id
-            where cocktails.user_id = ?
+            where cocktails.user_id = ? and approved = true
             group by cocktails.cocktail_id
             order by avg_rate desc
             limit ?, ?;
@@ -68,14 +69,14 @@ public class CocktailDaoImpl extends CocktailDao {
     private static final String SQL_FIND_BY_NAME =
             "select user_id, cocktail_id, instructions, cocktail_image, upload_date from cocktails where name = ?;";
     private static final String SQL_CREATE =
-            "insert into cocktails (name, user_id, instructions) values (?, ?, ?);";
+            "insert into cocktails (name, user_id, instructions, approved) values (?, ?, ?, ?);";
     private static final String SQL_REMOVE_ID = "delete from cocktails where cocktail_id = ?;";
     private static final String SQL_UPDATE_ID =
             "update cocktails set name = ?, instructions = ? where cocktail_id = ?";
     private static final String SQL_UPDATE_IMAGE = "update cocktails set cocktail_image = ? where cocktail_id = ?";
     private static final String SQL_UPDATE_APPROVED = "update cocktails set approved = ? where cocktail_id = ?";
-    private static final String SQL_COUNT_COCKTAILS = "select count(*) as cocktails_count from cocktails;";
-    private static final String SQL_COUNT_COCKTAILS_BY_USER_ID = "select count(*) as cocktails_count from cocktails where user_id = ?;";
+    private static final String SQL_COUNT_COCKTAILS = "select count(*) as cocktails_count from cocktails where approved = true;";
+    private static final String SQL_COUNT_COCKTAILS_BY_USER_ID = "select count(*) as cocktails_count from cocktails where user_id = ? and approved = true;";
     private static final String SQL_COUNT_UNAPPROVED = "select count(*) as cocktails_count from cocktails where approved = false;";
 
     @Override
@@ -275,11 +276,12 @@ public class CocktailDaoImpl extends CocktailDao {
     }
 
     @Override
-    public boolean create(String cocktailName, int userId, String instructions) throws DaoException {
+    public boolean create(String cocktailName, int userId, String instructions, boolean approve) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setString(1, cocktailName);
             statement.setInt(2, userId);
             statement.setString(3, instructions);
+            statement.setBoolean(4, approve);
             statement.executeUpdate();
             return true;
         } catch (SQLException e) {

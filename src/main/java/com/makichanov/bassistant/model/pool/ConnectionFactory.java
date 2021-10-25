@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionFactory {
+class ConnectionFactory {
 
     private static final Logger LOG = LogManager.getLogger();
 

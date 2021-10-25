@@ -3,15 +3,13 @@ package com.makichanov.bassistant.controller.command.impl;
 import com.makichanov.bassistant.controller.command.*;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
-import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.CocktailService;
-import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
-import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +42,7 @@ public class ShowUnapprovedCocktailsAdminCommand implements ActionCommand {
                 cocktails = service.findAllUnapprovedCocktails(offset, objectsOnPage);
             } catch (ServiceException e) {
                 LOG.error("Failed to get users list from database to load users page", e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
             }
             request.setAttribute(RequestAttribute.COCKTAILS, cocktails);

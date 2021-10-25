@@ -16,6 +16,19 @@ public enum UploadCommandType {
         this.accessLevel = accessLevel;
     }
 
+    public static UploadCommandType defineUploadType(String commandName) {
+        if (commandName == null) {
+            return DEFAULT;
+        }
+        UploadCommandType commandType;
+        try {
+            commandType = UploadCommandType.valueOf(commandName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            commandType = DEFAULT;
+        }
+        return commandType;
+    }
+
     public int getAccessLevel() {
         return accessLevel;
     }

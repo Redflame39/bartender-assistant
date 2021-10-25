@@ -9,7 +9,7 @@ import java.util.EnumMap;
 import static com.makichanov.bassistant.controller.upload.UploadCommandType.*;
 
 public class UploadCommandProvider {
-    private static UploadCommandProvider instance;
+    private static UploadCommandProvider instance = new UploadCommandProvider();
     private final EnumMap<UploadCommandType, UploadCommand> commands = new EnumMap<>(UploadCommandType.class);
 
     private UploadCommandProvider() {
@@ -19,9 +19,6 @@ public class UploadCommandProvider {
     }
 
     public static UploadCommandProvider getInstance() {
-        if (instance == null) {
-            instance = new UploadCommandProvider();
-        }
         return instance;
     }
 

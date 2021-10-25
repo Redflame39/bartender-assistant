@@ -20,7 +20,7 @@ public interface CocktailService {
 
     Optional<Cocktail> findByName(String name) throws ServiceException;
 
-    boolean create(String cocktailName, int userId, String instructions) throws ServiceException;
+    boolean create(String cocktailName, int userId, String instructions, boolean approve) throws ServiceException;
 
     Cocktail update(int toReplaceId, Cocktail replacement) throws ServiceException;
 

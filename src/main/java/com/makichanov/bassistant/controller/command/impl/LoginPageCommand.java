@@ -11,8 +11,6 @@ import static com.makichanov.bassistant.controller.command.PagePath.*;
 
 public class LoginPageCommand implements ActionCommand {
 
-    private static final Logger LOG = LogManager.getLogger();
-
     @Override
     public CommandResult execute(HttpServletRequest request) {
         return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);

@@ -1,9 +1,10 @@
 package com.makichanov.bassistant.controller.upload;
 
+import com.makichanov.bassistant.controller.command.CommandResult;
 import jakarta.servlet.http.HttpServletRequest;
 
-public abstract class UploadCommand {
+public interface UploadCommand {
 
-    public abstract String execute(HttpServletRequest request, int fileId, String filename);
+    CommandResult execute(HttpServletRequest request, int fileId, String filename);
 
 }

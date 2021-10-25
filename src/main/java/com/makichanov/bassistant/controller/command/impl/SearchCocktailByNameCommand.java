@@ -11,6 +11,7 @@ import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,19 +24,24 @@ public class SearchCocktailByNameCommand implements ActionCommand {
     @Override
     public CommandResult execute(HttpServletRequest request) {
         String regexp = request.getParameter(RequestParameter.COCKTAIL_NAME);
-        if (regexp.isBlank()) {
-            regexp = ".*";
+        if (regexp.length() < 1000) {
+            if (regexp.isBlank()) {
+                regexp = ".*";
+            }
+            CocktailService service = CocktailServiceImpl.getInstance();
+            List<Cocktail> cocktails;
+            try {
+                cocktails = service.findByNameRegexp(regexp);
+            } catch (ServiceException e) {
+                LOG.error("Failed to execute SearchCocktailByNameCommand", e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
+                return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
+            }
+            request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
+            request.setAttribute(RequestAttribute.COCKTAIL_NAME, ".*".equals(regexp) ? "" : regexp);
+            return new CommandResult(JspManager.getPage(PagePath.COCKTAILS), CommandResult.RoutingType.FORWARD);
+        } else {
+            return new CommandResult(JspManager.getPage(PagePath.ERROR400), CommandResult.RoutingType.FORWARD);
         }
-        CocktailService service = CocktailServiceImpl.getInstance();
-        List<Cocktail> cocktails;
-        try {
-            cocktails = service.findByNameRegexp(regexp);
-        } catch (ServiceException e) {
-            LOG.error("Failed to execute SearchCocktailByNameCommand", e);
-            return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
-        }
-        request.setAttribute(RequestAttribute.COCKTAILS, cocktails);
-        request.setAttribute(RequestAttribute.COCKTAIL_NAME, ".*".equals(regexp) ? "" : regexp);
-        return new CommandResult(JspManager.getPage(PagePath.COCKTAILS), CommandResult.RoutingType.FORWARD);
     }
 }

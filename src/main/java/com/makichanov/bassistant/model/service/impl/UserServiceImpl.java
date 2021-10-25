@@ -1,16 +1,14 @@
 package com.makichanov.bassistant.model.service.impl;
 
-import com.makichanov.bassistant.model.dao.CocktailDao;
 import com.makichanov.bassistant.model.dao.EntityTransaction;
 import com.makichanov.bassistant.model.dao.UserDao;
-import com.makichanov.bassistant.model.dao.impl.CocktailDaoImpl;
 import com.makichanov.bassistant.model.dao.impl.UserDaoImpl;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.service.UserService;
-import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
+import com.makichanov.bassistant.controller.util.security.PasswordEncryptor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -200,7 +198,20 @@ public class UserServiceImpl implements UserService {
             transaction.initAction(dao);
             dao.updatePassword(toUpdateId, newPassword);
         } catch (DaoException e) {
-            throw new ServiceException();
+            LOG.error("Failed to update password of user " + toUpdateId, e);
+            throw new ServiceException("Failed to update password of user " + toUpdateId, e);
+        }
+    }
+
+    @Override
+    public boolean updateRole(int toUpdateId, Role newRole) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.updateRole(toUpdateId, newRole);
+        } catch (DaoException e) {
+            LOG.error("Failed to update role of user " + toUpdateId, e);
+            throw new ServiceException("Failed to update role of user " + toUpdateId, e);
         }
     }
 

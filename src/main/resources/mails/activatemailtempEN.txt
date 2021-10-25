@@ -1,4 +1,0 @@
-Hello, @username@, seems like you've been trying to sign up in Bartender Assistant website.
-Follow http://localhost:8080/bartender_assistant_war_exploded/controller?command=activate&token=@token@ to finish your registration!
-
-Bartender Assistant Team.

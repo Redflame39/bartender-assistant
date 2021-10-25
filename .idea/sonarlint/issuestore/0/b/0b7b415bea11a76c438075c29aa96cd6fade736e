@@ -1,0 +1,10 @@
+
+`	java:S112)"FDefine and throw a dedicated exception instead of using a generic one.(ÂúÐÀüÿÿÿÿ
+t
+java:S2142A"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+T	java:S899@":Do something with the "boolean" value returned by "offer".(¡í×Âøÿÿÿÿ
+T	java:S899P":Do something with the "boolean" value returned by "offer".(€Ïû°ûÿÿÿÿ
+t
+java:S2142\"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€
+v
+java:S1192B"YDefine a constant instead of duplicating this literal "Failed to get connection" 3 times.(Ÿ¾ª¢8««ã­È/

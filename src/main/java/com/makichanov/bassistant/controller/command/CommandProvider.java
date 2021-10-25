@@ -32,7 +32,6 @@ public class CommandProvider {
         commands.put(CHANGE_PASSWORD, new ChangePasswordCommand());
         commands.put(NEW_PASSWORD, new NewPasswordFormCommand());
         commands.put(UPLOADED, new SuccessfullyUploadedPageCommand());
-        commands.put(ADMIN_PAGE, new AdminPageCommand());
         commands.put(SEARCH_COCKTAIL_NAME, new SearchCocktailByNameCommand());
         commands.put(SEARCH_BARTENDER_NAME, new SearchBartenderByNameCommand());
         commands.put(DELETE_REVIEW, new DeleteReviewCommand());
@@ -46,6 +45,7 @@ public class CommandProvider {
         commands.put(SEARCH_USER_BY_NAME, new SearchUserByNameAdminCommand());
         commands.put(UNAPPROVED_COCKTAILS, new ShowUnapprovedCocktailsAdminCommand());
         commands.put(APPROVE_COCKTAIL, new ApproveCocktailAdminCommand());
+        commands.put(EDIT_USER_ROLE, new UpdateUserRoleAdminCommand());
     }
 
     public static CommandProvider getInstance() {

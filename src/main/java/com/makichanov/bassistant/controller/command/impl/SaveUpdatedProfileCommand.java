@@ -5,9 +5,11 @@ import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +31,8 @@ public class SaveUpdatedProfileCommand implements ActionCommand {
                 && validator.validateFirstName(firstName)
                 && validator.validateLastName(lastName)) {
             int id = Integer.parseInt(idParam);
-            User currentUser = (User) request.getSession().getAttribute(SessionAttribute.USER);
+            HttpSession session = request.getSession();
+            User currentUser = (User) session.getAttribute(SessionAttribute.USER);
             UserService service = UserServiceImpl.getInstance();
             Optional<User> usernameOwner;
             try {
@@ -51,8 +54,11 @@ public class SaveUpdatedProfileCommand implements ActionCommand {
                         .setLastName(lastName)
                         .createUser();
                 service.updateProfileData(id, newProfileData);
+                Optional<User> newUser = service.findById(id);
+                newUser.ifPresent(user -> session.setAttribute(SessionAttribute.USER, user));
             } catch (ServiceException e) {
                 LOG.error("Failed to update user with id " + id, e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
             }
             CommandResult result =

@@ -2,13 +2,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <title>Unapproved cocktails</title>
+    <title><fmt:message key="cocktails.unapproved.title"/></title>
 </head>
 <body>
 <c:import url="header.jsp" charEncoding="utf-8"/>
@@ -29,13 +31,13 @@
 </div>
 <ul class="pagination">
     <li class="page-item <c:if test="${requestScope.current_page - 1 <= 0}">disabled</c:if>"><a class="page-link"
-                                                                                                href="controller?command=unapproved_cocktails&page=${requestScope.current_page - 1}">Previous</a>
+                                                                                                href="controller?command=unapproved_cocktails&page=${requestScope.current_page - 1}"><fmt:message key="pagination.prev"/></a>
     </li>
     <li class="page-item"><a class="page-link"
                              href="controller?command=unapproved_cocktails&page=${requestScope.current_page}">${requestScope.current_page}</a>
     </li>
     <li class="page-item <c:if test="${requestScope.is_last_page}">disabled</c:if>"><a class="page-link"
-                                                                                       href="controller?command=unapproved_cocktails&page=${requestScope.current_page + 1}">Next</a>
+                                                                                       href="controller?command=unapproved_cocktails&page=${requestScope.current_page + 1}"><fmt:message key="pagination.next"/></a>
     </li>
 </ul>
 <c:import url="footer.jsp" charEncoding="utf-8"/>

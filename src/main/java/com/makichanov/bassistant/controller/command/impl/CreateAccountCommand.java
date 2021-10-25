@@ -1,17 +1,17 @@
 package com.makichanov.bassistant.controller.command.impl;
 
-import com.makichanov.bassistant.controller.command.ActionCommand;
-import com.makichanov.bassistant.controller.command.CommandResult;
+import com.makichanov.bassistant.controller.command.*;
 import com.makichanov.bassistant.controller.util.mail.ActivationMailSender;
-import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.security.PasswordEncryptor;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.security.PasswordEncryptor;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,12 +43,15 @@ public class CreateAccountCommand implements ActionCommand {
             try {
                 createdUser = service.createUser(username, firstName, lastName, email, passwordHash);
             } catch (ServiceException e) {
+                LOG.error("Failed to create new user, username: " + username + " email: " + email, e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
             }
             if (createdUser.isPresent()) {
+                HttpSession session = request.getSession();
                 ActivationMailSender mailSender = ActivationMailSender.getInstance();
-                mailSender.sendMail(createdUser.get());
-                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT); // TODO: 10/5/2021 go to page that informs user he need to activate account
+                mailSender.sendMail(createdUser.get(), (String) session.getAttribute(SessionAttribute.LOCALE));
+                return new CommandResult(JspManager.getPage(HOME), CommandResult.RoutingType.REDIRECT);
             } else {
                 return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
             }

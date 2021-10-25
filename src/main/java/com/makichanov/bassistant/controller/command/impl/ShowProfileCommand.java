@@ -10,9 +10,10 @@ import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.model.util.validator.ParameterValidator;
-import com.makichanov.bassistant.model.util.validator.impl.ParameterValidatorImpl;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +36,7 @@ public class ShowProfileCommand implements ActionCommand {
                 requestedUser = service.findById(id);
             } catch (ServiceException e) {
                 LOG.error("Failed to find user by id " + id, e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
             }
             if (requestedUser.isEmpty()) {
@@ -48,6 +50,7 @@ public class ShowProfileCommand implements ActionCommand {
                 cocktails = cocktailService.findByUserId(user.getUserId(), 0, 5);
             } catch (ServiceException e) {
                 LOG.error("Failed to find cocktails by user id " + user.getUserId(), e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
             }
             request.setAttribute(RequestAttribute.COCKTAILS, cocktails);

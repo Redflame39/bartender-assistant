@@ -114,11 +114,11 @@ public class CocktailServiceImpl implements CocktailService {
     }
 
     @Override
-    public boolean create(String cocktailName, int userId, String instructions) throws ServiceException {
+    public boolean create(String cocktailName, int userId, String instructions, boolean approve) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(cocktailDao);
-            return cocktailDao.create(cocktailName, userId, instructions);
+            return cocktailDao.create(cocktailName, userId, instructions, approve);
         } catch (DaoException e) {
             LOG.error("Failed to execute transaction to create cocktail", e);
             throw new ServiceException("Failed to execute transaction to create cocktail", e);

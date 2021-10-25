@@ -7,13 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "PageRedirectSecurityFilter",
-        initParams = {@WebInitParam(name = "INDEX_PATH", value = "/index.jsp")})
+@WebFilter(filterName = "PageRedirectSecurityFilter")
 public class PageRedirectSecurityFilter implements Filter {
-    private String indexPath;
 
     public void init(FilterConfig config) throws ServletException {
-        indexPath = config.getInitParameter("INDEX_PATH");
     }
 
     public void destroy() {

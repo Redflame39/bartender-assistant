@@ -28,6 +28,8 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException;
 
+    public abstract boolean updateRole(int toUpdateId, Role newRole) throws DaoException;
+
     public abstract OptionalInt countUsersByRole(Role role) throws DaoException;
 
     public abstract OptionalInt countAllUsers() throws DaoException;

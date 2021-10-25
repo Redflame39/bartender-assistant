@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bartender Assistant</title>
+    <title><fmt:message key="home.title"/></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -17,13 +17,13 @@
     <span id="test"></span>
     <div class="d-flex flex-row justify-content-around">
         <div class="list-group" style="width: 35%">
-            <h4>5 best cocktails of all time</h4>
-            <c:forEach var="cocktail" items="${cocktails}">
+            <h4><fmt:message key="home.best.cocktails"/></h4>
+            <c:forEach var="cocktail" items="${requestScope.cocktails}">
                 <a href="controller?command=show_cocktail&id=${cocktail.id}"
                    class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex container-fluid justify-content-between">
                         <div class="d-flex flex-row">
-                            <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                            <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="">
                             <div class="d-flex flex-column m-2">
                                 <h5 class="mb-1">${cocktail.name}</h5>
                                 <p class="mb-1">${cocktail.instructions}</p>
@@ -35,16 +35,16 @@
             </c:forEach>
         </div>
         <div class="list-group" style="width: 35%">
-            <h4>5 best bartenders of all time</h4>
-            <c:forEach var="bartender" items="${bartenders}">
+            <h4><fmt:message key="home.best.bartenders"/></h4>
+            <c:forEach var="bartender" items="${requestScope.bartenders}">
                 <a href="controller?command=profile&id=${bartender.userId}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex container-fluid justify-content-between">
                         <div class="d-flex flex-row">
-                            <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                            <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="">
                             <div class="d-flex flex-column m-2">
                                 <strong>${bartender.firstName} ${bartender.lastName}</strong>
-                                <span>Cocktails created: ${bartender.cocktailsCreated}</span>
-                                <span>Average cocktails rate: <fmt:formatNumber type="number" maxFractionDigits="2" value="${bartender.averageCocktailsRate}"/></span>
+                                <span><fmt:message key="bartenders.created"/>${bartender.cocktailsCreated}</span>
+                                <span><fmt:message key="bartenders.average"/><fmt:formatNumber type="number" maxFractionDigits="2" value="${bartender.averageCocktailsRate}"/></span>
                             </div>
                         </div>
                     </div>

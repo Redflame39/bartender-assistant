@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,7 +13,7 @@
 </head>
 <body>
 <c:import url="../header.jsp"/>
-<span>${pageContext.errorData.throwable.cause}</span>
+<span>${requestScope.errorMessage}</span>
 <c:import url="../footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

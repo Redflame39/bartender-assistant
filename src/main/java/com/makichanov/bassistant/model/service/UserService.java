@@ -33,6 +33,8 @@ public interface UserService {
 
     void updatePassword(int toUpdateId, String newPassword) throws ServiceException;
 
+    boolean updateRole(int toUpdateId, Role newRole) throws ServiceException;
+
     int countUsersByRole(Role role) throws ServiceException;
 
     int countAllUsers() throws ServiceException;

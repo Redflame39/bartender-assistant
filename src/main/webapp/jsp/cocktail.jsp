@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="properties.pagecontent"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -10,48 +12,52 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-<c:import url="/jsp/header.jsp" charEncoding="utf-8"/>
+<c:import url="header.jsp" charEncoding="utf-8"/>
 <div class="container-fluid">
     <div class="d-flex flex-row justify-content-between">
         <div class="d-flex flex-row mb-3">
             <img src="${requestScope.cocktail.imageSource}" alt="/img/unknown.png"/>
             <div class="d-flex flex-column">
-                <h1>${cocktail.name}</h1>
-                <span>${cocktail.averageMark}</span>
-                <span>${cocktail.instructions}</span>
+                <h1>${requestScope.cocktail.name}</h1>
+                <span>${requestScope.cocktail.averageMark}</span>
+                <span>${requestScope.cocktail.instructions}</span>
             </div>
         </div>
-        <c:if test="${(cocktail.userId == sessionScope.user.userId) || sessionScope.user.role == 'ADMIN'}">
+        <c:if test="${(requestScope.cocktail.userId == sessionScope.user.userId) || sessionScope.user.role == 'ADMIN'}">
             <div class="d-flex flex-column align-items-start">
-                <a href="controller?command=update_cocktail&id=${cocktail.id}" class="btn btn-primary">Update cocktail info</a>
-                <a href="controller?command=cocktail_image&id=${cocktail.id}" class="btn btn-primary my-3">Update cocktail picture</a>
-                <a href="controller?command=delete_cocktail&id=${cocktail.id}" class="btn btn-danger">Delete cocktail</a>
+                <a href="controller?command=update_cocktail&id=${requestScope.cocktail.id}"
+                   class="btn btn-primary"><fmt:message key="cocktail.update.info"/></a>
+                <a href="controller?command=cocktail_image&id=${requestScope.cocktail.id}" class="btn btn-primary my-3"><fmt:message
+                        key="cocktail.update.image"/></a>
+                <a href="controller?command=delete_cocktail&id=${requestScope.cocktail.id}"
+                   class="btn btn-danger"><fmt:message key="cocktail.delete"/></a>
             </div>
         </c:if>
     </div>
     <br>
     <form name="addReviewForm" method="POST" action="controller">
         <input type="hidden" name="command" value="post_review">
-        <input type="hidden" name="id" value="${cocktail.id}">
+        <input type="hidden" name="id" value="${requestScope.cocktail.id}">
         <div class="form-group">
-            <label for="reviewTextFormTextArea">Review text</label>
+            <label for="reviewTextFormTextArea"><fmt:message key="cocktail.review.text"/></label>
             <textarea class="form-control" name="review_text" id="reviewTextFormTextArea" rows="3"></textarea>
         </div>
-        <label for="cocktailMark">Rate this cocktail</label>
+        <label for="cocktailMark"><fmt:message key="cocktail.review.rate"/></label>
         <select name="review_mark" class="form-select" aria-label="Mark" id="cocktailMark">
-            <option value="5">5 - Great</option>
-            <option value="4">4 - Wonderful</option>
-            <option value="3">3 - Good</option>
-            <option value="2">2 - Weak</option>
-            <option value="1">1 - Bad</option>
+            <option value="5"><fmt:message key="cocktail.review.rate.5"/></option>
+            <option value="4"><fmt:message key="cocktail.review.rate.4"/></option>
+            <option value="3"><fmt:message key="cocktail.review.rate.3"/></option>
+            <option value="2"><fmt:message key="cocktail.review.rate.2"/></option>
+            <option value="1"><fmt:message key="cocktail.review.rate.1"/></option>
         </select>
         <button type="submit" class="btn btn-primary"
-                <c:if test="${sessionScope.user.userId == requestScope.cocktail.userId}">disabled</c:if>>Submit
+                <c:if test="${sessionScope.user.userId == requestScope.cocktail.userId}">disabled</c:if>><fmt:message
+                key="cocktail.review.submit"/>
         </button>
     </form>
     <span class="text-danger">${requestScope.errorMessage}</span>
     <div class="list-group">
-        <c:forEach var="review" items="${reviews}">
+        <c:forEach var="review" items="${requestScope.reviews}">
             <div class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="d-flex flex-row align-items-center">
                     <img src="${review.authorImage}" class="mx-3" style="width: 5vw; height: 5vh" alt="">
@@ -63,8 +69,9 @@
                     </div>
                 </div>
                 <c:if test="${review.authorId == sessionScope.user.userId || sessionScope.user.role == 'ADMIN'}">
-                    <a type="button" href="controller?command=delete_review&id=${review.reviewId}&cocktail_id=${cocktail.id}"
-                       class="btn btn-danger btn-sm">Delete review</a>
+                    <a type="button"
+                       href="controller?command=delete_review&id=${review.reviewId}&cocktail_id=${requestScope.cocktail.id}"
+                       class="btn btn-danger btn-sm"><fmt:message key="cocktail.review.delete"/></a>
                 </c:if>
             </div>
         </c:forEach>
