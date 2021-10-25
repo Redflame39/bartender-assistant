@@ -99,8 +99,6 @@ z
 Jsrc/main/java/com/makichanov/bassistant/controller/command/JspManager.java,3\5\3591a679fd0b222f6e071fa4efe573af1e7f3830
 M
 src/main/webapp/js/editing.js,b\5\b5c6fdf76a6aad6e4b733e876c05de58c4fc6bfe
-x
-Hsrc/main/java/com/makichanov/bassistant/controller/command/PagePath.java,9\c\9c715d26e97c15957179773a0d854e461c76d10c
 Ä
 Psrc/main/java/com/makichanov/bassistant/controller/command/RequestAttribute.java,9\9\993c80933701005cd94b1e945b3d0938a079d7a0
 x
@@ -119,5 +117,3 @@ r
 Bsrc/main/java/com/makichanov/bassistant/controller/Controller.java,8\1\81eca8ad03f51a3284ad0e91cf8c59f9486a9d96
 Å
 Qsrc/main/java/com/makichanov/bassistant/controller/command/impl/EmptyCommand.java,3\3\3321d12bc39a22bcedb5c6d1a9a6c5cae670a809
-å
-\src/main/java/com/makichanov/bassistant/controller/command/impl/RegistrationPageCommand.java,2\9\297b0bd530835c659cf8af25ab1f0013ddb78343

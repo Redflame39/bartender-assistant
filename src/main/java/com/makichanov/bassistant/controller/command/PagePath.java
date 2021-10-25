@@ -23,6 +23,7 @@ public final class PagePath {
     public static final String EDIT_COCKTAIL = "path.page.cocktail.edit";
     public static final String EDIT_PROFILE = "path.page.profile.edit";
     public static final String ALL_USER_COCKTAILS = "path.page.user.cocktails";
+    public static final String HELP = "path.page.help";
 
     private PagePath() {}
 }

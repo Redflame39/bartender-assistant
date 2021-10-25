@@ -21,7 +21,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
-                    <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="<%--todo alt--%>">
+                    <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="">
                     <div class="d-flex flex-column m-2">
                         <h5 class="mb-1">${cocktail.name}</h5>
                         <p class="mb-1">${cocktail.instructions}</p>

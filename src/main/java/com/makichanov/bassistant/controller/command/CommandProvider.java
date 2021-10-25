@@ -44,8 +44,8 @@ public class CommandProvider {
         commands.put(ALL_USERS_ADMIN, new ShowAllUsersAdminCommand());
         commands.put(SEARCH_USER_BY_NAME, new SearchUserByNameAdminCommand());
         commands.put(UNAPPROVED_COCKTAILS, new ShowUnapprovedCocktailsAdminCommand());
-        commands.put(APPROVE_COCKTAIL, new ApproveCocktailAdminCommand());
         commands.put(EDIT_USER_ROLE, new UpdateUserRoleAdminCommand());
+        commands.put(HELP, new HelpPageCommand());
     }
 
     public static CommandProvider getInstance() {

@@ -19,6 +19,18 @@
                         size="100 KB" />
             </Policies>
         </RollingFile>
+        <RollingFile name="rollingFile"
+                     fileName="{C:\java\apache-tomcat-10.0.10\logs\bassistant.log}"
+                     filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval = "1" />
+                <SizeBasedTriggeringPolicy
+                        size="100 KB" />
+            </Policies>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
