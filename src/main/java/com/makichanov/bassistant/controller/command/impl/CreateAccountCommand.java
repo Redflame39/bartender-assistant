@@ -45,7 +45,7 @@ public class CreateAccountCommand implements ActionCommand {
             } catch (ServiceException e) {
                 LOG.error("Failed to create new user, username: " + username + " email: " + email, e);
                 request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
-                return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
+                return new CommandResult(JspManager.getPage(ERROR500), CommandResult.RoutingType.FORWARD);
             }
             if (createdUser.isPresent()) {
                 HttpSession session = request.getSession();

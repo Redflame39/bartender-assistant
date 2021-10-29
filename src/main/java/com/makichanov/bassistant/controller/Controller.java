@@ -13,9 +13,6 @@ import static com.makichanov.bassistant.controller.command.RequestParameter.*;
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
 
-    public void init() {
-    }
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }
@@ -38,10 +35,8 @@ public class Controller extends HttpServlet {
                 PostRedirectGet prg = PostRedirectGet.getInstance();
                 response.sendRedirect(prg.defineRedirectPath(commandName, request, commandResult));
             }
-            default -> response.sendError(404);
+            default -> getServletContext().getRequestDispatcher(PagePath.ERROR404).forward(request, response);
         }
     }
 
-    public void destroy() {
-    }
 }

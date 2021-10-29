@@ -30,12 +30,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> createUser(String username, String firstName, String lastName, String email, String password) throws ServiceException {
+        UserDao userDao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao userDao = new UserDaoImpl();
-            transaction.initTransaction(userDao);
+            transaction.initAction(userDao);
             String passwordHash = PasswordEncryptor.encrypt(password);
             boolean created = userDao.create(username, firstName, lastName, email, Role.CLIENT, passwordHash);
-            transaction.commit();
             return created
                     ? userDao.findByUsername(username)
                     : Optional.empty();
@@ -47,9 +46,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> authenticateByEmail(String email, String password) throws ServiceException {
+        UserDao userDao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao userDao = new UserDaoImpl();
-            transaction.initTransaction(userDao);
+            transaction.initAction(userDao);
             Optional<User> queryResult = userDao.findByEmail(email);
             if (queryResult.isPresent()) {
                 User toAuthenticate = queryResult.get();
@@ -69,9 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByEmail(String email) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao dao = new UserDaoImpl();
-            transaction.initTransaction(dao);
+            transaction.initAction(dao);
             return dao.findByEmail(email);
         } catch (DaoException e) {
             LOG.error("Failed to find user by email: " + email, e);
@@ -81,8 +80,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findById(int id) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao dao = new UserDaoImpl();
             transaction.initAction(dao);
             return dao.findById(id);
         } catch (DaoException e) {
@@ -93,8 +92,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByUsername(String username) throws ServiceException {
+        UserDao dao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            UserDao dao = new UserDaoImpl();
             transaction.initAction(dao);
             return dao.findByUsername(username);
         } catch (DaoException e) {
@@ -118,37 +117,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateImage(int toUpdateId, String imageSrc) throws ServiceException {
         UserDao userDao = new UserDaoImpl();
-        EntityTransaction transaction = new EntityTransaction();
-        User user = null;
-        try {
-            transaction.initTransaction(userDao);
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(userDao);
             userDao.updateImage(toUpdateId, imageSrc);
             Optional<User> updated = userDao.findById(toUpdateId);
-            user = updated.orElseThrow(() -> new ServiceException("Updated user not found"));
-            transaction.commit();
+            return updated.orElseThrow(() -> new ServiceException("Updated user not found"));
         } catch (DaoException e) {
-            try {
-                transaction.rollback();
-            } catch (DaoException ex) {
-                LOG.error("Failed to rollback transaction executing updating image of user " + toUpdateId, e);
-                throw new ServiceException("Failed to rollback transaction executing updating image of user " + toUpdateId, e);
-            }
-        } finally {
-            try {
-                transaction.close();
-            } catch (DaoException e) {
-                LOG.error("Failed to close transaction executing updating image of user " + toUpdateId, e);
-            }
+            LOG.error("Failed to update user image, id: " + toUpdateId, e);
+            throw new ServiceException("Failed to update user image, id: " + toUpdateId, e);
         }
-        return user;
     }
 
     @Override
-    public void updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException {
+    public boolean updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException {
         UserDao userDao = new UserDaoImpl();
         try (EntityTransaction entityTransaction = new EntityTransaction()) {
             entityTransaction.initAction(userDao);
-            userDao.updateActivatedStatus(toUpdateId, newStatus);
+            return userDao.updateActivatedStatus(toUpdateId, newStatus);
         } catch (DaoException e) {
             LOG.error("Failed to update activation status of user " + toUpdateId, e);
             throw new ServiceException("Failed to update activation status of user " + toUpdateId, e);
@@ -192,11 +177,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(int toUpdateId, String newPassword) throws ServiceException {
+    public boolean updatePassword(int toUpdateId, String newPassword) throws ServiceException {
         UserDao dao = new UserDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
-            dao.updatePassword(toUpdateId, newPassword);
+            return dao.updatePassword(toUpdateId, newPassword);
         } catch (DaoException e) {
             LOG.error("Failed to update password of user " + toUpdateId, e);
             throw new ServiceException("Failed to update password of user " + toUpdateId, e);
@@ -206,7 +191,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateRole(int toUpdateId, Role newRole) throws ServiceException {
         UserDao dao = new UserDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             return dao.updateRole(toUpdateId, newRole);
         } catch (DaoException e) {

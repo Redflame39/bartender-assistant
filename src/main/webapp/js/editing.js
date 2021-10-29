@@ -4,7 +4,7 @@ const usernameInput = document.getElementById('usernameInputForm'),
 
 async function findUser() {
     let username = usernameInput.value;
-    let response = await fetch(`AjaxController?command=is_free&username=${username}`);
+    let response = await fetch(`AjaxController?command=username_is_free_to_edit&username=${username}`);
     let isFree = await response.json();
     if (isFree !== '{}') {
         if (isFree) {

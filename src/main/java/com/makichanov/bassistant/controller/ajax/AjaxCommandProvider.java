@@ -1,20 +1,20 @@
 package com.makichanov.bassistant.controller.ajax;
 
-import com.makichanov.bassistant.controller.ajax.impl.ApproveCocktailAjaxCommand;
-import com.makichanov.bassistant.controller.ajax.impl.DefineUsernameIsFreeAjaxCommand;
-import com.makichanov.bassistant.controller.ajax.impl.EmptyAjaxCommand;
+import com.makichanov.bassistant.controller.ajax.impl.*;
 
 import static com.makichanov.bassistant.controller.ajax.AjaxCommandType.*;
 
 import java.util.EnumMap;
 
 public class AjaxCommandProvider {
-    private static AjaxCommandProvider instance = new AjaxCommandProvider();
+    private static final AjaxCommandProvider instance = new AjaxCommandProvider();
     private final EnumMap<AjaxCommandType, AjaxCommand> commands = new EnumMap<>(AjaxCommandType.class);
 
     private AjaxCommandProvider() {
         commands.put(DEFAULT, new EmptyAjaxCommand());
-        commands.put(IS_FREE, new DefineUsernameIsFreeAjaxCommand());
+        commands.put(USERNAME_IS_FREE_TO_EDIT, new UsernameIsFreeToEditAjaxCommand());
+        commands.put(EMAIL_IS_FREE, new DefineEmailIsFreeAjaxCommand());
+        commands.put(USERNAME_IS_FREE, new DefineUsernameIsFreeAjaxCommand());
         commands.put(APPROVE_COCKTAIL, new ApproveCocktailAjaxCommand());
     }
 

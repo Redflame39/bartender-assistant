@@ -6,10 +6,13 @@ import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidat
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.dto.ReviewDto;
 import com.makichanov.bassistant.model.entity.Cocktail;
+import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.CocktailService;
 import com.makichanov.bassistant.model.service.ReviewService;
+import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.CocktailServiceImpl;
 import com.makichanov.bassistant.model.service.impl.ReviewServiceImpl;
+import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +45,20 @@ public class ShowCocktailCommand implements ActionCommand {
             } else {
                 return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
             }
+            UserService userService = UserServiceImpl.getInstance();
+            Optional<User> author;
+            int authorId = toShow.get().getUserId();
+            try {
+                author = userService.findById(authorId);
+            } catch (ServiceException e) {
+                LOG.error("Failed to find cocktail author with id " + authorId, e);
+                request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
+                return new CommandResult(JspManager.getPage(PagePath.ERROR500), CommandResult.RoutingType.FORWARD);
+            }
+            if (author.isEmpty()) {
+                return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
+            }
+            request.setAttribute(RequestAttribute.AUTHOR, author.get());
             ReviewService reviewService = ReviewServiceImpl.getInstance();
             try {
                 List<ReviewDto> reviews = reviewService.findAllComments(cocktailId);

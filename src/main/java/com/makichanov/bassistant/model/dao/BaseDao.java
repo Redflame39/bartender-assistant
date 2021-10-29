@@ -19,10 +19,6 @@ public abstract class BaseDao<K, T extends Entity> {
 
     public abstract T update(K id, T replacement) throws DaoException;
 
-    public void close() {
-        connection = null;
-    }
-
     protected void setConnection(Connection connection) {
         this.connection = connection;
     }

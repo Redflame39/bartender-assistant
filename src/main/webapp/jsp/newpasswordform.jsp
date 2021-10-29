@@ -15,17 +15,18 @@
 <c:import url="header.jsp" charEncoding="utf-8"/>
 <form action="controller" method="post">
     <input type="hidden" name="command" value="change_password">
-    <input type="hidden" name="user_id" value="${user_id}">
+    <input type="hidden" name="user_id" value="${requestScope.user_id}">
     <div class="form-group">
         <label for="passwordInputForm"><fmt:message key="password.update.password"/></label>
-        <input type="password" name="password" class="form-control" id="passwordInputForm" placeholder="Password">
+        <input type="password" name="password" class="form-control" id="passwordInputForm" placeholder="Password"
+               pattern="${requestScope.password_regexp}">
     </div>
     <div class="form-group">
         <label for="rePasswordInputForm"><fmt:message key="password.update.re-password"/></label>
         <input type="password" name="re_password" class="form-control" id="rePasswordInputForm"
-               placeholder="Re-password">
+               placeholder="Re-password" pattern="${requestScope.password_regexp}">
     </div>
-    <span class="text-danger">${errorMessage}</span>
+    <span class="text-danger">${requestScope.errorMessage}</span>
     <button type="submit" class="btn btn-primary"><fmt:message key="password.update.submit"/></button>
 </form>
 <c:import url="footer.jsp" charEncoding="utf-8"/>

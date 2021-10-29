@@ -13,7 +13,22 @@
 </head>
 <body>
 <c:import url="../header.jsp"/>
-<span>${requestScope.errorMessage}</span>
+<c:choose>
+    <c:when test="${requestScope.errorMessage ne null}">
+        <span>${requestScope.errorMessage}</span>
+    </c:when>
+    <c:otherwise>
+        Request from ${pageContext.errorData.requestURI} is failed
+        <br/>
+        Servlet name: ${pageContext.errorData.servletName}
+        <br/>
+        Status code: ${pageContext.errorData.statusCode}
+        <br/>
+        Exception: ${pageContext.exception}
+        <br/>
+        Message from exception: ${pageContext.exception.message}
+    </c:otherwise>
+</c:choose>
 <c:import url="../footer.jsp" charEncoding="utf-8"/>
 </body>
 </html>

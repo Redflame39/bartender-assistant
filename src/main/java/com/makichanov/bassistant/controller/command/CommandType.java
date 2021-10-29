@@ -42,7 +42,7 @@ public enum CommandType {
     HELP(LEVEL_GUEST),
     APPROVE_COCKTAIL(LEVEL_ADMIN);
 
-    private int accessLevel;
+    private final int accessLevel;
 
     CommandType(int accessLevel) {
         this.accessLevel = accessLevel;

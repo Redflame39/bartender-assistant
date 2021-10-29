@@ -4,15 +4,14 @@ import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
 import com.makichanov.bassistant.model.entity.Role;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.makichanov.bassistant.controller.util.validator.ParameterRegexp.*;
 
 public class ParameterValidatorImpl implements ParameterValidator {
 
     private static final ParameterValidatorImpl instance = new ParameterValidatorImpl();
-    private static final String FIRST_LAST_NAME_REGEXP = "[a-zA-Zа-яА-Я- ]{1,40}";
-    private static final String EMAIL_REGEXP = "(.+@.+){3,255}";
-    private static final String PASSWORD_REGEXP = "(.+){5,40}";
-    private static final String COCKTAIL_NAME_REGEXP = "(.+){5,30}";
-    private static final String USERNAME_REGEXP = "(.+){5,20}";
 
     private ParameterValidatorImpl() {
 
@@ -39,7 +38,7 @@ public class ParameterValidatorImpl implements ParameterValidator {
 
     @Override
     public boolean validateEmail(String email) {
-        return email != null && email.matches(EMAIL_REGEXP);
+        return email != null && email.contains("@") && (email.length() >= 3 && email.length() <= 255);
     }
 
     @Override
@@ -70,7 +69,13 @@ public class ParameterValidatorImpl implements ParameterValidator {
 
     @Override
     public boolean validateCocktailInstructions(String instructions) {
-        return instructions != null && (instructions.length() >= 30 && instructions.length() <= 1000);
+        if (instructions == null) {
+            return false;
+        }
+        Pattern instPattern = Pattern.compile(TEXTAREA_FORBIDDEN_SYMBOLS);
+        Matcher instMatcher = instPattern.matcher(instructions);
+        return (instructions.length() >= 30 && instructions.length() <= 1000)
+                && !instMatcher.find();
     }
 
     @Override
@@ -88,7 +93,13 @@ public class ParameterValidatorImpl implements ParameterValidator {
 
     @Override
     public boolean validateReviewText(String reviewText) {
-        return reviewText != null && (reviewText.length() >= 10 && reviewText.length() <= 300);
+        if (reviewText == null) {
+            return false;
+        }
+        Pattern reviewPattern = Pattern.compile(TEXTAREA_FORBIDDEN_SYMBOLS);
+        Matcher reviewMatcher = reviewPattern.matcher(reviewText);
+        return (reviewText.length() >= 10 && reviewText.length() <= 300)
+                && !reviewMatcher.find();
     }
 
     @Override
@@ -105,5 +116,15 @@ public class ParameterValidatorImpl implements ParameterValidator {
                 return false;
             }
         }
+    }
+
+    @Override
+    public boolean validateBartenderNameSearch(String searchRequest) {
+        return searchRequest != null && searchRequest.matches(BARTENDER_NAME_SEARCH_REGEXP);
+    }
+
+    @Override
+    public boolean validateCocktailNameSearch(String searchRequest) {
+        return searchRequest != null && searchRequest.matches(COCKTAIL_NAME_SEARCH_REGEXP);
     }
 }

@@ -19,7 +19,8 @@
     <form class="form-inline my-2 my-lg-0 mx-3" action="controller" method="post">
         <input type="hidden" name="command" value="search_cocktail_name">
         <input name="cocktail_name" value="${requestScope.cocktail_name}" class="form-control mr-sm-2" type="search"
-               placeholder="<fmt:message key="cocktails.search.placeholder"/>" aria-label="<fmt:message key="cocktails.search.placeholder"/>">
+               placeholder="<fmt:message key="cocktails.search.placeholder"/>" aria-label="<fmt:message key="cocktails.search.placeholder"/>"
+        pattern="[a-zA-Zа-яА-ЯЁё1-9. -]*" maxlength="30">
         <button class="btn btn-success my-2 my-sm-0" type="submit"><fmt:message key="cocktails.search.submit"/></button>
     </form>
 </div>

@@ -37,18 +37,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> findByCocktailId(int cocktailId) throws ServiceException {
-        ReviewDao dao = new ReviewDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
-            transaction.initAction(dao);
-            return dao.findByCocktailId(cocktailId);
-        } catch (DaoException e) {
-            LOG.error("Failed to find all reviews for cocktail " + cocktailId, e);
-            throw new ServiceException("Failed to find all reviews for cocktail " + cocktailId, e);
-        }
-    }
-
-    @Override
     public List<ReviewDto> findAllComments(int cocktailId) throws ServiceException {
         ReviewDao dao = new ReviewDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {

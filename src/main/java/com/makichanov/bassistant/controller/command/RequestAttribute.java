@@ -16,6 +16,11 @@ public final class RequestAttribute {
     public static final String REQUESTED_USER = "requested_user";
     public static final String USERNAME = "username";
     public static final String USER_NAME = "user_name";
+    public static final String PASSWORD_REGEXP = "password_regexp";
+    public static final String COCKTAIL_NAME_REGEXP = "cocktail_name_regexp";
+    public static final String USERNAME_REGEXP = "username_regexp";
+    public static final String FIRST_LAST_NAME_REGEXP = "first_last_name_regexp";
+    public static final String AUTHOR = "author";
 
     private RequestAttribute() {}
 }

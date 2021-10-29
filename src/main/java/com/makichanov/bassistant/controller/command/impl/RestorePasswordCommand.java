@@ -43,7 +43,7 @@ public class RestorePasswordCommand implements ActionCommand {
             String locale = (String) session.getAttribute(SessionAttribute.LOCALE);
             locale = locale != null ? locale : "en_US";
             sender.sendMail(userToRestore.get(), locale);
-            return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.FORWARD);
+            return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.REDIRECT);
         } else {
             return new CommandResult(JspManager.getPage(PagePath.ERROR400), CommandResult.RoutingType.FORWARD);
         }

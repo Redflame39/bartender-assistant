@@ -1,9 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
-import com.makichanov.bassistant.controller.command.ActionCommand;
-import com.makichanov.bassistant.controller.command.CommandResult;
-import com.makichanov.bassistant.controller.command.JspManager;
-import com.makichanov.bassistant.controller.command.RequestAttribute;
+import com.makichanov.bassistant.controller.command.*;
+import com.makichanov.bassistant.controller.util.validator.ParameterRegexp;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
@@ -17,18 +15,13 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 
-import static com.makichanov.bassistant.controller.command.RequestAttribute.USER_ID;
-import static com.makichanov.bassistant.controller.command.RequestParameter.TOKEN;
-import static com.makichanov.bassistant.controller.command.PagePath.ERROR404;
-import static com.makichanov.bassistant.controller.command.PagePath.NEW_PASSWORD_FORM;
-
 public class NewPasswordFormCommand implements ActionCommand {
 
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        String activationToken = request.getParameter(TOKEN);
+        String activationToken = request.getParameter(RequestParameter.TOKEN);
         DigitalSigner signer = CustomDigitalSigner.getInstance();
         String decrypted = signer.decrypt(activationToken);
         int userId = Integer.parseInt(decrypted);
@@ -39,12 +32,13 @@ public class NewPasswordFormCommand implements ActionCommand {
         } catch (ServiceException e) {
             LOG.error("Failed to find user by id to load new password form, user id: " + userId, e);
             request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
-            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
         if (userToRestore.isEmpty()) {
-            return new CommandResult(JspManager.getPage(ERROR404), CommandResult.RoutingType.FORWARD);
+            return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
         }
-        request.setAttribute(USER_ID, userToRestore.get().getUserId());
-        return new CommandResult(JspManager.getPage(NEW_PASSWORD_FORM), CommandResult.RoutingType.FORWARD);
+        request.setAttribute(RequestAttribute.USER_ID, userToRestore.get().getUserId());
+        request.setAttribute(RequestAttribute.PASSWORD_REGEXP, ParameterRegexp.PASSWORD_REGEXP);
+        return new CommandResult(JspManager.getPage(PagePath.NEW_PASSWORD_FORM), CommandResult.RoutingType.FORWARD);
     }
 }

@@ -18,15 +18,16 @@ public abstract class UserDao extends BaseDao<Integer, User> {
 
     public abstract List<User> findByNameRegexp(String regexp) throws DaoException;
 
-    public abstract boolean create(String username, String firstName, String lastName, String email, Role role, String passwordHash) throws DaoException;
+    public abstract boolean create(String username, String firstName, String lastName, String email, Role role,
+                                   String passwordHash) throws DaoException;
 
     public abstract String getPassword(int userId) throws DaoException;
 
-    public abstract void updateImage(int toUpdateId, String imageSrc) throws DaoException;
+    public abstract boolean updateImage(int toUpdateId, String imageSrc) throws DaoException;
 
-    public abstract void updatePassword(int toUpdateId, String newPassword) throws DaoException;
+    public abstract boolean updatePassword(int toUpdateId, String newPassword) throws DaoException;
 
-    public abstract void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException;
+    public abstract boolean updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException;
 
     public abstract boolean updateRole(int toUpdateId, Role newRole) throws DaoException;
 

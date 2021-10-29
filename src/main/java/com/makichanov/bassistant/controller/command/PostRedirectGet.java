@@ -8,7 +8,7 @@ import java.util.*;
 import static com.makichanov.bassistant.controller.command.CommandType.*;
 
 public class PostRedirectGet {
-    private static PostRedirectGet instance = new PostRedirectGet();
+    private static final PostRedirectGet instance = new PostRedirectGet();
     private final EnumMap<CommandType, CommandType> redirectCommandMapper = new EnumMap<>(CommandType.class);
     private final EnumMap<UploadCommandType, CommandType> uploadRedirectCommandMapper = new EnumMap<>(UploadCommandType.class);
 
@@ -23,6 +23,8 @@ public class PostRedirectGet {
         redirectCommandMapper.put(LOGOUT, HOME);
         redirectCommandMapper.put(SAVE_UPDATED_PROFILE, PROFILE);
         redirectCommandMapper.put(EDIT_USER_ROLE, PROFILE);
+        redirectCommandMapper.put(RESTORE_PASSWORD, LOGIN);
+        redirectCommandMapper.put(CHANGE_PASSWORD, LOGIN);
 
         uploadRedirectCommandMapper.put(UploadCommandType.COCKTAIL_IMAGE, SHOW_COCKTAIL);
         uploadRedirectCommandMapper.put(UploadCommandType.USER_IMAGE, PROFILE);

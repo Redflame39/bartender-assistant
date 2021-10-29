@@ -7,7 +7,7 @@ import java.util.EnumMap;
 import static com.makichanov.bassistant.controller.command.CommandType.*;
 
 public class CommandProvider {
-    private static CommandProvider instance = new CommandProvider();
+    private static final CommandProvider instance = new CommandProvider();
     private final EnumMap<CommandType, ActionCommand> commands = new EnumMap<>(CommandType.class);
 
     private CommandProvider() {

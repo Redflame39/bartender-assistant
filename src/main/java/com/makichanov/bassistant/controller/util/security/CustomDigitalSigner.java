@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public class CustomDigitalSigner implements DigitalSigner {
 
     private static final CustomDigitalSigner instance = new CustomDigitalSigner();
-    private final int NUMBER_OF_SHIFTS = 10;
+    private static final int NUMBER_OF_SHIFTS = 10;
 
     private CustomDigitalSigner() {}
 

@@ -3,6 +3,7 @@ package com.makichanov.bassistant.controller.command.impl;
 import com.makichanov.bassistant.controller.command.*;
 import com.makichanov.bassistant.controller.command.JspManager;
 import com.makichanov.bassistant.controller.command.PagePath;
+import com.makichanov.bassistant.controller.util.validator.ParameterRegexp;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.entity.User;
@@ -45,6 +46,7 @@ public class UpdateCocktailPageCommand implements ActionCommand {
                 request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Sorry, you don't have enough permission to visit this page.");
                 return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.FORWARD);
             }
+            request.setAttribute(RequestAttribute.COCKTAIL_NAME_REGEXP, ParameterRegexp.COCKTAIL_NAME_REGEXP);
             request.setAttribute(RequestAttribute.COCKTAIL, cocktail);
             return new CommandResult(JspManager.getPage(PagePath.EDIT_COCKTAIL), CommandResult.RoutingType.FORWARD);
         } else {

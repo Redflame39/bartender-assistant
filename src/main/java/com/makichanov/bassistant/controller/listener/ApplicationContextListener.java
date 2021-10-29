@@ -14,7 +14,7 @@ public class ApplicationContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        /* This method is called when the servlet context is initialized(when the Web application is deployed). */
+        ServletContextListener.super.contextInitialized(sce);
     }
 
     @Override

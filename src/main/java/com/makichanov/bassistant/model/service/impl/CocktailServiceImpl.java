@@ -34,12 +34,10 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public List<Cocktail> findAll(int offset, int count) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
-        ReviewDao reviewDao = new ReviewDaoImpl();
         List<Cocktail> cocktails;
         try (EntityTransaction transaction = new EntityTransaction()) {
-            transaction.initTransaction(cocktailDao, reviewDao);
+            transaction.initAction(cocktailDao);
             cocktails = new ArrayList<>(cocktailDao.findAll(offset, count));
-            transaction.commit();
         } catch (DaoException e) {
             LOG.error("Failed to execute transaction to get cocktails list", e);
             throw new ServiceException("Failed to execute transaction to get cocktails list", e);
@@ -51,7 +49,7 @@ public class CocktailServiceImpl implements CocktailService {
     public List<Cocktail> findByUserId(int id, int offset, int count) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
         List<Cocktail> cocktails;
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             cocktails = dao.findByUserID(id, offset, count);
         } catch (DaoException e) {
@@ -65,7 +63,7 @@ public class CocktailServiceImpl implements CocktailService {
     public List<Cocktail> findByNameRegexp(String regexp) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         List<Cocktail> cocktails;
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(cocktailDao);
             cocktails = cocktailDao.findByNameRegexp(regexp);
         } catch (DaoException e) {
@@ -79,7 +77,7 @@ public class CocktailServiceImpl implements CocktailService {
     public List<Cocktail> findAllUnapprovedCocktails(int offset, int count) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
         List<Cocktail> cocktails;
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(cocktailDao);
             cocktails = cocktailDao.findAllUnapprovedCocktails(offset, count);
         } catch (DaoException e) {
@@ -91,8 +89,8 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public Optional<Cocktail> findById(int id) throws ServiceException {
+        CocktailDao cocktailDao = new CocktailDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            CocktailDao cocktailDao = new CocktailDaoImpl();
             transaction.initAction(cocktailDao);
             return cocktailDao.findById(id);
         } catch (DaoException e) {
@@ -103,8 +101,8 @@ public class CocktailServiceImpl implements CocktailService {
 
     @Override
     public Optional<Cocktail> findByName(String name) throws ServiceException {
+        CocktailDao cocktailDao = new CocktailDaoImpl();
         try (EntityTransaction transaction = new EntityTransaction()) {
-            CocktailDao cocktailDao = new CocktailDaoImpl();
             transaction.initAction(cocktailDao);
             return cocktailDao.findByName(name);
         } catch (DaoException e) {
@@ -128,9 +126,9 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public Cocktail update(int toReplaceId, Cocktail replacement) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
-             transaction.initAction(dao);
-             return dao.update(toReplaceId, replacement);
+        try (EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(dao);
+            return dao.update(toReplaceId, replacement);
         } catch (DaoException e) {
             LOG.error("Failed to update cocktail with id " + toReplaceId, e);
             throw new ServiceException("Failed to update cocktail with id " + toReplaceId, e);
@@ -140,38 +138,21 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public Cocktail updateImage(int toUpdateId, String imageSrc) throws ServiceException {
         CocktailDao cocktailDao = new CocktailDaoImpl();
-        EntityTransaction transaction = new EntityTransaction();
-        Cocktail cocktail;
-        try {
-            transaction.initTransaction(cocktailDao);
+        try(EntityTransaction transaction = new EntityTransaction()) {
+            transaction.initAction(cocktailDao);
             cocktailDao.updateImage(toUpdateId, imageSrc);
-            transaction.commit();
             Optional<Cocktail> updated = cocktailDao.findById(toUpdateId);
-            cocktail = updated.orElseThrow(
-                    () -> new ServiceException("Cocktail with id " + toUpdateId + "was not found"));
+            return updated.orElseThrow(() -> new ServiceException("Cocktail with id " + toUpdateId + "was not found"));
         } catch (DaoException e) {
             LOG.error("Failed to update image for cocktail, id: " + toUpdateId, e);
-            try {
-                transaction.rollback();
-            } catch (DaoException ex) {
-                LOG.error("Failed to rollback transaction", e);
-                throw new ServiceException("Failed to rollback transaction", e);
-            }
             throw new ServiceException("Failed to update image for cocktail, id: " + toUpdateId, e);
-        } finally {
-            try {
-                transaction.close();
-            } catch (DaoException e) {
-                LOG.error("Failed to close transaction", e);
-            }
         }
-        return cocktail;
     }
 
     @Override
     public boolean updateApprovedStatus(int toUpdateId, boolean newStatus) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             return dao.updateApprovedStatus(toUpdateId, newStatus);
         } catch (DaoException e) {
@@ -183,7 +164,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public boolean delete(int toDeleteId) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             return dao.remove(toDeleteId);
         } catch (DaoException e) {
@@ -195,7 +176,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public int countCocktails() throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             OptionalInt count = dao.countTotalCocktails();
             return count.orElseThrow(() -> new ServiceException("Failed to count cocktails"));
@@ -208,7 +189,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public int countCocktailsByUserId(int userId) throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             OptionalInt count = dao.countCocktailsByUserId(userId);
             return count.orElseThrow(() -> new ServiceException("Failed to count cocktails by user id " + userId));
@@ -221,7 +202,7 @@ public class CocktailServiceImpl implements CocktailService {
     @Override
     public int countUnapprovedCocktails() throws ServiceException {
         CocktailDao dao = new CocktailDaoImpl();
-        try(EntityTransaction transaction = new EntityTransaction()) {
+        try (EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);
             OptionalInt count = dao.countUnapprovedCocktails();
             return count.orElseThrow(() -> new ServiceException("Failed to count unapproved cocktails"));

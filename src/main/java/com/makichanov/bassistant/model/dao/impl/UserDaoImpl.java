@@ -92,7 +92,7 @@ public class UserDaoImpl extends UserDao {
                      left join role on users.role_id = role.role_id
                      left join cocktails c on users.user_id = c.user_id
                      left join reviews r on c.cocktail_id = r.cocktail_id
-            where concat(first_name, last_name) regexp ?
+            where concat(first_name, ' ', last_name) regexp ?
             group by users.user_id
             order by avg_rate desc, cocktails_created desc;
             """;
@@ -383,11 +383,11 @@ public class UserDaoImpl extends UserDao {
         }
     }
 
-    public void updateImage(int toUpdateId, String imageSrc) throws DaoException {
+    public boolean updateImage(int toUpdateId, String imageSrc) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
             statement.setString(1, imageSrc);
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update user image, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user image, id: " + toUpdateId, e);
@@ -395,11 +395,11 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public void updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException {
+    public boolean updateActivatedStatus(int toUpdateId, boolean newStatus) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ACTIVATED)) {
             statement.setBoolean(1, newStatus);
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update user activation status, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user activation status, id: " + toUpdateId, e);
@@ -407,11 +407,11 @@ public class UserDaoImpl extends UserDao {
     }
 
     @Override
-    public void updatePassword(int toUpdateId, String newPassword) throws DaoException {
+    public boolean updatePassword(int toUpdateId, String newPassword) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD)) {
             statement.setString(1, newPassword);
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update user password, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user password, id: " + toUpdateId, e);
@@ -423,8 +423,7 @@ public class UserDaoImpl extends UserDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ROLE)) {
             statement.setInt(1, newRole.getRoleId());
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update user role, id: " + toUpdateId, e);
             throw new DaoException("Failed to update user role, id: " + toUpdateId, e);

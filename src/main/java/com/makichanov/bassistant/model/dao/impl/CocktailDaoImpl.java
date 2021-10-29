@@ -282,8 +282,7 @@ public class CocktailDaoImpl extends CocktailDao {
             statement.setInt(2, userId);
             statement.setString(3, instructions);
             statement.setBoolean(4, approve);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to execute SQL_CREATE", e);
             throw new DaoException("Failed to execute SQL_CREATE", e);
@@ -294,8 +293,7 @@ public class CocktailDaoImpl extends CocktailDao {
     public boolean remove(Integer id) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to execute SQL_REMOVE_ID", e);
             throw new DaoException("Failed to execute SQL_REMOVE_ID", e);
@@ -323,8 +321,7 @@ public class CocktailDaoImpl extends CocktailDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_IMAGE)) {
             statement.setString(1, imageSrc);
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update cocktail image, id: " + toUpdateId, e);
             throw new DaoException("Failed to update cocktail image, id: " + toUpdateId, e);
@@ -336,8 +333,7 @@ public class CocktailDaoImpl extends CocktailDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_APPROVED)) {
             statement.setBoolean(1, newStatus);
             statement.setInt(2, toUpdateId);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to update approved status for cocktail " + toUpdateId, e);
             throw new DaoException("Failed to update approved status for cocktail " + toUpdateId, e);

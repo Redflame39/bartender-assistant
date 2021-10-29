@@ -18,7 +18,8 @@
         <input type="hidden" name="command" value="search_user_by_name">
         <input name="user_name" value="${requestScope.user_name}" class="form-control mr-sm-2" type="search"
                placeholder="<fmt:message key="users.search.placeholder"/>"
-               aria-label="<fmt:message key="users.search.placeholder"/>">
+               aria-label="<fmt:message key="users.search.placeholder"/>"
+               pattern="[a-zA-Zа-яА-ЯЁё -]*">
         <button class="btn btn-success my-2 my-sm-0" type="submit"><fmt:message key="users.search.submit"/></button>
     </form>
 </div>

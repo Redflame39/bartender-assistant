@@ -1,11 +1,6 @@
 package com.makichanov.bassistant.controller.command.impl;
 
-import com.makichanov.bassistant.controller.command.ActionCommand;
-import com.makichanov.bassistant.controller.command.CommandResult;
-import com.makichanov.bassistant.controller.command.RequestAttribute;
-import com.makichanov.bassistant.controller.command.RequestParameter;
-import com.makichanov.bassistant.controller.command.JspManager;
-import com.makichanov.bassistant.controller.command.PagePath;
+import com.makichanov.bassistant.controller.command.*;
 import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
 import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import com.makichanov.bassistant.exception.ServiceException;
@@ -13,6 +8,7 @@ import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
 import com.makichanov.bassistant.controller.util.security.PasswordEncryptor;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +39,7 @@ public class ChangePasswordCommand implements ActionCommand {
                 request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));
                 return new CommandResult(JspManager.getPage(PagePath.ERROR404), CommandResult.RoutingType.FORWARD);
             }
-            return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.FORWARD);
+            return new CommandResult(JspManager.getPage(PagePath.LOGIN), CommandResult.RoutingType.REDIRECT);
         } else {
             return new CommandResult(JspManager.getPage(PagePath.ERROR400), CommandResult.RoutingType.FORWARD);
         }

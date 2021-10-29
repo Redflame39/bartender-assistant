@@ -3,13 +3,13 @@ package com.makichanov.bassistant.controller.ajax.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.makichanov.bassistant.controller.ajax.AjaxCommand;
-import com.makichanov.bassistant.controller.command.*;
+import com.makichanov.bassistant.controller.command.RequestParameter;
+import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
+import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.UserService;
 import com.makichanov.bassistant.model.service.impl.UserServiceImpl;
-import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
-import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,8 +36,7 @@ public class DefineUsernameIsFreeAjaxCommand implements AjaxCommand {
             }
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                User currentUser = (User) request.getSession().getAttribute(SessionAttribute.USER);
-                Boolean isFree = requestedUser.map(user -> user.getUserId() == currentUser.getUserId()).orElse(true);
+                Boolean isFree = requestedUser.isEmpty();
                 return objectMapper.writeValueAsString(isFree);
             } catch (JsonProcessingException e) {
                 return EMPTY_RESULT;

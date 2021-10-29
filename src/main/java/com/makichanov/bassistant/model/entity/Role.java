@@ -16,16 +16,6 @@ public enum Role {
         this.accessLevel = accessLevel;
     }
 
-    public static Role getRoleById(int roleId) {
-        return switch (roleId) {
-            case 1 -> GUEST;
-            case 2 -> CLIENT;
-            case 3 -> BARTENDER;
-            case 4 -> ADMIN;
-            default -> throw new IllegalArgumentException("Cannot find role with id " + roleId);
-        };
-    }
-
     public int getRoleId() {
         return roleId;
     }

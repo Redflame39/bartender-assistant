@@ -17,7 +17,7 @@
     <form class="form-inline my-2 my-lg-0 mx-3" action="controller" method="post">
         <input type="hidden" name="command" value="search_bartender_name">
         <input name="bartender_name" value="${requestScope.bartender_name}" class="form-control mr-sm-2" type="search"
-               placeholder="Search" aria-label="Search">
+               placeholder="Search" aria-label="Search" pattern="[a-zA-Zа-яА-ЯЁё -]*">
         <button class="btn btn-success my-2 my-sm-0" type="submit"><fmt:message key="bartenders.search"/></button>
     </form>
 </div>
@@ -30,7 +30,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
-                    <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="../img/unknown.png>">
+                    <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="">
                     <div class="d-flex flex-column m-2">
                         <strong>${bartender.firstName} ${bartender.lastName}</strong>
                         <span><fmt:message key="bartenders.created"/>${bartender.cocktailsCreated}</span>

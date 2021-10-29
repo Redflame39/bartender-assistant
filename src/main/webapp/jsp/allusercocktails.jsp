@@ -34,16 +34,16 @@
     </c:forEach>
 </div>
 <ul class="pagination">
-    <li class="page-item <c:if test="${requestScope.current_page - 1 <= 0}">disabled</c:if>"><a class="page-link"
-                                                                                                href="controller?command=all_user_cocktails&id=${requestScope.user_id}&page=${requestScope.current_page - 1}"><fmt:message
-            key="pagination.prev"/></a>
+    <li class="page-item <c:if test="${requestScope.current_page - 1 <= 0}">disabled</c:if>">
+        <a class="page-link" href="controller?command=all_user_cocktails&id=${requestScope.user_id}&page=${requestScope.current_page - 1}">
+            <fmt:message key="pagination.prev"/></a>
     </li>
-    <li class="page-item"><a class="page-link"
-                             href="controller?command=all_user_cocktails&page=${requestScope.current_page}">${requestScope.current_page}</a>
+    <li class="page-item">
+        <a class="page-link" href="controller?command=all_user_cocktails&page=${requestScope.current_page}">${requestScope.current_page}</a>
     </li>
-    <li class="page-item <c:if test="${requestScope.is_last_page}">disabled</c:if>"><a class="page-link"
-                                                                                       href="controller?command=all_user_cocktails&id=${requestScope.user_id}&page=${requestScope.current_page + 1}"><fmt:message
-            key="pagination.next"/></a>
+    <li class="page-item <c:if test="${requestScope.is_last_page}">disabled</c:if>">
+        <a class="page-link" href="controller?command=all_user_cocktails&id=${requestScope.user_id}&page=${requestScope.current_page + 1}">
+            <fmt:message key="pagination.next"/></a>
     </li>
 </ul>
 <c:import url="footer.jsp" charEncoding="utf-8"/>

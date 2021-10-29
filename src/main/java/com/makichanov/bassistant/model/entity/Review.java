@@ -1,11 +1,11 @@
 package com.makichanov.bassistant.model.entity;
 
 public class Review extends Entity {
-    private int id;
-    private int userId;
-    private int cocktailId;
-    private String comment;
-    private int rate;
+    private final int id;
+    private final int userId;
+    private final int cocktailId;
+    private final String comment;
+    private final int rate;
 
     private Review(int id, int userId, int cocktailId, String comment, int rate) {
         this.id = id;
@@ -74,7 +74,6 @@ public class Review extends Entity {
     }
 
     public static class ReviewBuilder {
-
         private int id;
         private int userId;
         private int cocktailId;

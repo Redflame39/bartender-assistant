@@ -24,4 +24,8 @@ public interface ParameterValidator {
 
     boolean validateReviewMark(String reviewMark);
 
+    boolean validateBartenderNameSearch(String searchRequest);
+
+    boolean validateCocktailNameSearch(String searchRequest);
+
 }

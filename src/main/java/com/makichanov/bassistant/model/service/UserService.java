@@ -29,9 +29,9 @@ public interface UserService {
 
     User updateImage(int toUpdateId, String imageSrc) throws ServiceException;
 
-    void updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException;
+    boolean updateActivationStatus(int toUpdateId, boolean newStatus) throws ServiceException;
 
-    void updatePassword(int toUpdateId, String newPassword) throws ServiceException;
+    boolean updatePassword(int toUpdateId, String newPassword) throws ServiceException;
 
     boolean updateRole(int toUpdateId, Role newRole) throws ServiceException;
 

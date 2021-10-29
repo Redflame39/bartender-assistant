@@ -124,68 +124,13 @@ public class ReviewDaoImpl extends ReviewDao {
     }
 
     @Override
-    public List<Review> findByUserId(int userId) throws DaoException {
-        List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USER_ID)) {
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int reviewId = resultSet.getInt(1);
-                int cocktailId = resultSet.getInt(2);
-                String comment = resultSet.getString(3);
-                int rate = resultSet.getInt(4);
-                Review review = new Review.ReviewBuilder()
-                        .setId(reviewId)
-                        .setUserId(userId)
-                        .setCocktailId(cocktailId)
-                        .setComment(comment)
-                        .setRate(rate)
-                        .createReview();
-                reviews.add(review);
-            }
-        } catch (SQLException e) {
-            LOG.error("Failed to execute SQL_FIND_BY_USER_ID", e);
-            throw new DaoException("Failed to execute SQL_FIND_BY_USER_ID", e);
-        }
-        return reviews;
-    }
-
-    @Override
-    public List<Review> findByCocktailId(int cocktailId) throws DaoException {
-        List<Review> reviews = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_COCKTAIL_ID)) {
-            statement.setInt(1, cocktailId);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                int reviewId = resultSet.getInt(1);
-                int userId = resultSet.getInt(2);
-                String comment = resultSet.getString(3);
-                int rate = resultSet.getInt(4);
-                Review review = new Review.ReviewBuilder()
-                        .setId(reviewId)
-                        .setUserId(userId)
-                        .setCocktailId(cocktailId)
-                        .setComment(comment)
-                        .setRate(rate)
-                        .createReview();
-                reviews.add(review);
-            }
-        } catch (SQLException e) {
-            LOG.error("Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
-            throw new DaoException("Failed to execute SQL_FIND_BY_COCKTAIL_ID", e);
-        }
-        return reviews;
-    }
-
-    @Override
     public boolean create(int userId, int cocktailId, String comment, int rate) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_CREATE)) {
             statement.setInt(1, userId);
             statement.setInt(2, cocktailId);
             statement.setString(3, comment);
             statement.setInt(4, rate);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to execute SQL_CREATE", e);
             throw new DaoException("Failed to execute SQL_CREATE", e);
@@ -196,8 +141,7 @@ public class ReviewDaoImpl extends ReviewDao {
     public boolean remove(Integer id) throws DaoException {
         try (PreparedStatement statement = connection.prepareStatement(SQL_REMOVE_ID)) {
             statement.setInt(1, id);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             LOG.error("Failed to execute SQL_REMOVE_ID, id = " + id);
             throw new DaoException("Failed to execute SQL_REMOVE_ID, id = " + id, e);

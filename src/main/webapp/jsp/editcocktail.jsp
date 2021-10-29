@@ -7,11 +7,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>${cocktail.name}<fmt:message key="cocktail.edit.info.title"/></title>
+    <title>${requestScope.cocktail.name}<fmt:message key="cocktail.edit.info.title"/></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+<script src="${pageContext.request.contextPath}/js/textareavalidation.js"></script>
 <c:import url="header.jsp" charEncoding="utf-8"/>
 <form name="edit_cocktail_form" method="POST" action="controller">
     <input type="hidden" name="command" value="save_updated_cocktail">
@@ -19,12 +20,12 @@
     <div class="form-group">
         <label for="cocktailNameFormInput"><fmt:message key="cocktail.edit.info.name"/></label>
         <input type="text" name="cocktail_name" value="${requestScope.cocktail.name}" class="form-text"
-               id="cocktailNameFormInput">
+               id="cocktailNameFormInput" pattern="${requestScope.cocktail_name_regexp}" maxlength="30">
     </div>
     <div class="form-group">
         <label for="cocktailInstructionsFormTextArea"><fmt:message key="cocktail.edit.info.instructions"/></label>
         <textarea class="form-control" name="cocktail_instr" id="cocktailInstructionsFormTextArea"
-                  rows="5">${requestScope.cocktail.instructions}</textarea>
+                  rows="5" minlength="30" maxlength="1000" onchange="checkTextarea(this)">${requestScope.cocktail.instructions}</textarea>
     </div>
     <button type="submit" class="btn btn-primary"><fmt:message key="cocktail.edit.info.submit"/></button>
 </form>

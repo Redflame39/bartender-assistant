@@ -21,20 +21,25 @@
         <label for="usernameInputForm"><fmt:message key="user.profile.edit.username"/></label>
         <input type="text" name="username" value="${requestScope.requested_user.username}" class="form-control"
                id="usernameInputForm" aria-describedby="usernameHelp"
-               placeholder="<fmt:message key="user.profile.edit.username.placeholder"/>">
-        <small id="usernameHelp" class="form-text text-muted"><fmt:message key="user.profile.edit.username.info"/></small>
+               placeholder="<fmt:message key="user.profile.edit.username.placeholder"/>"
+               pattern="${requestScope.username_regexp}">
+        <small id="usernameHelp" class="form-text text-muted"><fmt:message
+                key="user.profile.edit.username.info"/></small>
     </div>
     <div class="form-group">
         <label for="firstNameInputForm"><fmt:message key="user.profile.edit.firstname"/></label>
         <input type="text" name="first_name" value="${requestScope.requested_user.firstName}" class="form-control"
                id="firstNameInputForm"
-               aria-describedby="firstnameHelp" placeholder="<fmt:message key="user.profile.edit.firstname.placeholder"/>">
+               aria-describedby="firstnameHelp"
+               placeholder="<fmt:message key="user.profile.edit.firstname.placeholder"/>"
+               pattern="${requestScope.first_last_name_regexp}">
     </div>
     <div class="form-group">
         <label for="lastNameInputForm"><fmt:message key="user.profile.edit.lastname"/></label>
         <input type="text" name="last_name" value="${requestScope.requested_user.lastName}" class="form-control"
                id="lastNameInputForm" aria-describedby="lastnameHelp"
-               placeholder="<fmt:message key="user.profile.edit.lastname.placeholder"/>">
+               placeholder="<fmt:message key="user.profile.edit.lastname.placeholder"/>"
+               pattern="${requestScope.first_last_name_regexp}">
     </div>
     <button type="submit" class="btn btn-primary" id="submitBtn"><fmt:message key="user.profile.edit.submit"/></button>
 </form>

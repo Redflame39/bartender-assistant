@@ -3,10 +3,8 @@ package com.makichanov.bassistant.controller.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 @WebFilter(filterName = "XssFilter")
 public class XssFilter implements Filter {

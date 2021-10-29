@@ -7,11 +7,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>${cocktail.name}</title>
+    <title>${requestScope.cocktail.name}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
+<script src="${pageContext.request.contextPath}/js/textareavalidation.js"></script>
 <c:import url="header.jsp" charEncoding="utf-8"/>
 <div class="container-fluid">
     <div class="d-flex flex-row justify-content-between">
@@ -19,6 +20,9 @@
             <img src="${requestScope.cocktail.imageSource}" alt="/img/unknown.png"/>
             <div class="d-flex flex-column">
                 <h1>${requestScope.cocktail.name}</h1>
+                <span><fmt:message key="cocktail.author"/>
+                    <a href="controller?command=profile&id=${requestScope.author.userId}">
+                    ${requestScope.author.username}</a></span>
                 <span>${requestScope.cocktail.averageMark}</span>
                 <span>${requestScope.cocktail.instructions}</span>
             </div>
@@ -40,7 +44,8 @@
         <input type="hidden" name="id" value="${requestScope.cocktail.id}">
         <div class="form-group">
             <label for="reviewTextFormTextArea"><fmt:message key="cocktail.review.text"/></label>
-            <textarea class="form-control" name="review_text" id="reviewTextFormTextArea" rows="3"></textarea>
+            <textarea class="form-control" name="review_text" id="reviewTextFormTextArea" rows="3"
+                      minlength="10" maxlength="300" onchange="checkTextarea(this)"></textarea>
         </div>
         <label for="cocktailMark"><fmt:message key="cocktail.review.rate"/></label>
         <select name="review_mark" class="form-select" aria-label="Mark" id="cocktailMark">

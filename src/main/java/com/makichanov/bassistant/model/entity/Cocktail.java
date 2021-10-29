@@ -3,15 +3,16 @@ package com.makichanov.bassistant.model.entity;
 import java.sql.Timestamp;
 
 public class Cocktail extends Entity {
-    private String name;
-    private int id;
-    private int userId;
-    private String instructions;
-    private String imageSource;
-    private double averageMark;
-    private Timestamp uploadDate;
+    private final String name;
+    private final int id;
+    private final int userId;
+    private final String instructions;
+    private final String imageSource;
+    private final double averageMark;
+    private final Timestamp uploadDate;
 
-    private Cocktail(String name, int id, int userId, String instructions, String imageSource, double averageMark, Timestamp uploadDate) {
+    private Cocktail(String name, int id, int userId, String instructions, String imageSource,
+                     double averageMark, Timestamp uploadDate) {
         this.name = name;
         this.id = id;
         this.userId = userId;
@@ -57,26 +58,28 @@ public class Cocktail extends Entity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         Cocktail c = (Cocktail) o;
-
         return id == c.id
                 && userId == c.userId
-                && (name != null ? name.equals(c.getName()) : c.getName() == null)
-                && (instructions != null ? instructions.equals(c.getInstructions()) : c.getInstructions() == null);
+                && Double.compare(averageMark, c.averageMark) == 0
+                && (name != null ? name.equals(c.name) : c.name == null)
+                && (instructions != null ? instructions.equals(c.instructions) : c.instructions == null)
+                && (imageSource != null ? imageSource.equals(c.imageSource) : c.imageSource == null)
+                && (uploadDate != null ? uploadDate.equals(c.uploadDate) : c.uploadDate == null);
     }
 
     @Override
     public int hashCode() {
         int result;
         long temp;
-        int prime = 31;
         result = name != null ? name.hashCode() : 0;
-        temp = id;
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        temp = userId;
-        result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + (instructions != null ? instructions.hashCode() : 0);
+        result = 31 * result + id;
+        result = 31 * result + userId;
+        result = 31 * result + (instructions != null ? instructions.hashCode() : 0);
+        result = 31 * result + (imageSource != null ? imageSource.hashCode() : 0);
+        temp = Double.doubleToLongBits(averageMark);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (uploadDate != null ? uploadDate.hashCode() : 0);
         return result;
     }
 
@@ -87,12 +90,14 @@ public class Cocktail extends Entity {
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", instructions='").append(instructions).append('\'');
+        sb.append(", imageSource='").append(imageSource).append('\'');
+        sb.append(", averageMark=").append(averageMark);
+        sb.append(", uploadDate=").append(uploadDate);
         sb.append('}');
         return sb.toString();
     }
 
     public static class CocktailBuilder {
-
         private String name;
         private int id;
         private int userId;

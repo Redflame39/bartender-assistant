@@ -1,6 +1,7 @@
 package com.makichanov.bassistant.controller.command.impl;
 
 import com.makichanov.bassistant.controller.command.*;
+import com.makichanov.bassistant.controller.util.validator.ParameterRegexp;
 import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.entity.Role;
 import com.makichanov.bassistant.model.entity.User;
@@ -38,6 +39,8 @@ public class EditProfilePageCommand implements ActionCommand {
                 User currentUser = (User) request.getSession().getAttribute(SessionAttribute.USER);
                 if (id == currentUser.getUserId() || currentUser.getRole() == Role.ADMIN) {
                     request.setAttribute(RequestAttribute.REQUESTED_USER, requestedUser.get());
+                    request.setAttribute(RequestAttribute.USERNAME_REGEXP, ParameterRegexp.USERNAME_REGEXP);
+                    request.setAttribute(RequestAttribute.FIRST_LAST_NAME_REGEXP, ParameterRegexp.FIRST_LAST_NAME_REGEXP);
                     return new CommandResult(JspManager.getPage(PagePath.EDIT_PROFILE), CommandResult.RoutingType.FORWARD);
                 } else {
                     request.setAttribute(RequestAttribute.ERROR_MESSAGE, "Sorry, you don't have enough permission to visit this page.");
