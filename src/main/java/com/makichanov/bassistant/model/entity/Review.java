@@ -1,6 +1,6 @@
 package com.makichanov.bassistant.model.entity;
 
-public class Review extends Entity {
+public class Review implements Entity {
     private final int id;
     private final int userId;
     private final int cocktailId;

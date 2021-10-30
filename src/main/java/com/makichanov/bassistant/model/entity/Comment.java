@@ -1,6 +1,6 @@
 package com.makichanov.bassistant.model.entity;
 
-public class Comment extends Entity {
+public class Comment implements Entity {
     private final int reviewId;
     private final String commentText;
     private final double rate;

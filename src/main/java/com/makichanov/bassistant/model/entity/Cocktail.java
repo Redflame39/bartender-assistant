@@ -2,7 +2,7 @@ package com.makichanov.bassistant.model.entity;
 
 import java.sql.Timestamp;
 
-public class Cocktail extends Entity {
+public class Cocktail implements Entity {
     private final String name;
     private final int id;
     private final int userId;

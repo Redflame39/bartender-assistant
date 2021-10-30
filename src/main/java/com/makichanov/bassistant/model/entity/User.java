@@ -1,6 +1,6 @@
 package com.makichanov.bassistant.model.entity;
 
-public class User extends Entity {
+public class User implements Entity {
     private final String username;
     private final int userId;
     private final Role role;
