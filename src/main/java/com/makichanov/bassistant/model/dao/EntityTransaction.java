@@ -10,11 +10,20 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * The type Entity transaction.
+ */
 public class EntityTransaction implements AutoCloseable {
 
     private static final Logger LOG = LogManager.getLogger();
     private Connection connection;
 
+    /**
+     * Init action.
+     *
+     * @param dao the dao
+     * @throws DaoException the dao exception
+     */
     public void initAction(BaseDao<?, ? extends Entity> dao) throws DaoException {
         if(dao == null) {
             throw new DaoException("Passed parameters DAO is null, check arguments");

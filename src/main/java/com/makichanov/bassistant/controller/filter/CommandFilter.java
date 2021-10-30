@@ -29,13 +29,13 @@ public class CommandFilter implements Filter {
         String commandName = httpRequest.getParameter(RequestParameter.COMMAND);
         if (commandName != null) {
             CommandType command = CommandType.getCommandType(commandName);
-            if (command.getAccessLevel() > AccessLevel.LEVEL_GUEST) {
+            int commandAccessLevel = command.getAccessLevel();
+            if (commandAccessLevel > AccessLevel.LEVEL_GUEST) {
                 httpResponse.setHeader("Cache-control", "no-cache");
                 httpResponse.setHeader("Cache-control", "no-store");
                 httpResponse.setHeader("Pragma", "no-cache");
                 httpResponse.setDateHeader("Expires", 0);
             }
-            int commandAccessLevel = command.getAccessLevel();
             User user = (User) httpRequest.getSession().getAttribute(SessionAttribute.USER);
             int userAccessLevel = user != null ? user.getRole().getAccessLevel() : AccessLevel.LEVEL_GUEST;
             if (userAccessLevel < commandAccessLevel) {

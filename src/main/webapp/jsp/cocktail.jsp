@@ -69,7 +69,7 @@
                     <div class="d-flex flex-column">
                         <strong><a
                                 href="controller?command=profile&id=${review.authorId}">${review.authorName}</a></strong>
-                        <span>${review.comment}</span>
+                        <span>${review.commentText}</span>
                         <strong>${review.rate}</strong>
                     </div>
                 </div>

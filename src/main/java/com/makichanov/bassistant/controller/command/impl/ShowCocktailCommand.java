@@ -4,7 +4,7 @@ import com.makichanov.bassistant.controller.command.*;
 import com.makichanov.bassistant.controller.util.validator.ParameterValidator;
 import com.makichanov.bassistant.controller.util.validator.impl.ParameterValidatorImpl;
 import com.makichanov.bassistant.exception.ServiceException;
-import com.makichanov.bassistant.model.dto.ReviewDto;
+import com.makichanov.bassistant.model.entity.Comment;
 import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.entity.User;
 import com.makichanov.bassistant.model.service.CocktailService;
@@ -61,8 +61,8 @@ public class ShowCocktailCommand implements ActionCommand {
             request.setAttribute(RequestAttribute.AUTHOR, author.get());
             ReviewService reviewService = ReviewServiceImpl.getInstance();
             try {
-                List<ReviewDto> reviews = reviewService.findAllComments(cocktailId);
-                request.setAttribute(RequestAttribute.REVIEWS, reviews);
+                List<Comment> comments = reviewService.findAllComments(cocktailId);
+                request.setAttribute(RequestAttribute.REVIEWS, comments);
             } catch (ServiceException e) {
                 LOG.error("Failed to find reviews list for cocktail " + cocktailId, e);
                 request.setAttribute(RequestAttribute.ERROR_MESSAGE, ExceptionUtils.getStackTrace(e));

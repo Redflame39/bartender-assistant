@@ -5,8 +5,7 @@ import com.makichanov.bassistant.exception.ServiceException;
 import com.makichanov.bassistant.model.dao.EntityTransaction;
 import com.makichanov.bassistant.model.dao.ReviewDao;
 import com.makichanov.bassistant.model.dao.impl.ReviewDaoImpl;
-import com.makichanov.bassistant.model.dto.ReviewDto;
-import com.makichanov.bassistant.model.entity.Review;
+import com.makichanov.bassistant.model.entity.Comment;
 import com.makichanov.bassistant.model.service.ReviewService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDto> findAllComments(int cocktailId) throws ServiceException {
+    public List<Comment> findAllComments(int cocktailId) throws ServiceException {
         ReviewDao dao = new ReviewDaoImpl();
         try(EntityTransaction transaction = new EntityTransaction()) {
             transaction.initAction(dao);

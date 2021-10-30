@@ -13,7 +13,6 @@ public class LoginPageCommand implements ActionCommand {
 
     @Override
     public CommandResult execute(HttpServletRequest request) {
-        request.setAttribute(RequestAttribute.PASSWORD_REGEXP, ParameterRegexp.PASSWORD_REGEXP);
         return new CommandResult(JspManager.getPage(LOGIN), CommandResult.RoutingType.FORWARD);
     }
 }

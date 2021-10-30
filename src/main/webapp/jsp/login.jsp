@@ -25,7 +25,7 @@
         <label for="exampleInputPassword1"><fmt:message key="user.login.password"/></label>
         <input type="password" name="password" class="form-control" id="exampleInputPassword1"
                placeholder="<fmt:message key="user.login.password.placeholder"/>"
-               pattern="${requestScope.password_regexp}">
+               pattern="(.){5,40}">
     </div>
     <span class="text-danger">${requestScope.errorMessage}</span>
     <div class="d-flex align-items-center m-1">

@@ -1,7 +1,7 @@
 package com.makichanov.bassistant.model.dao.impl;
 
 import com.makichanov.bassistant.model.dao.ReviewDao;
-import com.makichanov.bassistant.model.dto.ReviewDto;
+import com.makichanov.bassistant.model.entity.Comment;
 import com.makichanov.bassistant.model.entity.Review;
 import com.makichanov.bassistant.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
@@ -67,33 +67,33 @@ public class ReviewDaoImpl extends ReviewDao {
     }
 
     @Override
-    public List<ReviewDto> findAllComments(int cocktailId) throws DaoException {
-        List<ReviewDto> reviewDtos = new ArrayList<>();
+    public List<Comment> findAllComments(int cocktailId) throws DaoException {
+        List<Comment> comments = new ArrayList<>();
         try(PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_COMMENTS)) {
             statement.setInt(1, cocktailId);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String comment = resultSet.getString(1);
+                String commentText = resultSet.getString(1);
                 double rate = resultSet.getDouble(2);
                 int userId = resultSet.getInt(3);
                 String name = resultSet.getString(4);
                 String avatar = resultSet.getString(5);
                 int reviewId = resultSet.getInt(6);
-                ReviewDto reviewDto = new ReviewDto.ReviewDtoBuilder()
-                        .setComment(comment)
+                Comment comment = new Comment.CommentBuilder()
+                        .setCommentText(commentText)
                         .setRate(rate)
                         .setAuthorId(userId)
                         .setAuthorName(name)
                         .setAuthorImage(avatar)
                         .setReviewId(reviewId)
-                        .createReviewDto();
-                reviewDtos.add(reviewDto);
+                        .createComment();
+                comments.add(comment);
             }
         } catch (SQLException e) {
             LOG.error("Failed to execute SQL_FIND_ALL_COMMENTS, id: " + cocktailId, e);
             throw new DaoException("Failed to execute SQL_FIND_ALL_COMMENTS, id: " + cocktailId, e);
         }
-        return reviewDtos;
+        return comments;
     }
 
     @Override

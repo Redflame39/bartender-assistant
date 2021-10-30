@@ -13,6 +13,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * The type Custom connection pool.
+ */
 public class CustomConnectionPool {
 
     private static final Logger LOG = LogManager.getLogger();
@@ -42,6 +45,11 @@ public class CustomConnectionPool {
         }
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static CustomConnectionPool getInstance() {
         if (!isInstanceCreated.get()) {
             instanceLock.lock();
@@ -57,6 +65,12 @@ public class CustomConnectionPool {
         return instance;
     }
 
+    /**
+     * Gets connection.
+     *
+     * @return the connection
+     * @throws PoolException the pool exception
+     */
     public Connection getConnection() throws PoolException {
         ProxyConnection connection = null;
         try {
@@ -69,6 +83,11 @@ public class CustomConnectionPool {
         return connection;
     }
 
+    /**
+     * Release connection.
+     *
+     * @param connection the connection
+     */
     public void releaseConnection(Connection connection) {
         if (connection.getClass() != ProxyConnection.class) {
             LOG.error("Connection pool method releaseConnection(Connection c) accepts only connection objects" +
@@ -83,6 +102,11 @@ public class CustomConnectionPool {
         }
     }
 
+    /**
+     * Destroy pool.
+     *
+     * @throws PoolException the pool exception
+     */
     public void destroyPool() throws PoolException {
         for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
             try {

@@ -1,16 +1,16 @@
-package com.makichanov.bassistant.model.dto;
+package com.makichanov.bassistant.model.entity;
 
-public class ReviewDto {
+public class Comment extends Entity {
     private final int reviewId;
-    private final String comment;
+    private final String commentText;
     private final double rate;
     private final int authorId;
     private final String authorName;
     private final String authorImage;
 
-    private ReviewDto(int reviewId, String comment, double rate, int authorId, String authorName, String authorImage) {
+    private Comment(int reviewId, String comment, double rate, int authorId, String authorName, String authorImage) {
         this.reviewId = reviewId;
-        this.comment = comment;
+        this.commentText = comment;
         this.rate = rate;
         this.authorId = authorId;
         this.authorName = authorName;
@@ -21,8 +21,8 @@ public class ReviewDto {
         return reviewId;
     }
 
-    public String getComment() {
-        return comment;
+    public String getCommentText() {
+        return commentText;
     }
 
     public double getRate() {
@@ -49,11 +49,11 @@ public class ReviewDto {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ReviewDto d = (ReviewDto) o;
+        Comment d = (Comment) o;
         return reviewId == d.reviewId
                 && authorId == d.authorId
                 && Double.compare(rate, d.rate) == 0
-                && (comment != null ? comment.equals(d.comment) : d.comment == null)
+                && (commentText != null ? commentText.equals(d.commentText) : d.commentText == null)
                 && (authorName != null ? authorName.equals(d.authorName) : d.authorName == null)
                 && (authorImage != null ? authorImage.equals(d.authorImage) : d.authorImage == null);
     }
@@ -63,7 +63,7 @@ public class ReviewDto {
         int result;
         long temp;
         result = reviewId;
-        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + (commentText != null ? commentText.hashCode() : 0);
         temp = Double.doubleToLongBits(rate);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + authorId;
@@ -74,9 +74,9 @@ public class ReviewDto {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("ReviewDto{");
+        StringBuilder sb = new StringBuilder("Comment{");
         sb.append("reviewId=").append(reviewId);
-        sb.append(", comment='").append(comment).append('\'');
+        sb.append(", commentText='").append(commentText).append('\'');
         sb.append(", rate=").append(rate);
         sb.append(", authorId=").append(authorId);
         sb.append(", authorName='").append(authorName).append('\'');
@@ -85,46 +85,46 @@ public class ReviewDto {
         return sb.toString();
     }
 
-    public static class ReviewDtoBuilder {
+    public static class CommentBuilder {
         private int reviewId;
-        private String comment;
+        private String commentText;
         private double rate;
         private int authorId;
         private String authorName;
         private String authorImage;
 
-        public ReviewDtoBuilder setReviewId(int reviewId) {
+        public CommentBuilder setReviewId(int reviewId) {
             this.reviewId = reviewId;
             return this;
         }
 
-        public ReviewDtoBuilder setComment(String comment) {
-            this.comment = comment;
+        public CommentBuilder setCommentText(String comment) {
+            this.commentText = comment;
             return this;
         }
 
-        public ReviewDtoBuilder setRate(double rate) {
+        public CommentBuilder setRate(double rate) {
             this.rate = rate;
             return this;
         }
 
-        public ReviewDtoBuilder setAuthorId(int authorId) {
+        public CommentBuilder setAuthorId(int authorId) {
             this.authorId = authorId;
             return this;
         }
 
-        public ReviewDtoBuilder setAuthorName(String authorName) {
+        public CommentBuilder setAuthorName(String authorName) {
             this.authorName = authorName;
             return this;
         }
 
-        public ReviewDtoBuilder setAuthorImage(String authorImage) {
+        public CommentBuilder setAuthorImage(String authorImage) {
             this.authorImage = authorImage;
             return this;
         }
 
-        public ReviewDto createReviewDto() {
-            return new ReviewDto(reviewId, comment, rate, authorId, authorName, authorImage);
+        public Comment createComment() {
+            return new Comment(reviewId, commentText, rate, authorId, authorName, authorImage);
         }
     }
 }
