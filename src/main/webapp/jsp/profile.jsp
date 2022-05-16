@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="properties.pagecontent"/>
@@ -67,10 +68,10 @@
                class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex container-fluid justify-content-between">
                     <div class="d-flex flex-row">
-                        <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="">
+                        <img src="${cocktail.imageSource}" class="img-fluid w-25" style="width: 25%; height:auto;" alt="">
                         <div class="d-flex flex-column m-2">
                             <h5 class="mb-1">${cocktail.name}</h5>
-                            <p class="mb-1">${cocktail.instructions}</p>
+                            <p class="mb-1" style="white-space: pre-line">${fn:substring(cocktail.instructions, 0, 100)}</p>
                         </div>
                     </div>
                     <small><fmt:formatNumber type="number" maxFractionDigits="2"

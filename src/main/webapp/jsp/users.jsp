@@ -32,7 +32,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
-                    <img src="${user.avatarSource}" class="img-fluid w-25" alt="">
+                    <img src="${user.avatarSource}" class="img-fluid w-25" alt="" style="width: 25%; height:auto;">
                     <div class="d-flex flex-column m-2">
                         <strong>${user.firstName} ${user.lastName}</strong>
                         <span><fmt:message key="bartenders.created"/>${user.cocktailsCreated}</span>

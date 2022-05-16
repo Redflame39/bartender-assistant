@@ -1,4 +1,4 @@
-const forbiddenSymbols = new RegExp('[`~\{\}<>/]');
+const forbiddenSymbols = new RegExp('[`~\{\}<>]');
 
 function checkTextarea(textarea) {
     let text = textarea.value

@@ -1,19 +1,15 @@
 package com.makichanov.bassistant.model.service.impl;
 
-import com.makichanov.bassistant.model.dao.CocktailDao;
-import com.makichanov.bassistant.model.dao.EntityTransaction;
-import com.makichanov.bassistant.model.dao.ReviewDao;
-import com.makichanov.bassistant.model.dao.impl.CocktailDaoImpl;
-import com.makichanov.bassistant.model.dao.impl.ReviewDaoImpl;
-import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.exception.DaoException;
 import com.makichanov.bassistant.exception.ServiceException;
-import com.makichanov.bassistant.model.entity.Review;
+import com.makichanov.bassistant.model.dao.CocktailDao;
+import com.makichanov.bassistant.model.dao.EntityTransaction;
+import com.makichanov.bassistant.model.dao.impl.CocktailDaoImpl;
+import com.makichanov.bassistant.model.entity.Cocktail;
 import com.makichanov.bassistant.model.service.CocktailService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

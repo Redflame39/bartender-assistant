@@ -18,7 +18,7 @@
     <c:forEach var="cocktail" items="${requestScope.cocktails}">
         <div class="list-group-item d-flex justify-content-between align-items-start" id="cocktail${cocktail.id}">
             <div class="d-flex flex-row">
-                <img src="${cocktail.imageSource}" class="img-fluid w-25" alt="">
+                <img src="${cocktail.imageSource}" class="img-fluid w-25" style="width: 25%; height:auto;" alt="">
                 <div class="d-flex flex-column m-2">
                     <h5><a href="controller?command=show_cocktail&id=${cocktail.id}" class="mb-1">${cocktail.name}</a>
                     </h5>

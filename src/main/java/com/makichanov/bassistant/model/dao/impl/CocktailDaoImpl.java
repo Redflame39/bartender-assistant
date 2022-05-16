@@ -82,7 +82,6 @@ public class CocktailDaoImpl extends CocktailDao {
     @Override
     public List<Cocktail> findAll(int offset, int count) throws DaoException {
         List<Cocktail> cocktails = new ArrayList<>();
-
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             statement.setInt(1, offset);
             statement.setInt(2, count);

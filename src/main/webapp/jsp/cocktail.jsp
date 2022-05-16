@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="properties.pagecontent"/>
@@ -24,7 +25,7 @@
                     <a href="controller?command=profile&id=${requestScope.author.userId}">
                     ${requestScope.author.username}</a></span>
                 <span>${requestScope.cocktail.averageMark}</span>
-                <span>${requestScope.cocktail.instructions}</span>
+                <span style="white-space: pre-line">${requestScope.cocktail.instructions}</span>
             </div>
         </div>
         <c:if test="${(requestScope.cocktail.userId == sessionScope.user.userId) || sessionScope.user.role == 'ADMIN'}">

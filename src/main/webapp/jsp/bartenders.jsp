@@ -30,7 +30,7 @@
            class="list-group-item list-group-item-action flex-column align-items-start">
             <div class="d-flex container-fluid justify-content-between">
                 <div class="d-flex flex-row">
-                    <img src="${bartender.avatarSource}" class="img-fluid w-25" alt="">
+                    <img src="${bartender.avatarSource}" class="img-fluid w-25" style="width: 25%; height:auto;" alt="">
                     <div class="d-flex flex-column m-2">
                         <strong>${bartender.firstName} ${bartender.lastName}</strong>
                         <span><fmt:message key="bartenders.created"/>${bartender.cocktailsCreated}</span>

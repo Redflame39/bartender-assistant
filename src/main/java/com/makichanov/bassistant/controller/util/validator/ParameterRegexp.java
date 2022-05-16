@@ -24,7 +24,7 @@ public final class ParameterRegexp {
     /**
      * The constant TEXTAREA_FORBIDDEN_SYMBOLS is used to find forbidden symbols in parameters from text areas.
      */
-    public static final String TEXTAREA_FORBIDDEN_SYMBOLS = "[`~{}<>/]";
+    public static final String TEXTAREA_FORBIDDEN_SYMBOLS = "[`~{}<>]";
     /**
      * The constant BARTENDER_NAME_SEARCH_REGEXP is used to validate bartender name search request parameters.
      */
